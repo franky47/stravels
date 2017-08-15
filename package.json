@@ -22,7 +22,9 @@
     "git-hook": "npm run lint -s && npm run test -s",
     "lint": "standard --verbose | snazzy",
     "lintdiff": "git diff --name-only --cached --relative | grep '\\.js$' | xargs standard | snazzy",
-    "fixcode": "standard --fix"
+    "fixcode": "standard --fix",
+    "ios": "react-native run-ios",
+    "android": "react-native run-android"
   },
   "dependencies": {
     "apisauce": "^0.14.0",
