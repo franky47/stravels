@@ -3,6 +3,11 @@ const admin = require('firebase-admin');
 
 const serviceAccount = require('./stravels-5d45d-firebase-adminsdk-qakvx-b2a0c45713.json');
 
+admin.initializeApp({
+  databaseURL: 'https://stravels-5d45d.firebaseio.com',
+  credential: admin.credential.cert(serviceAccount)
+})
+
 module.exports = functions.https.onRequest((request, response) => {
 
   const throwError = (status, message) => {
@@ -28,13 +33,6 @@ module.exports = functions.https.onRequest((request, response) => {
     }
     return data
   }
-  const startAdmin = (data) => {
-    admin.initializeApp({
-      databaseURL: 'https://stravels-5d45d.firebaseio.com',
-      credential: admin.credential.cert(serviceAccount)
-    })
-    return data
-  }
   const generateToken = (data) => {
     const claims = {
       email:        data.email,
@@ -48,12 +46,16 @@ module.exports = functions.https.onRequest((request, response) => {
   }
   return Promise.resolve()
     .then(validateInput)
-    .then(startAdmin)
     .then(generateToken)
     .then((token) => {
       response.status(200).json(token)
     })
     .catch((error) => {
-      response.status(error.status).json(error)
+      if (error.status) {
+        response.status(error.status).json(error)
+      }
+      else {
+        response.status(500).json(error)
+      }
     })
 })
