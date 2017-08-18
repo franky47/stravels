@@ -19,13 +19,33 @@ import EmailLoginForm from '../Components/EmailLoginForm'
 import styles from './Styles/LoginScreenStyle'
 
 class LoginScreen extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = {
+      loginWith: ''
+    }
+  }
+
+  onGoogleLogin () {
+    this.setState({ loginWith: 'Google' })
+  }
+  onFacebookLogin () {
+    this.setState({ loginWith: 'Facebook' })
+  }
+  onEmailLogin () {
+    this.setState({ loginWith: 'Email' })
+  }
+
   render () {
     return (
       <ScrollView style={styles.container}>
         <KeyboardAvoidingView behavior='position'>
           {this._renderSocialLogin()}
           {this._renderDivider()}
-          <EmailLoginForm />
+          <EmailLoginForm
+            onSubmit={this.onEmailLogin.bind(this)}
+          />
         </KeyboardAvoidingView>
       </ScrollView>
     )
@@ -34,10 +54,10 @@ class LoginScreen extends Component {
     return (
       <View style={styles.socialLoginsContainer}>
         <GoogleLoginButton
-          onPress={() => {}}
+          onPress={this.onGoogleLogin.bind(this)}
         />
         <FacebookLoginButton
-          onPress={() => {}}
+          onPress={this.onFacebookLogin.bind(this)}
         />
       </View>
     )

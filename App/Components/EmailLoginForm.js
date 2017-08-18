@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-// import PropTypes from 'prop-types';
+import PropTypes from 'prop-types'
 import {
   View,
   Text,
@@ -9,21 +9,18 @@ import {
 import styles from './Styles/EmailLoginFormStyle'
 
 export default class EmailLoginForm extends Component {
-  // // Prop type warnings
-  // static propTypes = {
-  //   someProperty: PropTypes.object,
-  //   someSetting: PropTypes.bool.isRequired,
-  // }
-  //
-  // // Defaults for props
-  // static defaultProps = {
-  //   someSetting: false
-  // }
+  // Prop type warnings
+  static propTypes = {
+    onSubmit: PropTypes.func.isRequired,
+  }
+  // Defaults for props
+  static defaultProps = {
+    onSubmit: () => {}
+  }
 
   render () {
     const placeholderTextColor = 'rgba(255, 255, 255, 0.8)'
     return (
-
       <View style={styles.container}>
         <TextInput
           placeholder='email'
@@ -43,7 +40,10 @@ export default class EmailLoginForm extends Component {
           ref={(input) => this.passwordInput = input}
           style={styles.input}
         />
-        <TouchableOpacity style={styles.buttonContainer}>
+        <TouchableOpacity
+          style={styles.buttonContainer}
+          onPress={this.props.onSubmit}
+        >
           <Text style={styles.buttonText}>LOG IN</Text>
         </TouchableOpacity>
         <View style={styles.emailLinks}>
