@@ -25,21 +25,21 @@ module.exports = functions.https.onRequest((request, response) => {
     if (!data.uid) {
       throwError(400, "Field 'uid' is missing.")
     }
-    if (!data.email) {
-      throwError(400, "Field 'email' is missing.")
-    }
-    if (!data.displayName) {
-      throwError(400, "Field 'displayName' is missing.")
-    }
+    // if (!data.email) {
+    //   throwError(400, "Field 'email' is missing.")
+    // }
+    // if (!data.displayName) {
+    //   throwError(400, "Field 'displayName' is missing.")
+    // }
     return data
   }
   const generateToken = (data) => {
-    const claims = {
-      email:        data.email,
-      displayName:  data.displayName,
-      provider:     'Strava'
-    }
-    return admin.auth().createCustomToken(data.uid, claims)
+    // const claims = {
+    //   email:        data.email,
+    //   displayName:  data.displayName,
+    //   provider:     'Strava'
+    // }
+    return admin.auth().createCustomToken(data.uid, {})
       .catch((error) => {
         throwError(500, `Error received in createCustomToken: ${error.toString()}`)
       })
