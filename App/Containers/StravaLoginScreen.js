@@ -12,6 +12,7 @@ import Secrets from 'react-native-config'
 // import YourActions from '../Redux/YourRedux'
 
 import StravaApi from '../Services/Strava'
+import Firebase, { loginWithStrava } from '../Services/Firebase'
 
 // Styles
 import styles from './Styles/StravaLoginScreenStyle'
@@ -43,10 +44,13 @@ class StravaLoginScreen extends Component {
   }
   _handleUrl(event) {
     this.strava.handleOauthRedirectUrl(event.url, () => {
-      this.setState({
-        user: this.strava.userProfile,
-        loggedIn: true
-      })
+      loginWithStrava(this.strava.userProfile)
+        .then((firebaseUser) => {
+          this.setState({
+            loggedIn: true,
+            user: firebaseUser
+          })
+        })
     })
   }
 
@@ -61,7 +65,10 @@ class StravaLoginScreen extends Component {
           <Text style={styles.buttonText}>Login with Strava</Text>
         </TouchableHighlight>
         { this.state.loggedIn &&
-          <Text>Welcome, {this.state.user.firstname} !</Text>
+          <View>
+            <Image source={{ uri: this.state.user.photoURL}} style={{width: 100, height: 100}}/>
+            <Text>Welcome, {this.state.user.displayName} !</Text>
+          </View>
         }
 
       </View>

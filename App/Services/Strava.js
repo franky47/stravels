@@ -1,15 +1,21 @@
+import apisauce from 'apisauce'
 import axios from 'axios'
+import { AsyncStorage } from 'react-native'
 import Secrets from 'react-native-config'
 
 export default class StravaAPI {
   constructor () {
-    // URIs
-    this.baseUrl = `https://www.strava.com`
-    this.apiRoot = `${this.baseUrl}/api/v3`
-    this.oauthRedirectUri = 'stravels://localhost/auth/strava'
+    // API Setup
 
-    // OAuth
-    this.accessToken = Secrets.STRAVA_ACCESS_TOKEN_RO
+    this.baseUrl = `https://www.strava.com`
+    this.oauthRedirectUri = 'stravels://localhost/auth/strava'
+    this.api = apisauce.create({
+      baseURL: `${this.baseUrl}/api/v3`,
+      headers: {
+        Accept: 'application/json',
+        Authorization: `Bearer ${Secrets.STRAVA_ACCESS_TOKEN_RO}`
+      }
+    })
 
     // State
     this.userProfile = null
@@ -31,10 +37,7 @@ export default class StravaAPI {
       ].join('&')
   }
   set accessToken(token) {
-    this.token = token
-    this.authHeaders = {
-      Authorization: `Bearer ${this.token}`
-    }
+    this.api.setHeaders('Authorization', `Bearer ${token}`)
   }
   handleOauthRedirectUrl(url, callback = () => {}) {
     if (!url.startsWith(this.oauthRedirectUri)) {
@@ -58,6 +61,7 @@ export default class StravaAPI {
     }).then((response) => {
       this.accessToken = response.data.access_token
       this.userProfile = response.data.athlete
+      AsyncStorage.setItem('@Stravels:stravaApiData', JSON.stringify(this.saveState()))
       callback()
     })
     return true
@@ -73,19 +77,14 @@ export default class StravaAPI {
 
   async getAthlete (id = null) {
     // null means self
-    const path = id === null ? 'athlete' : `athletes/${id}`
-    const url = `${this.apiRoot}/${path}`
-    const response = await axios.get(url, {
-      headers: { ...this.authHeaders }
-    })
+    const path = id === null ? '/athlete' : `/athletes/${id}`
+    const response = await this.api.get(path)
     this._analyzeUsage(response)
     return response.data
   }
   async getActivities () {
     const url = `${this.apiRoot}/activities`
-    const response = await axios.get(url, {
-      headers: { ...this.authHeaders }
-    })
+    const response = await this.api.get('/activities')
     this._analyzeUsage(response)
     return response.data
   }
