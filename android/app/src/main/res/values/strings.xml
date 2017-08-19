@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">stravels</string>
+    <string name="app_name">Stravels</string>
+    <string name="uri_scheme">stravels</string>
 </resources>
