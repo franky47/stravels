@@ -1,16 +1,20 @@
 import Config from '../Config/DebugConfig'
 import Immutable from 'seamless-immutable'
-import Reactotron from 'reactotron-react-native'
+import Reactotron, { openInEditor, asyncStorage } from 'reactotron-react-native'
 import { reactotronRedux as reduxPlugin } from 'reactotron-redux'
 import sagaPlugin from 'reactotron-redux-saga'
+import apisaucePlugin from 'reactotron-apisauce'
 
 if (Config.useReactotron) {
   // https://github.com/infinitered/reactotron for more options!
   Reactotron
-    .configure({ name: 'Ignite App' })
+    .configure({ name: 'Stravels' })
     .useReactNative()
     .use(reduxPlugin({ onRestore: Immutable }))
     .use(sagaPlugin())
+    .use(openInEditor())
+    .use(asyncStorage())
+    .use(apisaucePlugin())
     .connect()
 
   // Let's clear Reactotron on every time we load the app

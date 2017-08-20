@@ -1,12 +1,10 @@
 import apisauce from 'apisauce'
 import axios from 'axios'
-import { AsyncStorage } from 'react-native'
 import Secrets from 'react-native-config'
 
 export default class StravaAPI {
   constructor () {
     // API Setup
-
     this.baseUrl = `https://www.strava.com`
     this.oauthRedirectUri = 'stravels://localhost/auth/strava'
     this.api = apisauce.create({
@@ -16,6 +14,9 @@ export default class StravaAPI {
         Authorization: `Bearer ${Secrets.STRAVA_ACCESS_TOKEN_RO}`
       }
     })
+    if (__DEV__ && console.tron) {
+      this.api.addMonitor(console.tron.apisauce)
+    }
 
     // State
     this.userProfile = null
@@ -61,7 +62,6 @@ export default class StravaAPI {
     }).then((response) => {
       this.accessToken = response.data.access_token
       this.userProfile = response.data.athlete
-      AsyncStorage.setItem('@Stravels:stravaApiData', JSON.stringify(this.saveState()))
       callback()
     })
     return true
