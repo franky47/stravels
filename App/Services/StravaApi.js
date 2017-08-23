@@ -116,7 +116,7 @@ const create = (config = defaultConfig) => {
     return api.get(`/activities/${id}`)
   }
 
-  return {
+  const instance = {
     // OAuth Flow
     setAccessToken,
     generateOAuthAuthorizationRequest,
@@ -130,12 +130,18 @@ const create = (config = defaultConfig) => {
     getActivities,
     getActivityById,
 
-    addUsageListener: usageEmitter.addListener,
-
-    // For easy access to error codes etc..
-    ...api,
-    config
+    // Usage
+    addUsageListener: usageEmitter.addListener
   }
+  // For testing
+  if (__DEV__) {
+    Object.defineProperty(instance, 'config', {
+      value: config,
+      writable: false
+    })
+  }
+
+  return instance
 }
 
 export default create
