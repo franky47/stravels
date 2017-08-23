@@ -1,13 +1,23 @@
 import apisauce from 'apisauce'
 import Secrets from 'react-native-config'
-import { Linking } from 'react-native'
 import qs from 'querystringify'
 import EventEmitter from '../Utility/EventEmitter'
 
-const create = () => {
-  const baseUrl = `https://www.strava.com`
+// We open the authorization URL in the device official browser
+// in order to have Google Sign In working. The redirect is a deep link
+// that must be handled and induce a call to handleOAuthAuthorizationResponse
+// with the received URL (which contains the authorization code).
+const defaultConfig = {
+  baseUrl: `https://www.strava.com`,
+  clientId: Secrets.STRAVA_CLIENT_ID,
+  clientSecret: Secrets.STRAVA_CLIENT_SECRET,
+  oauthRedirectUri: 'stravels://localhost/auth/strava'
+}
+
+const create = (config = defaultConfig) => {
+  config = { ...defaultConfig, ...config }
   const createApi = (basePath) => apisauce.create({
-    baseURL: `${baseUrl}${basePath}`,
+    baseURL: config.baseUrl,
     headers: {
       Accept: 'application/json',
       Authorization: `Bearer ${Secrets.STRAVA_ACCESS_TOKEN_RO}`
@@ -42,37 +52,30 @@ const create = () => {
 
   // OAuth Flow --
 
-  // We open the authorization URL in the device official browser
-  // in order to have Google Sign In working. The redirect is a deep link
-  // that must be handled and induce a call to handleOAuthAuthorizationResponse
-  // with the received URL (which contains the authorization code).
-  const oauthRedirectUri = 'stravels://localhost/auth/strava'
-
   const setAccessToken = (token) => {
     api.setHeaders('Authorization', `Bearer ${token}`)
     oauthApi.setHeader('Authorization', `Bearer ${token}`)
   }
-  const sendOAuthAuthorizationRequest = () => {
+  const generateOAuthAuthorizationRequest = () => {
     const params = {
-      client_id: Secrets.STRAVA_CLIENT_ID,
+      client_id: config.clientId,
       response_type: 'code',
       scope: 'view_private',
-      redirect_uri: oauthRedirectUri,
+      redirect_uri: config.oauthRedirectUri,
       approval_prompt: __DEV__ ? 'force' : 'auto'
     }
-    const url = `${baseUrl}/oauth/authorize` + qs.stringify(params, true)
-    return Linking.openURL(url) // Promise
+    return oauthApi.getBaseURL() + '/authorize' + qs.stringify(params, true)
   }
   const handleOAuthAuthorizationResponse = (url) => {
     return new Promise((resolve, reject) => {
-      if (!url.startsWith(oauthRedirectUri)) {
+      if (!url.startsWith(config.oauthRedirectUri)) {
         throw new Error('Invalid Strava oauth redirection url')
       }
       const params = qs.parse(url.slice(url.indexOf('?')))
       if (params.error) {
         throw new Error(params.error)
       }
-      if (!!params.code) {
+      if (!params.code) {
         throw new Error('Could not read code')
       }
       resolve(params.code)
@@ -80,8 +83,8 @@ const create = () => {
   }
   const sendOAuthTokenExchangeRequest = (code) => {
     return oauthApi.post('/token', {
-      client_id:     Secrets.STRAVA_CLIENT_ID,
-      client_secret: Secrets.STRAVA_CLIENT_SECRET,
+      client_id:     config.clientId,
+      client_secret: config.clientSecret,
       code,
     }).then((response) => {
       const token = response.data.access_token
@@ -116,10 +119,10 @@ const create = () => {
   return {
     // OAuth Flow
     setAccessToken,
-    sendOAuthAuthorizationRequest,
+    generateOAuthAuthorizationRequest,
     handleOAuthAuthorizationResponse,
     sendOAuthTokenExchangeRequest,
-    sendLogoutRequest,
+    logout,
 
     // API Endpoints
     getAthlete,
@@ -130,11 +133,9 @@ const create = () => {
     addUsageListener: usageEmitter.addListener,
 
     // For easy access to error codes etc..
-    api,
-    oauthApi,
+    ...api,
+    config
   }
 }
 
-export default {
-  create
-}
+export default create
