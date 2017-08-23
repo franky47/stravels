@@ -24,7 +24,7 @@ export default class EventEmitter {
     })
   }
   notifyListeners(...args) {
-    const promises = [...this.listeners].map((callback) => Promise.resolve(callback(...args)))
+    const promises = [...this.listeners].map((callback) => Promise.resolve().then(() => callback(...args)))
     return Promise.all(promises)
   }
 }

@@ -125,3 +125,37 @@ describe('Notifications (async)', () => {
   })
 })
 
+describe('Error handling', () => {
+  test('Throw sync', () => {
+    const emitter = new EventEmitter()
+    const foo = jest.fn().mockImplementation((...args) => { throw new Error('foo') })
+    const bar = jest.fn().mockImplementation((...args) => { throw new Error('bar') })
+    emitter.addListeners([foo, bar])
+
+    expect(emitter.notifyListenersSync.bind(emitter)).toThrow()
+    expect(foo).toHaveBeenCalledWith()
+    expect(bar).not.toHaveBeenCalled()
+  })
+  test('Throw async, should return promise and not throw', () => {
+    const emitter = new EventEmitter()
+    const foo = jest.fn().mockImplementation((...args) => { throw new Error('foo') })
+    const bar = jest.fn().mockImplementation((...args) => { throw new Error('bar') })
+    emitter.addListeners([foo, bar])
+    expect(emitter.notifyListeners.bind(emitter)).not.toThrow()
+  })
+  test('Throw async, should get error result in Promise.catch', () => {
+    const emitter = new EventEmitter()
+    const error = new Error('oops')
+    const foo = jest.fn().mockImplementation((...args) => 'foo')
+    const bar = jest.fn().mockImplementation((...args) => { throw error })
+    emitter.addListeners([foo, bar])
+    return emitter.notifyListeners()
+      .then(() => {
+        expect(false).toBe(true) // should not succeed
+      })
+      .catch((err) => {
+        expect(err).toEqual(error)
+      })
+  })
+})
+
