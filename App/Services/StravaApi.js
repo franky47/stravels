@@ -31,24 +31,6 @@ const create = (config = defaultConfig) => {
     api.addMonitor(console.tron.apisauce)
     oauthApi.addMonitor(console.tron.apisauce)
   }
-  usageEmitter = new EventEmitter()
-  const usage = {
-    short: null,
-    long: null,
-  }
-  const usageMonitor = (response) => {
-    if (!!response.headers['X-RateLimit-Limit'] ||
-        !!response.headers['X-RateLimit-Usage']) {
-      return
-    }
-    const extract = (header) => response.headers[header].split(',').map((x) => parseInt(x))
-    const limits = extract('X-RateLimit-Limit')
-    const usages = extract('X-RateLimit-Usage')
-    usage.short = usages[0] / limits[0]
-    usage.long  = usages[1] / limits[1]
-    usageEmitter.notifyListeners(usage)
-  }
-  api.addMonitor(usageMonitor)
 
   // OAuth Flow --
 
@@ -56,7 +38,7 @@ const create = (config = defaultConfig) => {
     api.setHeaders('Authorization', `Bearer ${token}`)
     oauthApi.setHeader('Authorization', `Bearer ${token}`)
   }
-  const generateOAuthAuthorizationRequest = () => {
+  const generateOAuthAuthorizationRequestUrl = () => {
     const params = {
       client_id: config.clientId,
       response_type: 'code',
@@ -116,10 +98,31 @@ const create = (config = defaultConfig) => {
     return api.get(`/activities/${id}`)
   }
 
+  // Usage --
+
+  usageEmitter = new EventEmitter()
+  const usage = {
+    short: null,
+    long: null,
+  }
+  const usageMonitor = (response) => {
+    if (!!response.headers['X-RateLimit-Limit'] ||
+        !!response.headers['X-RateLimit-Usage']) {
+      return
+    }
+    const extract = (header) => response.headers[header].split(',').map((x) => parseInt(x))
+    const limits = extract('X-RateLimit-Limit')
+    const usages = extract('X-RateLimit-Usage')
+    usage.short = usages[0] / limits[0]
+    usage.long  = usages[1] / limits[1]
+    usageEmitter.notifyListeners(usage)
+  }
+  api.addMonitor(usageMonitor)
+
   const instance = {
     // OAuth Flow
     setAccessToken,
-    generateOAuthAuthorizationRequest,
+    generateOAuthAuthorizationRequestUrl,
     handleOAuthAuthorizationResponse,
     sendOAuthTokenExchangeRequest,
     logout,

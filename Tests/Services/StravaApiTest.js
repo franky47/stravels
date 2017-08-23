@@ -37,7 +37,7 @@ describe('Strava API', () => {
   })
 
   describe('OAuth Flow', () => {
-    describe('generateOAuthAuthorizationRequest', () => {
+    describe('generateOAuthAuthorizationRequestUrl', () => {
       test('has the required fields', () => {
         const config = {
           baseUrl: 'foo://bar/egg/spam',
@@ -45,7 +45,7 @@ describe('Strava API', () => {
           clientId: 42
         }
         const api = createApi(config)
-        const url = api.generateOAuthAuthorizationRequest()
+        const url = api.generateOAuthAuthorizationRequestUrl()
         expect(typeof url).toBe('string')
 
         const base = url.slice(0, url.indexOf('?'))
