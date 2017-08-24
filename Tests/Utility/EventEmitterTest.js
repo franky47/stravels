@@ -27,17 +27,17 @@ describe('Listener Management', () => {
   test('remove duplicate listener, unsub 1', () => {
     const emitter = new EventEmitter()
     const listener = () => {}
-    const unsubscribe1 = emitter.addListener(listener)
-    const unsubscribe2 = emitter.addListener(listener)
-    unsubscribe1()
+    const unsubscribe = emitter.addListener(listener)
+    emitter.addListener(listener)
+    unsubscribe()
     expect(emitter.listeners.size).toEqual(0)
   })
   test('remove duplicate listener, unsub 2', () => {
     const emitter = new EventEmitter()
     const listener = () => {}
-    const unsubscribe1 = emitter.addListener(listener)
-    const unsubscribe2 = emitter.addListener(listener)
-    unsubscribe2()
+    emitter.addListener(listener)
+    const unsubscribe = emitter.addListener(listener)
+    unsubscribe()
     expect(emitter.listeners.size).toEqual(0)
   })
   test('remove duplicate listener, unsub both', () => {

@@ -19,12 +19,13 @@ export default class EventEmitter {
     this.listeners.clear()
   }
   notifyListenersSync (...args) {
-    this.listeners.forEach(callback => {
-      callback(...args)
+    this.listeners.forEach(listener => {
+      listener(...args)
     })
   }
   notifyListeners (...args) {
-    const promises = [...this.listeners].map((callback) => Promise.resolve().then(() => callback(...args)))
+    const wrap = (listener) => Promise.resolve().then(() => listener(...args))
+    const promises = [...this.listeners].map((listener) => wrap(listener))
     return Promise.all(promises)
   }
 }
