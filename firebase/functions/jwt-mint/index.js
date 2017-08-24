@@ -1,7 +1,9 @@
-const functions = require('firebase-functions');
-const admin = require('firebase-admin');
+const functions = require('firebase-functions')
+const admin = require('firebase-admin')
 
-const serviceAccount = require('./stravels-5d45d-firebase-adminsdk-qakvx-b2a0c45713.json');
+const serviceAccount = require('./stravels-5d45d-firebase-adminsdk-qakvx-b2a0c45713.json')
+
+class InternalError extends Error {}
 
 admin.initializeApp({
   databaseURL: 'https://stravels-5d45d.firebaseio.com',
@@ -9,18 +11,19 @@ admin.initializeApp({
 })
 
 module.exports = functions.https.onRequest((request, response) => {
-
   const throwError = (status, message) => {
-    throw { status, error: message }
+    const error = new InternalError(message)
+    error.status = status
+    throw error
   }
 
   const validateInput = () => {
     const data = request.body
     if (request.method !== 'POST') {
-      throwError(403, "Only POST method is allowed.")
+      throwError(403, 'Only POST method is allowed.')
     }
     if (!data) {
-      throwError(400, "Empty request body.")
+      throwError(400, 'Empty request body.')
     }
     if (!data.uid) {
       throwError(400, "Field 'uid' is missing.")
@@ -52,10 +55,9 @@ module.exports = functions.https.onRequest((request, response) => {
     })
     .catch((error) => {
       if (error.status) {
-        response.status(error.status).json(error)
-      }
-      else {
-        response.status(500).json(error)
+        response.status(error.status).json(error.message)
+      } else {
+        response.status(500).json(error.message)
       }
     })
 })

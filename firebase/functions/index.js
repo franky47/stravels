@@ -1,1 +1,1 @@
-exports.jwtMint = require('./jwt-mint');
+exports.jwtMint = require('./jwt-mint')
