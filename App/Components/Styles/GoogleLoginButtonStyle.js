@@ -9,7 +9,7 @@ export default StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginBottom: 10,
+    marginBottom: 10
   },
   icon: {
     height: 25,
@@ -20,6 +20,6 @@ export default StyleSheet.create({
   text: {
     color: 'rgba(0, 0, 0, 0.7)',
     fontWeight: '700',
-    fontSize: 15,
+    fontSize: 15
   }
 })

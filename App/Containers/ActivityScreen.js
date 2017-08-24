@@ -8,7 +8,6 @@ import ActivityRow from '../Components/ActivityRow'
 import styles from './Styles/ActivityScreenStyle'
 
 class ActivityScreen extends Component {
-
   constructor (props) {
     super(props)
 

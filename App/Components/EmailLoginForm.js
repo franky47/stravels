@@ -11,7 +11,7 @@ import styles from './Styles/EmailLoginFormStyle'
 export default class EmailLoginForm extends Component {
   // Prop type warnings
   static propTypes = {
-    onSubmit: PropTypes.func.isRequired,
+    onSubmit: PropTypes.func.isRequired
   }
   // Defaults for props
   static defaultProps = {
@@ -37,7 +37,7 @@ export default class EmailLoginForm extends Component {
           placeholderTextColor={placeholderTextColor}
           secureTextEntry
           returnKeyType='go'
-          ref={(input) => this.passwordInput = input}
+          ref={(input) => { this.passwordInput = input }}
           style={styles.input}
         />
         <TouchableOpacity

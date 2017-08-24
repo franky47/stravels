@@ -26,5 +26,5 @@ export default StyleSheet.create({
   },
   listContent: {
     marginTop: Metrics.baseMargin
-  },
+  }
 })

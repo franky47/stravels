@@ -78,7 +78,7 @@ describe('RSF Helper', () => {
       const reducers = {
         request: jest.fn().mockImplementation(mockReducer),
         success: jest.fn().mockImplementation(mockReducer),
-        failure: jest.fn().mockImplementation(mockReducer),
+        failure: jest.fn().mockImplementation(mockReducer)
       }
       const foo = rsf('foo', reducers)
       const store = createStore(foo.reducer)

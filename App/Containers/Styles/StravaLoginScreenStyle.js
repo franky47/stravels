@@ -12,7 +12,7 @@ export default StyleSheet.create({
     backgroundColor: Colors.strava,
     height: Metrics.buttonHeight,
     justifyContent: 'center',
-    borderRadius: Metrics.buttonRadius,
+    borderRadius: Metrics.buttonRadius
   },
   buttonText: {
     color: 'white',

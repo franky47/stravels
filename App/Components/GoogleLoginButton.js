@@ -4,7 +4,7 @@ import {
   View,
   Text,
   Image,
-  TouchableOpacity,
+  TouchableOpacity
 } from 'react-native'
 
 import styles from './Styles/GoogleLoginButtonStyle'
@@ -12,7 +12,7 @@ import styles from './Styles/GoogleLoginButtonStyle'
 export default class GoogleLoginButton extends Component {
   // Prop type warnings
   static propTypes = {
-    onPress: PropTypes.func.isRequired,
+    onPress: PropTypes.func.isRequired
   }
 
   render () {

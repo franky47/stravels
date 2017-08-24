@@ -1,29 +1,29 @@
 
 export default class EventEmitter {
-  constructor() {
+  constructor () {
     this.listeners = new Set()
   }
 
-  addListener(callback) {
+  addListener (callback) {
     this.listeners.add(callback)
     return () => {
       this.listeners.delete(callback)
     }
   }
-  addListeners(callbacks) {
+  addListeners (callbacks) {
     callbacks.forEach((callback) => {
       this.addListener(callback)
     })
   }
-  removeAllListeners() {
+  removeAllListeners () {
     this.listeners.clear()
   }
-  notifyListenersSync(...args) {
+  notifyListenersSync (...args) {
     this.listeners.forEach(callback => {
       callback(...args)
     })
   }
-  notifyListeners(...args) {
+  notifyListeners (...args) {
     const promises = [...this.listeners].map((callback) => Promise.resolve().then(() => callback(...args)))
     return Promise.all(promises)
   }

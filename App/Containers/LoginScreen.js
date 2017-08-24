@@ -19,8 +19,7 @@ import EmailLoginForm from '../Components/EmailLoginForm'
 import styles from './Styles/LoginScreenStyle'
 
 class LoginScreen extends Component {
-
-  constructor(props) {
+  constructor (props) {
     super(props)
     this.state = {
       loginWith: ''
@@ -68,7 +67,7 @@ class LoginScreen extends Component {
       backgroundColor: 'rgba(255, 255, 255, 0.5)',
       marginTop: 10,
       marginBottom: 12
-    }}></View>
+    }} />
   }
 }
 

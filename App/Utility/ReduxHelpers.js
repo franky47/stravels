@@ -3,7 +3,7 @@ import { snakeCase } from 'lodash'
 const defaultReducers = {
   request: (state, action) => state,
   success: (state, action) => state,
-  failure: (state, action) => state,
+  failure: (state, action) => state
 }
 
 export const rsf = (actionName, reducers = defaultReducers) => {
@@ -17,7 +17,7 @@ export const rsf = (actionName, reducers = defaultReducers) => {
   const actionTypes = {
     [actionRequest]: actionRequest,
     [actionSuccess]: actionSuccess,
-    [actionFailure]: actionFailure,
+    [actionFailure]: actionFailure
   }
 
   const requestActionCreator = (extra = {}) => ({
@@ -36,7 +36,7 @@ export const rsf = (actionName, reducers = defaultReducers) => {
   const actionCreators = {
     request: requestActionCreator,
     success: successActionCreator,
-    failure: failureActionCreator,
+    failure: failureActionCreator
   }
 
   const reducer = (state, action) => {
