@@ -44,7 +44,7 @@ describe('RSF Helper', () => {
         type: 'FOO_REQUEST',
         hello: 'world'
       })
-      expect(foo.actionCreators.success({ hello: 'world'})).toEqual({
+      expect(foo.actionCreators.success({ hello: 'world' })).toEqual({
         type: 'FOO_SUCCESS',
         hello: 'world'
       })

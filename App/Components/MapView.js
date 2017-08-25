@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 // import PropTypes from 'prop-types';
-import { View, Text } from 'react-native'
+// import { View, Text } from 'react-native'
 import styles from './Styles/MapViewStyle'
 
 import Mapbox, { MapView as Map } from 'react-native-mapbox-gl'

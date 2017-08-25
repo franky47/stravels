@@ -2,9 +2,6 @@ import React, { Component } from 'react'
 import {
   KeyboardAvoidingView,
   ScrollView,
-  Text,
-  TextInput,
-  TouchableOpacity,
   View
 } from 'react-native'
 import { connect } from 'react-redux'
