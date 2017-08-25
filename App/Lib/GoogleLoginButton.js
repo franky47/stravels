@@ -24,7 +24,7 @@ export default class GoogleLoginButton extends Component {
         <View style={styles.container}>
           <Image
             style={styles.icon}
-            source={require('../Images/google-icon.png')}
+            source={require('../Images/google-login.png')}
           />
           <Text style={styles.text}>Continue with Google</Text>
         </View>

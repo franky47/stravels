@@ -24,7 +24,7 @@ export default class FacebookLoginButton extends Component {
         <View style={styles.container}>
           <Image
             style={styles.icon}
-            source={require('../Images/facebook-icon.png')}
+            source={require('../Images/facebook-login.png')}
           />
           <Text style={styles.text}>Continue with Facebook</Text>
         </View>
