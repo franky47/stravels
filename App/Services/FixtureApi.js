@@ -20,9 +20,5 @@ export default {
       ok: true,
       data: username.toLowerCase() === 'gantman' ? gantmanData : skellockData
     }
-  },
-  getActivities: () => {
-    const activities = require('../Fixtures/activities.json')
-    return activities
   }
 }
