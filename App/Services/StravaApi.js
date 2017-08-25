@@ -14,7 +14,7 @@ const defaultConfig = {
   oauthRedirectUri: 'stravels://localhost/auth/strava'
 }
 
-const create = (config = defaultConfig) => {
+export const create = (config = defaultConfig) => {
   config = { ...defaultConfig, ...config }
   const createApi = (basePath) => apisauce.create({
     baseURL: config.baseUrl,
@@ -46,7 +46,7 @@ const create = (config = defaultConfig) => {
       redirect_uri: config.oauthRedirectUri,
       approval_prompt: __DEV__ ? 'force' : 'auto'
     }
-    return oauthApi.getBaseURL() + '/authorize' + qs.stringify(params, true)
+    return config.baseUrl + '/oauth/authorize' + qs.stringify(params, true)
   }
   const handleOAuthAuthorizationResponse = (url) => {
     return new Promise((resolve, reject) => {
@@ -65,17 +65,13 @@ const create = (config = defaultConfig) => {
   }
   const sendOAuthTokenExchangeRequest = (code) => {
     return oauthApi.post('/token', {
-      client_id:     config.clientId,
+      client_id: config.clientId,
       client_secret: config.clientSecret,
-      code,
-    }).then((response) => {
-      const token = response.data.access_token
-      setAccessToken(token)
-      return {
-        token,
-        user: response.data.athlete
-      }
-    })
+      code
+    }).then((response) => ({
+      token: response.data.access_token,
+      user: response.data.athlete
+    }))
   }
   const logout = () => {
     return oauthApi.post('/deauthorize')
@@ -100,10 +96,10 @@ const create = (config = defaultConfig) => {
 
   // Usage --
 
-  usageEmitter = new EventEmitter()
+  const usageEmitter = new EventEmitter()
   const usage = {
     short: null,
-    long: null,
+    long: null
   }
   const usageMonitor = (response) => {
     if (!!response.headers['X-RateLimit-Limit'] ||
@@ -114,7 +110,7 @@ const create = (config = defaultConfig) => {
     const limits = extract('X-RateLimit-Limit')
     const usages = extract('X-RateLimit-Usage')
     usage.short = usages[0] / limits[0]
-    usage.long  = usages[1] / limits[1]
+    usage.long = usages[1] / limits[1]
     usageEmitter.notifyListeners(usage)
   }
   api.addMonitor(usageMonitor)
@@ -147,4 +143,4 @@ const create = (config = defaultConfig) => {
   return instance
 }
 
-export default create
+export default create()

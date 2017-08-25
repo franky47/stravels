@@ -1,4 +1,4 @@
-import createApi from '../../App/Services/StravaApi'
+import { create as createApi } from '../../App/Services/StravaApi'
 import qs from 'querystringify'
 
 describe('Strava API', () => {
@@ -50,7 +50,7 @@ describe('Strava API', () => {
 
         const base = url.slice(0, url.indexOf('?'))
         const params = qs.parse(url.slice(url.indexOf('?')))
-        expect(base).toEqual(config.baseUrl + '/authorize')
+        expect(base).toEqual(config.baseUrl + '/oauth/authorize')
         expect(params.client_id).toBeDefined()
         expect(parseInt(params.client_id)).toEqual(42)
         expect(params.redirect_uri).toEqual('helloworld')
