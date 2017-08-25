@@ -7,7 +7,6 @@ const OAUTH_DEFAULT_STATE = {
   phase: null,
   fetching: false,
   error: null,
-  code: null,
   token: null
 }
 
@@ -16,12 +15,11 @@ const oauthAuthorizeRequest = (state, action) => ({
   phase: 'AUTHORIZE',
   fetching: true
 })
-const oauthAuthorizeSuccess = (state, { code }) => ({
+const oauthAuthorizeSuccess = (state, action) => ({
   ...state,
   phase: 'AUTHORIZE',
   fetching: false,
-  error: null,
-  code
+  error: null
 })
 const oauthAuthorizeFailure = (state, { error }) => ({
   ...state,
@@ -35,12 +33,11 @@ const oauthTokenExchangeRequest = (state, action) => ({
   phase: 'TOKEN_EXCHANGE',
   fetching: true
 })
-const oauthTokenExchangeSuccess = (state, { token }) => ({
+const oauthTokenExchangeSuccess = (state, action) => ({
   ...state,
   phase: 'TOKEN_EXCHANGE',
   fetching: false,
-  error: null,
-  token
+  error: null
 })
 const oauthTokenExchangeFailure = (state, { error }) => ({
   ...state,
@@ -61,30 +58,39 @@ const oauthLogoutFailure = (state, { error }) => ({
   error
 })
 
+const login = (state, { token }) => ({
+  ...state,
+  phase: 'LOGGED_IN',
+  token
+})
+
 const oauth = (state = OAUTH_DEFAULT_STATE, action) => {
   switch (action.type) {
     // OAuth Authorization Flow
-    case actions.types.OAuthAuthorizeRequest:
+    case actions.OAuthAuthorizeRequest:
       return oauthAuthorizeRequest(state, action)
-    case actions.types.OAuthAuthorizeSuccess:
+    case actions.OAuthAuthorizeSuccess:
       return oauthAuthorizeSuccess(state, action)
-    case actions.types.OAuthAuthorizeFailure:
+    case actions.OAuthAuthorizeFailure:
       return oauthAuthorizeFailure(state, action)
 
     // OAuth Token Exchange Flow
-    case actions.types.OAuthTokenExchangeRequest:
+    case actions.OAuthTokenExchangeRequest:
       return oauthTokenExchangeRequest(state, action)
-    case actions.types.OAuthTokenExchangeSuccess:
+    case actions.OAuthTokenExchangeSuccess:
       return oauthTokenExchangeSuccess(state, action)
-    case actions.types.OAuthTokenExchangeFailure:
+    case actions.OAuthTokenExchangeFailure:
       return oauthTokenExchangeFailure(state, action)
 
+    case actions.Login:
+      return login(state, action)
+
     // Logout
-    case actions.types.LogoutRequest:
+    case actions.LogoutRequest:
       return oauthLogoutRequest(state, action)
-    case actions.types.LogoutSuccess:
+    case actions.LogoutSuccess:
       return oauthLogoutSuccess(state, action)
-    case actions.types.LogoutFailure:
+    case actions.LogoutFailure:
       return oauthLogoutFailure(state, action)
 
     default:
@@ -112,7 +118,7 @@ const setUser = (state, { user }) => {
 
 const user = (state = USER_DEFAULT_STATE, action) => {
   switch (action.type) {
-    case actions.types.SetUser:
+    case actions.SetUser:
       return setUser(state, action)
     default:
       return state

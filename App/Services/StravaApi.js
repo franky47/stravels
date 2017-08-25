@@ -17,10 +17,10 @@ const defaultConfig = {
 export const create = (config = defaultConfig) => {
   config = { ...defaultConfig, ...config }
   const createApi = (basePath) => apisauce.create({
-    baseURL: config.baseUrl,
+    baseURL: config.baseUrl + basePath,
     headers: {
-      Accept: 'application/json',
-      Authorization: `Bearer ${Secrets.STRAVA_ACCESS_TOKEN_RO}`
+      Accept: 'application/json'
+      // Authorization: `Bearer ${Secrets.STRAVA_ACCESS_TOKEN_RO}`
     }
   })
 

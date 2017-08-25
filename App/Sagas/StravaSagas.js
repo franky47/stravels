@@ -1,5 +1,5 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
-import actionTypes, * as actions from '../Redux/strava/actions'
+import action, * as actions from '../Redux/strava/actions'
 import { Linking } from 'react-native'
 import api from '../Services/StravaApi'
 
@@ -22,22 +22,32 @@ export const startAuthorization = (dispatch) => {
 function * startTokenExchange ({ code }) {
   yield put(actions.oauthTokenExchangeRequest(code))
 }
-export function * watchAuthorizationSuccess (action) {
-  yield takeEvery(actionTypes.OAuthAuthorizationSuccess, startTokenExchange, action)
+export function * watchAuthorizationSuccess () {
+  // todo: use symbol
+  yield takeEvery(action.OAuthAuthorizeSuccess, startTokenExchange)
 }
 
 function * tokenExchangeFlow ({ code }) {
   try {
-    const data = yield call(api.sendOAuthTokenExchangeRequest(code))
+    const data = yield call(api.sendOAuthTokenExchangeRequest, code)
+    console.tron.log(data)
     yield put(actions.oauthTokenExchangeSuccess(data.token))
     yield put(actions.setUser(data.user))
-    yield call(api.setAccessToken(data.token))
+    yield put(actions.login(data.token))
   } catch (error) {
     yield put(actions.oauthTokenExchangeFailure(error))
   }
 }
-export function * watchTokenExchange (action) {
-  yield takeEvery(actionTypes.OAuthTokenExchangeRequest, tokenExchangeFlow, action)
+export function * watchTokenExchangeRequest () {
+  yield takeEvery(action.OAuthTokenExchangeRequest, tokenExchangeFlow)
+}
+
+function * passTokenToApi ({ token }) {
+  yield call(api.setAccessToken, token)
+}
+
+export function * watchLogin () {
+  yield takeEvery(action.Login, passTokenToApi)
 }
 
 // --
@@ -52,5 +62,5 @@ function * logoutFlow () {
   }
 }
 export function * watchLogout () {
-  yield takeEvery(actionTypes.LogoutRequest, logoutFlow)
+  yield takeEvery(action.LogoutRequest, logoutFlow)
 }
