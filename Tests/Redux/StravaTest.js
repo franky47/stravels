@@ -21,7 +21,7 @@ test('default state', () => {
     email: '',
     firstname: '',
     lastname: '',
-    profile: '',
+    profile: ''
   })
 })
 

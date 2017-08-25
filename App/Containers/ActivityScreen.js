@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, Text, FlatList } from 'react-native'
+import { FlatList } from 'react-native'
 import { connect } from 'react-redux'
 import Api from '../Services/FixtureApi'
 import ActivityRow from '../Components/ActivityRow'
