@@ -48,9 +48,17 @@ const oauthTokenExchangeFailure = (state, { error }) => ({
   fetching: false,
   error
 })
-const logout = (state, action) => ({
+const oauthLogoutRequest = (state, action) => ({
   ...state,
-  ...OAUTH_DEFAULT_STATE,
+  phase: 'LOGOUT',
+  fetching: true
+})
+const oauthLogoutSuccess = (state, action) => OAUTH_DEFAULT_STATE
+const oauthLogoutFailure = (state, { error }) => ({
+  ...state,
+  phase: 'LOGOUT',
+  fetching: false,
+  error
 })
 
 const oauth = (state = OAUTH_DEFAULT_STATE, action) => {
@@ -71,8 +79,14 @@ const oauth = (state = OAUTH_DEFAULT_STATE, action) => {
     case actions.types.OAuthTokenExchangeFailure:
       return oauthTokenExchangeFailure(state, action)
 
-    case actions.types.Logout:
-      return logout(state, action)
+    // Logout
+    case actions.types.LogoutRequest:
+      return oauthLogoutRequest(state, action)
+    case actions.types.LogoutSuccess:
+      return oauthLogoutSuccess(state, action)
+    case actions.types.LogoutFailure:
+      return oauthLogoutFailure(state, action)
+
     default:
       return state
   }
@@ -85,13 +99,16 @@ const USER_DEFAULT_STATE = {
   email: '',
   firstname: '',
   lastname: '',
-  profile: '',
+  profile: ''
 }
 
-const setUser = (state, { user }) => ({
-  ...state,
-  ...user
-})
+const setUser = (state, { user }) => {
+  if (user === null) {
+    return USER_DEFAULT_STATE
+  } else {
+    return {...state, ...user}
+  }
+}
 
 const user = (state = USER_DEFAULT_STATE, action) => {
   switch (action.type) {
@@ -104,7 +121,7 @@ const user = (state = USER_DEFAULT_STATE, action) => {
 
 // User State --
 
-export default combineReducers({
+export const reducer = combineReducers({
   oauth,
   user
 })
