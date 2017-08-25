@@ -12,7 +12,7 @@ export default StyleSheet.create({
     paddingHorizontal: 10,
     color: 'white'
   },
-  buttonContainer: {
+  buttonContainer: {
     paddingVertical: 15,
     borderRadius: 5,
     backgroundColor: '#3eb352'
