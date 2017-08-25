@@ -1,76 +1,33 @@
 import React, { Component } from 'react'
 import {
+  ActivityIndicator,
   Image,
   Text,
-  TouchableHighlight,
-  View,
-  Linking
+  View
 } from 'react-native'
+import StravaLoginButton from '../Components/StravaLoginButton'
 import { connect } from 'react-redux'
-import Secrets from 'react-native-config'
-// Add Actions - replace 'Your' with whatever your reducer is called :)
-// import YourActions from '../Redux/YourRedux'
-
-import StravaApi from '../Services/Strava'
-import Firebase, { loginWithStrava } from '../Services/Firebase'
+import { startAuthorization } from '../Sagas/StravaSagas'
 
 // Styles
 import styles from './Styles/StravaLoginScreenStyle'
 
 class StravaLoginScreen extends Component {
-
-  constructor(props) {
-    super(props)
-    this.strava = new StravaApi()
-    this.state = {
-      debug: '',
-      user: {},
-      loggedIn: false
-    }
-  }
-
-  componentDidMount() {
-    Linking.getInitialURL().then((event) => {
-      if (event) {
-        this._handleUrl(event)
-      }
-    }).catch(err => {
-        console.warn('An error occurred', err)
-    })
-    Linking.addEventListener('url', this._handleUrl.bind(this))
-  }
-  componentWillUnmount() {
-    Linking.removeEventListener('url', this._handleUrl.bind(this))
-  }
-  _handleUrl(event) {
-    this.strava.handleOauthRedirectUrl(event.url, () => {
-      loginWithStrava(this.strava.userProfile)
-        .then((firebaseUser) => {
-          this.setState({
-            loggedIn: true,
-            user: firebaseUser
-          })
-        })
-    })
-  }
-
-  render() {
+  render () {
     return (
       <View style={styles.container}>
-        <TouchableHighlight
-          underlayColor='#FC601D'
-          style={styles.button}
-          onPress={() => Linking.openURL(this.strava.oauthUri)}
-        >
-          <Text style={styles.buttonText}>Login with Strava</Text>
-        </TouchableHighlight>
-        { this.state.loggedIn &&
+        <ActivityIndicator animating={this.props.fetching} />
+        <StravaLoginButton
+          onPress={this.props.startAuthorization}
+        />
+        { this.props.loggedIn &&
           <View>
-            <Image source={{ uri: this.state.user.photoURL}} style={{width: 100, height: 100}}/>
-            <Text>Welcome, {this.state.user.displayName} !</Text>
+            <Image
+              source={{ uri: this.props.photoURL }}
+              style={{ width: 100, height: 100 }} />
+            <Text>Welcome, {this.props.displayName} !</Text>
           </View>
         }
-
       </View>
     )
   }
@@ -78,11 +35,16 @@ class StravaLoginScreen extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    fetching: state.strava.oauth.fetching,
+    displayName: state.strava.user.firstname,
+    photoUrl: state.strava.user.profile,
+    loggedIn: !!state.strava.user.id
   }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapDispatchToProps = (dispatch, ownProps) => {
   return {
+    startAuthorization: () => startAuthorization(dispatch)
   }
 }
 
