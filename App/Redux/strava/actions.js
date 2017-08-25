@@ -11,7 +11,9 @@ const actions = {
   OAuthTokenExchangeSuccess: 'STRAVA_OAUTH_TOKEN_EXCHANGE_SUCCESS',
   OAuthTokenExchangeFailure: 'STRAVA_OAUTH_TOKEN_EXCHANGE_FAILURE',
 
-  Logout: 'STRAVA_LOGOUT',
+  LogoutRequest: 'STRAVA_LOGOUT_REQUEST',
+  LogoutSuccess: 'STRAVA_LOGOUT_SUCCESS',
+  LogoutFailure: 'STRAVA_LOGOUT_FAILURE',
 
   // User
   SetUser: 'STRAVA_SET_USER'
@@ -46,8 +48,15 @@ export const oauthTokenExchangeFailure = (error) => ({
   error
 })
 
-export const logout = () => ({
-  type: actions.Logout
+export const logoutRequest = () => ({
+  type: actions.LogoutRequest
+})
+export const logoutSuccess = () => ({
+  type: actions.LogoutSuccess
+})
+export const logoutFailure = (error) => ({
+  type: actions.LogoutFailure,
+  error
 })
 
 export const setUser = (user) => ({
