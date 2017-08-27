@@ -40,9 +40,10 @@ export const oauthTokenExchangeRequest = (code) => ({
   type: actions.OAuthTokenExchangeRequest,
   code
 })
-export const oauthTokenExchangeSuccess = (token) => ({
+export const oauthTokenExchangeSuccess = (token, user) => ({
   type: actions.OAuthTokenExchangeSuccess,
-  token
+  token,
+  user
 })
 export const oauthTokenExchangeFailure = (error) => ({
   type: actions.OAuthTokenExchangeFailure,

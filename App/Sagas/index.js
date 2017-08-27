@@ -12,20 +12,12 @@
 
 // import { startup } from './StartupSagas'
 // import { getUserAvatar } from './GithubSagas'
-import {
-  watchAuthorizationSuccess,
-  watchTokenExchangeRequest,
-  watchLogin,
-  watchLogout
-} from './StravaSagas'
+import stravaSaga from './StravaSagas'
 
 /* ------------- Connect Types To Sagas ------------- */
 
 export default function * root () {
   yield [
-    watchAuthorizationSuccess(),
-    watchTokenExchangeRequest(),
-    watchLogin(),
-    watchLogout()
+    stravaSaga()
   ]
 }

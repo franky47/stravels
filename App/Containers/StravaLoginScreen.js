@@ -7,7 +7,7 @@ import {
 } from 'react-native'
 import StravaLoginButton from '../Components/StravaLoginButton'
 import { connect } from 'react-redux'
-import { startAuthorization } from '../Sagas/StravaSagas'
+import { oauthAuthorizeRequest } from '../Redux/strava/actions'
 
 // Styles
 import styles from './Styles/StravaLoginScreenStyle'
@@ -18,7 +18,7 @@ class StravaLoginScreen extends Component {
       <View style={styles.container}>
         <ActivityIndicator animating={this.props.fetching} />
         <StravaLoginButton
-          onPress={this.props.startAuthorization}
+          onPress={this.props.requestAuth}
         />
         { this.props.loggedIn &&
           <View>
@@ -44,7 +44,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    startAuthorization: () => startAuthorization(dispatch)
+    requestAuth: () => dispatch(oauthAuthorizeRequest())
   }
 }
 
