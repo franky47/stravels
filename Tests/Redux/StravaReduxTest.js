@@ -210,3 +210,203 @@ describe('Logout flow', () => {
     expect(actual).toEqual(expected)
   })
 })
+
+describe('Activities', () => {
+  test('request', () => {
+    const store = createStore(reducer)
+    const initialState = store.getState()
+    deepFreeze(initialState)
+
+    store.dispatch(actions.activitiesRequest(42))
+    const actual = store.getState().activities
+    const expected = {
+      data: {},
+      fetching: true,
+      error: null,
+      page: 42
+    }
+    expect(actual).toEqual(expected)
+  })
+  test('success', () => {
+    const store = createStore(reducer)
+    const initialState = store.getState()
+    deepFreeze(initialState)
+
+    store.dispatch(actions.activitiesSuccess({
+      foo: { name: 'Foo' },
+      bar: { name: 'Bar' }
+    }))
+    const actual = store.getState().activities
+    const expected = {
+      data: {
+        foo: { name: 'Foo' },
+        bar: { name: 'Bar' }
+      },
+      fetching: false,
+      error: null,
+      page: 0
+    }
+    expect(actual).toEqual(expected)
+  })
+  test('failure', () => {
+    const store = createStore(reducer)
+    const initialState = store.getState()
+    deepFreeze(initialState)
+    const error = new Error('error')
+
+    store.dispatch(actions.activitiesFailure(error))
+    const actual = store.getState().activities
+    const expected = {
+      data: { },
+      fetching: false,
+      error,
+      page: 0
+    }
+    expect(actual).toEqual(expected)
+  })
+  test('combine data', () => {
+    const store = createStore(reducer)
+
+    store.dispatch(actions.activitiesSuccess({
+      foo: { name: 'Foo' },
+      bar: { name: 'Bar' }
+    }))
+    store.dispatch(actions.activitiesSuccess({
+      egg: { name: 'Egg' },
+      spam: { name: 'Spam' }
+    }))
+    const actual = store.getState().activities
+    const expected = {
+      data: {
+        foo: { name: 'Foo' },
+        bar: { name: 'Bar' },
+        egg: { name: 'Egg' },
+        spam: { name: 'Spam' }
+      },
+      fetching: false,
+      error: null,
+      page: 0
+    }
+    expect(actual).toEqual(expected)
+  })
+  test('error does not drop data', () => {
+    const store = createStore(reducer)
+
+    store.dispatch(actions.activitiesSuccess({
+      foo: { name: 'Foo' },
+      bar: { name: 'Bar' }
+    }))
+    store.dispatch(actions.activitiesFailure('boo'))
+    const actual = store.getState().activities
+    const expected = {
+      data: {
+        foo: { name: 'Foo' },
+        bar: { name: 'Bar' }
+      },
+      fetching: false,
+      error: 'boo',
+      page: 0
+    }
+    expect(actual).toEqual(expected)
+  })
+})
+
+describe('Friends', () => {
+  test('request', () => {
+    const store = createStore(reducer)
+    const initialState = store.getState()
+    deepFreeze(initialState)
+
+    store.dispatch(actions.friendsRequest(42))
+    const actual = store.getState().friends
+    const expected = {
+      data: {},
+      fetching: true,
+      error: null,
+      page: 42
+    }
+    expect(actual).toEqual(expected)
+  })
+  test('success', () => {
+    const store = createStore(reducer)
+    const initialState = store.getState()
+    deepFreeze(initialState)
+
+    store.dispatch(actions.friendsSuccess({
+      foo: { name: 'Foo' },
+      bar: { name: 'Bar' }
+    }))
+    const actual = store.getState().friends
+    const expected = {
+      data: {
+        foo: { name: 'Foo' },
+        bar: { name: 'Bar' }
+      },
+      fetching: false,
+      error: null,
+      page: 0
+    }
+    expect(actual).toEqual(expected)
+  })
+  test('failure', () => {
+    const store = createStore(reducer)
+    const initialState = store.getState()
+    deepFreeze(initialState)
+    const error = new Error('error')
+
+    store.dispatch(actions.friendsFailure(error))
+    const actual = store.getState().friends
+    const expected = {
+      data: { },
+      fetching: false,
+      error,
+      page: 0
+    }
+    expect(actual).toEqual(expected)
+  })
+  test('combine data', () => {
+    const store = createStore(reducer)
+
+    store.dispatch(actions.friendsSuccess({
+      foo: { name: 'Foo' },
+      bar: { name: 'Bar' }
+    }))
+    store.dispatch(actions.friendsSuccess({
+      egg: { name: 'Egg' },
+      spam: { name: 'Spam' }
+    }))
+    const actual = store.getState().friends
+    const expected = {
+      data: {
+        foo: { name: 'Foo' },
+        bar: { name: 'Bar' },
+        egg: { name: 'Egg' },
+        spam: { name: 'Spam' }
+      },
+      fetching: false,
+      error: null,
+      page: 0
+    }
+    expect(actual).toEqual(expected)
+  })
+  test('error does not drop data', () => {
+    const store = createStore(reducer)
+
+    store.dispatch(actions.friendsSuccess({
+      foo: { name: 'Foo' },
+      bar: { name: 'Bar' }
+    }))
+    store.dispatch(actions.friendsFailure('boo'))
+    const actual = store.getState().friends
+    const expected = {
+      data: {
+        foo: { name: 'Foo' },
+        bar: { name: 'Bar' }
+      },
+      fetching: false,
+      error: 'boo',
+      page: 0
+    }
+    expect(actual).toEqual(expected)
+  })
+})

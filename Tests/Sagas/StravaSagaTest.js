@@ -1,6 +1,7 @@
 import * as sagas from '../../App/Sagas/StravaSagas'
 import { put, call, take } from 'redux-saga/effects'
 import * as actions from '../../App/Redux/strava/actions'
+import { arrayToObject } from '../../App/Transforms/ConvertShape'
 
 describe('Authorization Saga', () => {
   test('Deep Link Channel', () => {
@@ -121,4 +122,74 @@ describe('Logout Saga', () => {
 
 describe('Logout while login flow', () => {
 
+})
+
+describe('Activities Saga', () => {
+  test('default page should be 0', () => {
+    const api = {
+      getActivities: () => {}
+    }
+    const request = actions.activitiesRequest()
+    const saga = sagas.activitiesSaga(api, request)
+    expect(saga.next().value).toEqual(call([api, api.getActivities], 0))
+  })
+  test('success', () => {
+    const api = {
+      getActivities: () => {}
+    }
+    const response = [
+      { id: 'foo', name: 'Foo' },
+      { id: 'bar', name: 'Bar' }
+    ]
+    const request = actions.activitiesRequest(42)
+    const saga = sagas.activitiesSaga(api, request)
+    expect(saga.next().value).toEqual(call([api, api.getActivities], 42))
+    expect(saga.next(response).value).toEqual(call(arrayToObject, response, 'id'))
+    expect(saga.next('data').value).toEqual(put(actions.activitiesSuccess('data')))
+  })
+  test('failure', () => {
+    const api = {
+      getActivities: () => {}
+    }
+    const error = new Error('error')
+    const request = actions.activitiesRequest(42)
+    const saga = sagas.activitiesSaga(api, request)
+    expect(saga.next().value).toEqual(call([api, api.getActivities], 42))
+    expect(saga.throw(error).value).toEqual(put(actions.activitiesFailure(error)))
+  })
+})
+
+describe('Friends Saga', () => {
+  test('default page should be 0', () => {
+    const api = {
+      getFriends: () => {}
+    }
+    const request = actions.friendsRequest()
+    const saga = sagas.friendsSaga(api, request)
+    expect(saga.next().value).toEqual(call([api, api.getFriends], 0))
+  })
+  test('success', () => {
+    const api = {
+      getFriends: () => {}
+    }
+    const response = [
+      { id: 'foo', name: 'Foo' },
+      { id: 'bar', name: 'Bar' }
+    ]
+    const request = actions.friendsRequest(42)
+    const saga = sagas.friendsSaga(api, request)
+    expect(saga.next().value).toEqual(call([api, api.getFriends], 42))
+    expect(saga.next(response).value).toEqual(call(arrayToObject, response, 'id'))
+    expect(saga.next('data').value).toEqual(put(actions.friendsSuccess('data')))
+  })
+  test('failure', () => {
+    const api = {
+      getFriends: () => {}
+    }
+    const error = new Error('error')
+    const request = actions.friendsRequest(42)
+    const saga = sagas.friendsSaga(api, request)
+    expect(saga.next().value).toEqual(call([api, api.getFriends], 42))
+    expect(saga.throw(error).value).toEqual(put(actions.friendsFailure(error)))
+  })
 })

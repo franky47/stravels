@@ -125,9 +125,95 @@ const user = (state = USER_DEFAULT_STATE, action) => {
   }
 }
 
-// User State --
+// Activities State --
+
+const ACTIVITIES_DEFAULT_STATE = {
+  page: 0,
+  fetching: false,
+  error: null,
+  data: {}
+}
+
+const activitiesRequest = (state, { page }) => ({
+  ...state,
+  fetching: true,
+  page
+})
+const activitiesSuccess = (state, { data }) => ({
+  ...state,
+  data: {
+    ...state.data,
+    ...data
+  },
+  fetching: false,
+  error: null
+})
+const activitiesFailure = (state, { error }) => ({
+  ...state,
+  fetching: false,
+  error
+})
+
+const activities = (state = ACTIVITIES_DEFAULT_STATE, action) => {
+  switch (action.type) {
+    case actions.ActivitiesRequest:
+      return activitiesRequest(state, action)
+    case actions.ActivitiesSuccess:
+      return activitiesSuccess(state, action)
+    case actions.ActivitiesFailure:
+      return activitiesFailure(state, action)
+    default:
+      return state
+  }
+}
+
+// Friends State --
+
+const FRIENDS_DEFAULT_STATE = {
+  page: 0,
+  fetching: false,
+  error: null,
+  data: {}
+}
+
+const friendsRequest = (state, { page }) => ({
+  ...state,
+  fetching: true,
+  page
+})
+const friendsSuccess = (state, { data }) => ({
+  ...state,
+  data: {
+    ...state.data,
+    ...data
+  },
+  fetching: false,
+  error: null
+})
+const friendsFailure = (state, { error }) => ({
+  ...state,
+  fetching: false,
+  error
+})
+
+const friends = (state = FRIENDS_DEFAULT_STATE, action) => {
+  switch (action.type) {
+    case actions.FriendsRequest:
+      return friendsRequest(state, action)
+    case actions.FriendsSuccess:
+      return friendsSuccess(state, action)
+    case actions.FriendsFailure:
+      return friendsFailure(state, action)
+    default:
+      return state
+  }
+}
+
+// Global Reducer --
 
 export const reducer = combineReducers({
   oauth,
-  user
+  user,
+  activities,
+  friends
 })

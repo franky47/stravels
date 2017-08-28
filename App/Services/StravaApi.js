@@ -93,6 +93,11 @@ export const create = (config = defaultConfig) => {
   const getActivityById = (id) => {
     return api.get(`/activities/${id}`)
   }
+  const getFriends = (page = 0) => {
+    // Pages start at 1
+    const params = page > 0 ? { page } : {}
+    return api.get(`/athlete/friends`, { params })
+  }
 
   // Usage --
 
@@ -128,6 +133,7 @@ export const create = (config = defaultConfig) => {
     getAthleteById,
     getActivities,
     getActivityById,
+    getFriends,
 
     // Usage
     addUsageListener: usageEmitter.addListener

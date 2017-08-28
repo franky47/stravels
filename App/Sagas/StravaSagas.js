@@ -3,6 +3,7 @@ import { eventChannel } from 'redux-saga'
 import action, * as actions from '../Redux/strava/actions'
 import { Linking } from 'react-native'
 import stravaApi from '../Services/StravaApi'
+import { arrayToObject } from '../Transforms/ConvertShape'
 
 export const createDeepLinkChannel = (source) => {
   return eventChannel((emit) => {
@@ -45,6 +46,26 @@ export function * logoutSaga (api) {
   }
 }
 
+export function * activitiesSaga (api, { page }) {
+  try {
+    const activities = yield call([api, api.getActivities], page)
+    const data = yield call(arrayToObject, activities, 'id')
+    yield put(actions.activitiesSuccess(data))
+  } catch (error) {
+    yield put(actions.activitiesFailure(error))
+  }
+}
+
+export function * friendsSaga (api, { page }) {
+  try {
+    const friends = yield call([api, api.getFriends], page)
+    const data = yield call(arrayToObject, friends, 'id')
+    yield put(actions.friendsSuccess(data))
+  } catch (error) {
+    yield put(actions.friendsFailure(error))
+  }
+}
+
 // Main Saga Entrypoint --------------------------------------------------------
 
 export default function * () {
@@ -52,9 +73,11 @@ export default function * () {
   yield takeEvery(action.OAuthAuthorizeRequest, authorizeSaga, stravaApi, Linking)
   yield takeEvery(action.OAuthTokenExchangeRequest, tokenExchangeSaga, stravaApi)
   yield takeEvery(action.LogoutRequest, logoutSaga, stravaApi)
+  yield takeEvery(action.ActivitiesRequest, activitiesSaga, stravaApi)
+  yield takeEvery(action.FriendsRequest, friendsSaga, stravaApi)
 
   // Connections between side effects
-  yield takeEvery(action.OAuthAuthorizeSuccess, function * ({code}) {
+  yield takeEvery(action.OAuthAuthorizeSuccess, function * ({ code }) {
     yield put(actions.oauthTokenExchangeRequest(code))
   })
   yield takeEvery(action.OAuthTokenExchangeSuccess, function * ({ token, user }) {

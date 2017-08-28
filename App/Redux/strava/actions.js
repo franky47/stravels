@@ -18,7 +18,17 @@ const actions = {
   LogoutFailure: 'STRAVA_LOGOUT_FAILURE',
 
   // User
-  SetUser: 'STRAVA_SET_USER'
+  SetUser: 'STRAVA_SET_USER',
+
+  // Activities
+  ActivitiesRequest: 'STRAVA_ACTIVITIES_REQUEST',
+  ActivitiesSuccess: 'STRAVA_ACTIVITIES_SUCCESS',
+  ActivitiesFailure: 'STRAVA_ACTIVITIES_FAILURE',
+
+  // Friends
+  FriendsRequest: 'STRAVA_FRIENDS_REQUEST',
+  FriendsSuccess: 'STRAVA_FRIENDS_SUCCESS',
+  FriendsFailure: 'STRAVA_FRIENDS_FAILURE'
 }
 export default actions
 
@@ -69,4 +79,30 @@ export const logoutFailure = (error) => ({
 export const setUser = (user) => ({
   type: actions.SetUser,
   user
+})
+
+export const activitiesRequest = (page = 0) => ({
+  type: actions.ActivitiesRequest,
+  page
+})
+export const activitiesSuccess = (data) => ({
+  type: actions.ActivitiesSuccess,
+  data
+})
+export const activitiesFailure = (error) => ({
+  type: actions.ActivitiesFailure,
+  error
+})
+
+export const friendsRequest = (page = 0) => ({
+  type: actions.FriendsRequest,
+  page
+})
+export const friendsSuccess = (data) => ({
+  type: actions.FriendsSuccess,
+  data
+})
+export const friendsFailure = (error) => ({
+  type: actions.FriendsFailure,
+  error
 })
