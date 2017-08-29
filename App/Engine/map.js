@@ -14,7 +14,6 @@ export const getPolylinesBounds = (polylines = [], padding = 1.0) => {
 
   polylines.forEach((data) => {
     const points = data // polyline.decode(data)
-    console.tron.log(points)
     points.forEach(([lat, lng]) => {
       if (init) {
         bounds.n = bounds.s = lat

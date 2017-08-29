@@ -27,6 +27,5 @@ export const hslToHex = (h, s, l) => {
   const g = hueToRgb(p, q, h)
   const b = hueToRgb(p, q, h - 1.0 / 3.0)
 
-  console.tron.log(format(r, g, b))
   return format(r, g, b)
 }
