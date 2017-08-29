@@ -1,9 +1,9 @@
 const functions = require('firebase-functions')
 const admin = require('firebase-admin')
 
-const serviceAccount = require('./stravels-5d45d-firebase-adminsdk-qakvx-b2a0c45713.json')
+const serviceAccount = require('../../stravels-5d45d-firebase-adminsdk-qakvx-b2a0c45713.json')
 
-class InternalError extends Error {}
+const utility = require('../utility')
 
 admin.initializeApp({
   databaseURL: 'https://stravels-5d45d.firebaseio.com',
@@ -11,40 +11,15 @@ admin.initializeApp({
 })
 
 module.exports = functions.https.onRequest((request, response) => {
-  const throwError = (status, message) => {
-    const error = new InternalError(message)
-    error.status = status
-    throw error
-  }
-
-  const validateInput = () => {
-    const data = request.body
-    if (request.method !== 'POST') {
-      throwError(403, 'Only POST method is allowed.')
-    }
-    if (!data) {
-      throwError(400, 'Empty request body.')
-    }
-    if (!data.uid) {
-      throwError(400, "Field 'uid' is missing.")
-    }
-    // if (!data.email) {
-    //   throwError(400, "Field 'email' is missing.")
-    // }
-    // if (!data.displayName) {
-    //   throwError(400, "Field 'displayName' is missing.")
-    // }
-    return data
-  }
+  const validateInput = () => utility.validateInput({
+    allowedMethod: 'POST',
+    allowEmptyBody: false,
+    requiredKeys: ['uid']
+  })
   const generateToken = (data) => {
-    // const claims = {
-    //   email:        data.email,
-    //   displayName:  data.displayName,
-    //   provider:     'Strava'
-    // }
     return admin.auth().createCustomToken(data.uid, {})
       .catch((error) => {
-        throwError(500, `Error received in createCustomToken: ${error.toString()}`)
+        utility.throwError(500, `Error received in createCustomToken: ${error.toString()}`)
       })
   }
   return Promise.resolve()
