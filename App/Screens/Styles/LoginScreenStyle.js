@@ -4,10 +4,7 @@ import { Colors, Metrics } from '../../Themes/'
 export default StyleSheet.create({
   container: {
     backgroundColor: Colors.main,
-    flex: 1,
-    // padding: Metrics.baseMargin,
-    // justifyContent: 'center',
-    // alignItems: 'center'
+    flex: 1
   },
   logoContainer: {
     flex: 1,
