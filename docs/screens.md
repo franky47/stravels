@@ -62,8 +62,8 @@ Generic screen template:
 |                                    |    |                                    |
 |                                    |    |                                    |
 |                                    |    |                                    |
-|         POWERED BY STRAVA          |    |         POWERED BY STRAVA          |  Image + link to https://www.strava.com  Image + link to https://www.strava.com
-|                                    |    |                                    |  (open in external browser)  (open in external browser)
+|         POWERED BY STRAVA          |    |         POWERED BY STRAVA          |
+|                                    |    |                                    |
 +------------------------------------+    +------------------------------------+
 ```
 
@@ -78,6 +78,7 @@ Otherwise:
 * display `stat.strava.oautherror` underneath (if defined)
 
 `Powered By Strava` is an Image with link to [`https://www.strava.com`](https://www.strava.com)
+(opens in external browser).
 
 ## FeedScreen
 ```
@@ -157,18 +158,18 @@ Otherwise:
 |          +--------------+          |  | Background color: green
 |          |              |          |  |
 |          |   Profile    |          |  |
-|----------|              |----------|  +
-|  Stats1  |   Picture    |  Stats2  |
+|----------|   Picture    |----------|  +
+|  Stats1  |  (rounded)   |  Stats2  |
 |     ?    |              |     ?    |
 |          +--------------+          |
 |                                    |
-|           Call to action           |
+|          Call to action ?          |
 |                                    |
+|  Carbon Score                      |
+|  [####################          ]  |
 |                                    |
-|                                    |
-|                                    |
-|                                    |
-|                                    |
+|  Stats                             |
+|   ...                              |
 |                                    |
 |                                    |
 |                                    |
