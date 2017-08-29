@@ -1,6 +1,7 @@
 import deepFreeze from 'deep-freeze'
 import { reducer } from '../../App/Redux/Strava'
 import * as actions from '../../App/Redux/Strava/actions'
+import { create as createSelector } from '../../App/Redux/Strava/selectors'
 import { createStore } from 'redux'
 
 test('default state', () => {
@@ -309,6 +310,46 @@ describe('Activities', () => {
     }
     expect(actual).toEqual(expected)
   })
+  describe('Selectors', () => {
+    const select = createSelector()
+    test('page, fetching', () => {
+      const store = createStore(reducer)
+      store.dispatch(actions.activitiesRequest(42))
+      const state = store.getState()
+
+      expect(select.getActivitiesPage(state)).toEqual(42)
+      expect(select.isActivitiesFetching(state)).toEqual(true)
+    })
+    test('error', () => {
+      const store = createStore(reducer)
+      store.dispatch(actions.activitiesFailure('error'))
+      const state = store.getState()
+
+      expect(select.getActivitiesError(state)).toEqual('error')
+    })
+    test('data', () => {
+      const data = {
+        foo: { name: 'Foo' },
+        bar: { name: 'Bar' }
+      }
+      const store = createStore(reducer)
+      store.dispatch(actions.activitiesSuccess(data))
+      const state = store.getState()
+
+      expect(select.getActivities(state)).toEqual(data)
+    })
+    test('activity by key', () => {
+      const data = {
+        foo: { name: 'Foo' },
+        bar: { name: 'Bar' }
+      }
+      const store = createStore(reducer)
+      store.dispatch(actions.activitiesSuccess(data))
+      const state = store.getState()
+
+      expect(select.getActivity(state, 'foo')).toEqual({ name: 'Foo' })
+    })
+  })
 })
 
 describe('Friends', () => {
@@ -408,5 +449,45 @@ describe('Friends', () => {
       page: 0
     }
     expect(actual).toEqual(expected)
+  })
+  describe('Selectors', () => {
+    const select = createSelector()
+    test('page, fetching', () => {
+      const store = createStore(reducer)
+      store.dispatch(actions.friendsRequest(42))
+      const state = store.getState()
+
+      expect(select.getFriendsPage(state)).toEqual(42)
+      expect(select.isFriendsFetching(state)).toEqual(true)
+    })
+    test('error', () => {
+      const store = createStore(reducer)
+      store.dispatch(actions.friendsFailure('error'))
+      const state = store.getState()
+
+      expect(select.getFriendsError(state)).toEqual('error')
+    })
+    test('data', () => {
+      const data = {
+        foo: { name: 'Foo' },
+        bar: { name: 'Bar' }
+      }
+      const store = createStore(reducer)
+      store.dispatch(actions.friendsSuccess(data))
+      const state = store.getState()
+
+      expect(select.getFriends(state)).toEqual(data)
+    })
+    test('friend by key', () => {
+      const data = {
+        foo: { name: 'Foo' },
+        bar: { name: 'Bar' }
+      }
+      const store = createStore(reducer)
+      store.dispatch(actions.friendsSuccess(data))
+      const state = store.getState()
+
+      expect(select.getFriend(state, 'foo')).toEqual({ name: 'Foo' })
+    })
   })
 })

@@ -8,6 +8,7 @@ import {
 import StravaLoginButton from '../Components/StravaLoginButton'
 import { connect } from 'react-redux'
 import { oauthAuthorizeRequest } from '../Redux/strava/actions'
+import { selectors } from '../Redux'
 
 // Styles
 import styles from './Styles/StravaLoginScreenStyle'
@@ -23,7 +24,7 @@ class StravaLoginScreen extends Component {
         { this.props.loggedIn &&
           <View>
             <Image
-              source={{ uri: this.props.photoURL }}
+              source={{ uri: this.props.photoUrl }}
               style={{ width: 100, height: 100 }} />
             <Text>Welcome, {this.props.displayName} !</Text>
           </View>
@@ -35,10 +36,10 @@ class StravaLoginScreen extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    fetching: state.strava.oauth.fetching,
-    displayName: state.strava.user.firstname,
-    photoUrl: state.strava.user.profile,
-    loggedIn: !!state.strava.user.id
+    fetching: selectors.strava.isOAuthFetching(state),
+    displayName: selectors.strava.getUserName(state),
+    photoUrl: selectors.strava.getUserProfilePicture(state),
+    loggedIn: selectors.strava.isLoggedIn(state)
   }
 }
 

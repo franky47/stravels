@@ -13,3 +13,7 @@ export default () => {
 
   return configureStore(rootReducer, rootSaga)
 }
+
+export const selectors = {
+  strava: require('./strava/selectors').create((state) => state.strava)
+}
