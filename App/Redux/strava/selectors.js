@@ -11,7 +11,7 @@ export const create = (getRoot = (state) => state) => {
     // OAuth
     getOAuthPhase: (state) => paths.oauth(state).phase,
     isOAuthFetching: (state) => paths.oauth(state).fetching,
-    getOAuthToken: (state) => paths.oauth(state).getOAuthToken,
+    getOAuthToken: (state) => paths.oauth(state).token,
     getOAuthError: (state) => paths.oauth(state).error,
 
     // User
