@@ -3,32 +3,32 @@
 const actions = {
 
   // OAuth
-  OAuthAuthorizeRequest: 'STRAVA_OAUTH_AUTHORIZE_REQUEST',
-  OAuthAuthorizeSuccess: 'STRAVA_OAUTH_AUTHORIZE_SUCCESS',
-  OAuthAuthorizeFailure: 'STRAVA_OAUTH_AUTHORIZE_FAILURE',
+  OAuthAuthorizeRequest: 'Strava/OAuth/AUTHORIZE_REQUEST',
+  OAuthAuthorizeSuccess: 'Strava/OAuth/AUTHORIZE_SUCCESS',
+  OAuthAuthorizeFailure: 'Strava/OAuth/AUTHORIZE_FAILURE',
 
-  OAuthTokenExchangeRequest: 'STRAVA_OAUTH_TOKEN_EXCHANGE_REQUEST',
-  OAuthTokenExchangeSuccess: 'STRAVA_OAUTH_TOKEN_EXCHANGE_SUCCESS',
-  OAuthTokenExchangeFailure: 'STRAVA_OAUTH_TOKEN_EXCHANGE_FAILURE',
+  OAuthTokenExchangeRequest: 'Strava/OAuth/TOKEN_EXCHANGE_REQUEST',
+  OAuthTokenExchangeSuccess: 'Strava/OAuth/TOKEN_EXCHANGE_SUCCESS',
+  OAuthTokenExchangeFailure: 'Strava/OAuth/TOKEN_EXCHANGE_FAILURE',
 
-  Login: 'STRAVA_LOGIN',
+  Login: 'Strava/LOGIN',
 
-  LogoutRequest: 'STRAVA_LOGOUT_REQUEST',
-  LogoutSuccess: 'STRAVA_LOGOUT_SUCCESS',
-  LogoutFailure: 'STRAVA_LOGOUT_FAILURE',
+  LogoutRequest: 'Strava/LOGOUT_REQUEST',
+  LogoutSuccess: 'Strava/LOGOUT_SUCCESS',
+  LogoutFailure: 'Strava/LOGOUT_FAILURE',
 
   // User
-  SetUser: 'STRAVA_SET_USER',
+  SetUser: 'Strava/SET_USER',
 
   // Activities
-  ActivitiesRequest: 'STRAVA_ACTIVITIES_REQUEST',
-  ActivitiesSuccess: 'STRAVA_ACTIVITIES_SUCCESS',
-  ActivitiesFailure: 'STRAVA_ACTIVITIES_FAILURE',
+  ActivitiesRequest: 'Strava/ACTIVITIES_REQUEST',
+  ActivitiesSuccess: 'Strava/ACTIVITIES_SUCCESS',
+  ActivitiesFailure: 'Strava/ACTIVITIES_FAILURE',
 
   // Friends
-  FriendsRequest: 'STRAVA_FRIENDS_REQUEST',
-  FriendsSuccess: 'STRAVA_FRIENDS_SUCCESS',
-  FriendsFailure: 'STRAVA_FRIENDS_FAILURE'
+  FriendsRequest: 'Strava/FRIENDS_REQUEST',
+  FriendsSuccess: 'Strava/FRIENDS_SUCCESS',
+  FriendsFailure: 'Strava/FRIENDS_FAILURE'
 }
 export default actions
 
