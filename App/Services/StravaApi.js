@@ -28,6 +28,7 @@ export const create = (config = defaultConfig) => {
   const oauthApi = createApi('/oauth')
 
   if (__DEV__ && console.tron) {
+    // todo: merge APIs or find out why tron logs twice
     api.addMonitor(console.tron.apisauce)
     oauthApi.addMonitor(console.tron.apisauce)
   }
@@ -35,7 +36,7 @@ export const create = (config = defaultConfig) => {
   // OAuth Flow --
 
   const setAccessToken = (token) => {
-    api.setHeaders('Authorization', `Bearer ${token}`)
+    api.setHeader('Authorization', `Bearer ${token}`)
     oauthApi.setHeader('Authorization', `Bearer ${token}`)
   }
   const generateOAuthAuthorizationRequestUrl = () => {
