@@ -137,14 +137,16 @@ describe('Activities Saga', () => {
     const api = {
       getActivities: () => {}
     }
-    const response = [
-      { id: 'foo', name: 'Foo' },
-      { id: 'bar', name: 'Bar' }
-    ]
+    const response = {
+      data: [
+        { id: 'foo', name: 'Foo' },
+        { id: 'bar', name: 'Bar' }
+      ]
+    }
     const request = actions.activitiesRequest(42)
     const saga = sagas.activitiesSaga(api, request)
     expect(saga.next().value).toEqual(call([api, api.getActivities], 42))
-    expect(saga.next(response).value).toEqual(call(arrayToObject, response, 'id'))
+    expect(saga.next(response).value).toEqual(call(arrayToObject, response.data, 'id'))
     expect(saga.next('data').value).toEqual(put(actions.activitiesSuccess('data')))
   })
   test('failure', () => {
@@ -172,14 +174,16 @@ describe('Friends Saga', () => {
     const api = {
       getFriends: () => {}
     }
-    const response = [
-      { id: 'foo', name: 'Foo' },
-      { id: 'bar', name: 'Bar' }
-    ]
+    const response = {
+      data: [
+        { id: 'foo', name: 'Foo' },
+        { id: 'bar', name: 'Bar' }
+      ]
+    }
     const request = actions.friendsRequest(42)
     const saga = sagas.friendsSaga(api, request)
     expect(saga.next().value).toEqual(call([api, api.getFriends], 42))
-    expect(saga.next(response).value).toEqual(call(arrayToObject, response, 'id'))
+    expect(saga.next(response).value).toEqual(call(arrayToObject, response.data, 'id'))
     expect(saga.next('data').value).toEqual(put(actions.friendsSuccess('data')))
   })
   test('failure', () => {

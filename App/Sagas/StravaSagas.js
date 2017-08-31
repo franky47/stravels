@@ -48,7 +48,7 @@ export function * logoutSaga (api) {
 
 export function * activitiesSaga (api, { page }) {
   try {
-    const activities = yield call([api, api.getActivities], page)
+    const activities = (yield call([api, api.getActivities], page)).data
     const data = yield call(arrayToObject, activities, 'id')
     yield put(actions.activitiesSuccess(data))
   } catch (error) {
@@ -58,7 +58,7 @@ export function * activitiesSaga (api, { page }) {
 
 export function * friendsSaga (api, { page }) {
   try {
-    const friends = yield call([api, api.getFriends], page)
+    const friends = (yield call([api, api.getFriends], page)).data
     const data = yield call(arrayToObject, friends, 'id')
     yield put(actions.friendsSuccess(data))
   } catch (error) {
