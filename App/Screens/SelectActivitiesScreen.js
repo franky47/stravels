@@ -3,7 +3,11 @@ import { FlatList, Button, Text, TouchableHighlight, ActivityIndicator } from 'r
 import { connect } from 'react-redux'
 import { selectors } from '../Redux'
 import { activitiesRequest } from '../Redux/strava/actions'
-import { computeStats } from '../Engine/createTravel'
+import {
+  computeStats,
+  computeCarbonScore
+} from '../Engine/createTravel'
+import { prettifyStats, prettifyMass } from '../Transforms/Prettify'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
 
@@ -59,9 +63,20 @@ class SelectActivitiesScreen extends Component {
   _create () {
     const selected = Array.from(this.state.selected)
     const activities = this.props.data.filter((activity) => selected.indexOf(activity.id) > -1)
+    const stats = computeStats(activities)
     console.tron.display({
       name: 'Stats',
-      value: computeStats(activities)
+      value: {
+        ...prettifyStats(stats),
+        carbonScore: prettifyMass(computeCarbonScore(stats) * 0.001)
+      }
+    })
+    this.setState({
+      selected: new Set()
+    }, () => {
+      this.props.navigation.setParams({
+        createButtonEnabled: false
+      })
     })
   }
 

@@ -38,9 +38,18 @@ export const computeStats = (activities = []) => {
       'average_speed'
     ])
   }
+
+  // todo: merge same-day activities before calculating those..
   const averages = avg(['distance', 'moving_time'])
   stats.average_distance = averages.distance
   stats.average_moving_time = averages.moving_time
 
   return stats
+}
+
+export const computeCarbonScore = (stats) => {
+  // Carbon Score is how much CO2 you saved compared to an average diesel car.
+  // source: http://calculator.carbonfootprint.com/calculator.aspx?tab=4
+  const factor = 0.018 // grams per meter
+  return factor * (stats.distance || 0.0)
 }
