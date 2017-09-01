@@ -3,6 +3,7 @@ import { FlatList, Button, Text, TouchableHighlight, ActivityIndicator } from 'r
 import { connect } from 'react-redux'
 import { selectors } from '../Redux'
 import { activitiesRequest } from '../Redux/strava/actions'
+import { computeStats } from '../Engine/createTravel'
 // Add Actions - replace 'Your' with whatever your reducer is called :)
 // import YourActions from '../Redux/YourRedux'
 
@@ -19,18 +20,23 @@ const RowItem = (props) => {
     </TouchableHighlight>
   )
 }
+const CreateButton = (props) => {
+  return (
+    <Button
+      title='Create'
+      onPress={props.onPress}
+      disabled={!props.enabled}
+    />
+  )
+}
 
 class SelectActivitiesScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params = {} } = navigation.state
+    const headerRight = params.create ? <CreateButton onPress={params.create} enabled={params.createButtonEnabled} /> : null
     return {
       title: 'Select Activities',
-      headerRight: (
-        <Button
-          title='Create'
-          onPress={params.create}
-        />
-      )
+      headerRight
     }
   }
   constructor (props) {
@@ -39,16 +45,24 @@ class SelectActivitiesScreen extends Component {
       selected: new Set(),
       page: 1
     }
-    // this.data = require('../Fixtures/activities.json')
   }
 
   componentDidMount () {
-    this.props.navigation.setParams({ create: this._create.bind(this) })
-    this.props.fetchInitialData()
+    this.props.navigation.setParams({
+      create: this._create.bind(this),
+      createButtonEnabled: false
+    })
+    if (this.props.data.length === 0) {
+      this.props.fetchInitialData()
+    }
   }
   _create () {
     const selected = Array.from(this.state.selected)
-    console.tron.log(selected)
+    const activities = this.props.data.filter((activity) => selected.indexOf(activity.id) > -1)
+    console.tron.display({
+      name: 'Stats',
+      value: computeStats(activities)
+    })
   }
 
   _onItemPress (id) {
@@ -61,6 +75,13 @@ class SelectActivitiesScreen extends Component {
         selected.add(id)
       }
       return { selected }
+    }, () => {
+      const enabled = this.state.selected.size !== 0
+      if (this.props.navigation.state.params.createButtonEnabled !== enabled) {
+        this.props.navigation.setParams({
+          createButtonEnabled: enabled
+        })
+      }
     })
   }
   _renderItem ({ item }) {
