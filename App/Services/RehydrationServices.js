@@ -4,6 +4,10 @@ import { persistStore } from 'redux-persist'
 import StartupActions from '../Redux/StartupRedux'
 import DebugConfig from '../Config/DebugConfig'
 
+const wipeAsyncStorage = () => {
+  return AsyncStorage.clear()
+}
+
 const updateReducers = (store: Object) => {
   const reducerVersion = ReduxPersist.reducerVersion
   const config = ReduxPersist.storeConfig
@@ -35,4 +39,7 @@ const updateReducers = (store: Object) => {
   })
 }
 
-export default {updateReducers}
+export default {
+  updateReducers,
+  wipeAsyncStorage
+}
