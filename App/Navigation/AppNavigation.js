@@ -4,8 +4,8 @@ import MainScreen from '../Screens/MainScreen'
 import LoginScreen from '../Screens/LoginScreen'
 import SelectActivitiesScreen from '../Screens/SelectActivitiesScreen'
 import ActivityScreen from '../Screens/ActivityScreen'
-import LaunchScreen from '../Screens/LaunchScreen'
 import MapView from '../Components/MapView'
+import StatsScreen from '../Screens/StatsScreen'
 
 import styles from './Styles/NavigationStyles'
 
@@ -15,9 +15,10 @@ const PrimaryNav = StackNavigator({
   LoginScreen: { screen: LoginScreen },
   MainScreen: { screen: MainScreen },
   ActivityScreen: { screen: ActivityScreen },
-  LaunchScreen: { screen: LaunchScreen },
   SelectActivitiesScreen: { screen: SelectActivitiesScreen },
+  StatsScreen: { screen: StatsScreen },
   MapView: { screen: MapView }
+
 }, {
   // Default config for all screens
   headerMode: 'screen',
