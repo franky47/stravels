@@ -1,8 +1,8 @@
-jest
-.mock('react-native-device-info', () => {
-  return { isTablet: jest.fn(() => { return false }) }
-})
-.mock('react-native-i18n', () => {
+jest.mock('react-native-device-info', () => {
+  return {
+    isTablet: jest.fn(() => false)
+  }
+}).mock('react-native-i18n', () => {
   const english = require('../App/I18n/languages/english.json')
   const keys = require('ramda')
   const replace = require('ramda')

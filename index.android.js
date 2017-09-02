@@ -1,5 +1,5 @@
-import './App/Config/ReactotronConfig'
+import './src/config/reactotron'
 import { AppRegistry } from 'react-native'
-import App from './App/Screens/App'
+import App from './src'
 
 AppRegistry.registerComponent('stravels', () => App)

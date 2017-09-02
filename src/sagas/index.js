@@ -1,6 +1,6 @@
-import startupSaga from './StartupSagas'
-import stravaSaga from './StravaSagas'
-import navigation from './NavigationSagas'
+import startupSaga from './startupSagas'
+import stravaSaga from './stravaSagas'
+import navigation from './navigationSagas'
 
 export default function * root () {
   yield [

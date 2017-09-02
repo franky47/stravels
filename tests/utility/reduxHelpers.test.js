@@ -1,5 +1,5 @@
 import { createStore } from 'redux'
-import { rsf } from '../../App/Utility/ReduxHelpers'
+import { rsf } from '../../src/utility/reduxHelpers'
 
 describe('RSF Helper', () => {
   test('returns an object', () => {

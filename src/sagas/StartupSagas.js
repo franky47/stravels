@@ -1,7 +1,7 @@
 import { put, select, takeEvery } from 'redux-saga/effects'
 import { is } from 'ramda'
-import { selectors } from '../Redux'
-import { login } from '../Redux/strava/actions'
+import { selectors } from '../redux'
+import { login } from '../redux/strava/actions'
 
 // exported to make available for tests
 export const selectAvatar = (state) => state.github.avatar

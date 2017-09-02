@@ -1,4 +1,4 @@
-import stravaActions from '../Redux/strava/actions'
+import stravaActions from '../redux/strava/actions'
 import { NavigationActions } from 'react-navigation'
 import { takeEvery, put } from 'redux-saga/effects'
 
@@ -10,7 +10,7 @@ export const resetNavigationTo = (routeName) => NavigationActions.reset({
 })
 
 export function * resetToMainScreen () {
-  yield put(resetNavigationTo('StatsScreen'))
+  yield put(resetNavigationTo('SelectActivities'))
 }
 export function * resetToLoginScreen () {
   yield put(resetNavigationTo('LoginScreen'))

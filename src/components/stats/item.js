@@ -1,10 +1,7 @@
 import React from 'react'
-import {
-  View,
-  Text
-} from 'react-native'
+import { View, Text } from 'react-native'
 
-import getStyles from './Styles/StatItemStyles'
+import getStyles from './item.styles'
 
 export default (props) => {
   const styles = getStyles(props.inline)

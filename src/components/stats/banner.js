@@ -2,7 +2,7 @@ import React from 'react'
 import { View } from 'react-native'
 import StatItem from './StatItem'
 
-import styles from './Styles/StatsBannerStyle'
+import styles from './banner.styles'
 
 export default (props) => {
   return (

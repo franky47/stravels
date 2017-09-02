@@ -1,8 +1,8 @@
 import { select, put } from 'redux-saga/effects'
-import { startupSaga } from '../../App/Sagas/StartupSagas'
-import actions from '../../App/Redux/StartupRedux'
-import { selectors } from '../../App/Redux'
-import { login } from '../../App/Redux/strava/actions'
+import { startupSaga } from '../../src/sagas/startupSagas'
+import actions from '../../src/redux/startupRedux'
+import { selectors } from '../../src/redux'
+import { login } from '../../src/redux/strava/actions'
 
 test('startup with persisted token', () => {
   const action = actions.startup()

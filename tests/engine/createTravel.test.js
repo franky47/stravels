@@ -1,4 +1,4 @@
-import { computeStats } from '../../App/Engine/createTravel'
+import { computeStats } from '../../src/engine/createTravel'
 
 describe('Stats', () => {
   test('it should work with an empty list', () => {

@@ -1,4 +1,4 @@
-import EventEmitter from '../../App/Utility/EventEmitter'
+import EventEmitter from '../../src/utility/eventEmitter'
 
 describe('Listener Management', () => {
   test('addListener', () => {

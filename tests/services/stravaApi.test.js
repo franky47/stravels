@@ -1,5 +1,5 @@
-import { create as createApi } from '../../App/Services/StravaApi'
 import qs from 'querystringify'
+import { create as createApi } from '../../src/services/stravaApi'
 
 describe('Strava API', () => {
   test('creation', () => {
