@@ -10,7 +10,7 @@ export const resetNavigationTo = (routeName) => NavigationActions.reset({
 })
 
 export function * resetToMainScreen () {
-  yield put(resetNavigationTo('SelectActivitiesScreen'))
+  yield put(resetNavigationTo('StatsScreen'))
 }
 export function * resetToLoginScreen () {
   yield put(resetNavigationTo('LoginScreen'))

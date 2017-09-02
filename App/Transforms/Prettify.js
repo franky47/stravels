@@ -1,46 +1,53 @@
 import moment from 'moment'
 
 export const prettifyDistance = (meters) => {
-  if (meters >= 1000.0) {
-    return (meters * 0.001).toFixed(2) + 'km'
-  } else {
-    return meters.toFixed(2) + 'm'
+  const km = meters >= 1000.0
+  return {
+    value: (meters * km ? 0.001 : 1.0).toFixed(2),
+    unit: meters >= 1000.0 ? 'km' : 'm'
   }
 }
-export const prettifyElevation = (meters) => {
-  return meters.toFixed(0) + 'm'
-}
-export const prettifyDuration = (seconds) => {
-  return moment.duration(seconds, 'seconds').asHours().toFixed(1) + 'h'
-}
+
+export const prettifyElevation = (meters) => ({
+  value: meters.toFixed(0),
+  unit: 'm'
+})
+
+export const prettifyDuration = (seconds) => ({
+  value: moment.duration(seconds, 'seconds').asHours().toFixed(1),
+  unit: 'h'
+})
+
 export const prettifyKilojoules = (kilojoules) => {
-  if (kilojoules >= 1000.0) {
-    return (kilojoules * 0.001).toFixed(2) + ' MJ'
-  } else if (kilojoules < 1.0) {
-    return (kilojoules * 1000.0).toFixed(2) + 'J'
-  } else {
-    return kilojoules.toFixed(2) + 'kJ'
+  const factor = kilojoules < 1000.0 ? (kilojoules < 1.0 ? 1000.0 : 1.0) : 0.001
+  const unit = kilojoules < 1000.0 ? (kilojoules < 1.0 ? 'J' : 'kJ') : 'MJ'
+  return {
+    value: (kilojoules * factor).toFixed(2),
+    unit
   }
 }
+
 export const prettifyWatts = (watts) => {
-  if (watts >= 1000.0) {
-    return (watts * 0.001).toFixed(2) + 'kW'
-  } else {
-    return watts.toFixed(2) + 'W'
+  const km = watts >= 1000.0
+  return {
+    value: (watts * km ? 0.001 : 1.0).toFixed(2),
+    unit: watts >= 1000.0 ? 'kW' : 'W'
   }
 }
+
 export const prettifyMass = (kilograms) => {
-  if (kilograms >= 1000.0) {
-    return (kilograms * 0.001).toFixed(2) + ' metric tons'
-  } else if (kilograms < 1.0) {
-    return (kilograms * 1000.0).toFixed(2) + 'g'
-  } else {
-    return kilograms.toFixed(2) + 'kg'
+  const factor = kilograms < 1000.0 ? (kilograms < 1.0 ? 1000.0 : 1.0) : 0.001
+  const unit = kilograms < 1000.0 ? (kilograms < 1.0 ? 'g' : 'kg') : 'tons'
+  return {
+    value: (kilograms * factor).toFixed(2),
+    unit
   }
 }
-export const prettifySpeed = (metersPerSecond) => {
-  return (metersPerSecond * 3.6).toFixed(2) + 'km/h'
-}
+
+export const prettifySpeed = (metersPerSecond) => ({
+  value: (metersPerSecond * 3.6).toFixed(2),
+  unit: 'km/h'
+})
 
 export const prettifyStats = (stats) => ({
   distance: prettifyDistance(stats.distance),
