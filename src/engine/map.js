@@ -13,7 +13,7 @@ export const getPolylinesBounds = (polylines = [], padding = 1.0) => {
   // todo: handle paths crossing the 180° longitude line
 
   polylines.forEach((data) => {
-    const points = data // polyline.decode(data)
+    const points = (typeof data === 'string') ? Polyline.decode(data) : data
     points.forEach(([lat, lng]) => {
       if (init) {
         bounds.n = bounds.s = lat
