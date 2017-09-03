@@ -1,24 +1,24 @@
 import moment from 'moment'
 
-export const prettifyDistance = (meters) => {
+export const prettifyDistance = (meters = 0) => {
   const km = meters >= 1000.0
   return {
-    value: (meters * km ? 0.001 : 1.0).toFixed(2),
+    value: (meters * (km ? 0.001 : 1.0)).toFixed(2),
     unit: meters >= 1000.0 ? 'km' : 'm'
   }
 }
 
-export const prettifyElevation = (meters) => ({
+export const prettifyElevation = (meters = 0) => ({
   value: meters.toFixed(0),
   unit: 'm'
 })
 
-export const prettifyDuration = (seconds) => ({
+export const prettifyDuration = (seconds = 0) => ({
   value: moment.duration(seconds, 'seconds').asHours().toFixed(1),
   unit: 'h'
 })
 
-export const prettifyKilojoules = (kilojoules) => {
+export const prettifyKilojoules = (kilojoules = 0) => {
   const factor = kilojoules < 1000.0 ? (kilojoules < 1.0 ? 1000.0 : 1.0) : 0.001
   const unit = kilojoules < 1000.0 ? (kilojoules < 1.0 ? 'J' : 'kJ') : 'MJ'
   return {
@@ -27,7 +27,7 @@ export const prettifyKilojoules = (kilojoules) => {
   }
 }
 
-export const prettifyWatts = (watts) => {
+export const prettifyWatts = (watts = 0) => {
   const km = watts >= 1000.0
   return {
     value: (watts * km ? 0.001 : 1.0).toFixed(2),
@@ -35,7 +35,7 @@ export const prettifyWatts = (watts) => {
   }
 }
 
-export const prettifyMass = (kilograms) => {
+export const prettifyMass = (kilograms = 0) => {
   const factor = kilograms < 1000.0 ? (kilograms < 1.0 ? 1000.0 : 1.0) : 0.001
   const unit = kilograms < 1000.0 ? (kilograms < 1.0 ? 'g' : 'kg') : 'tons'
   return {
@@ -44,7 +44,7 @@ export const prettifyMass = (kilograms) => {
   }
 }
 
-export const prettifySpeed = (metersPerSecond) => ({
+export const prettifySpeed = (metersPerSecond = 0) => ({
   value: (metersPerSecond * 3.6).toFixed(2),
   unit: 'km/h'
 })
