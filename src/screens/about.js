@@ -18,7 +18,7 @@ const DependenciesList = (props) => {
     return (
       <View style={styles.dependencyRow}>
         <Text style={styles.dependencyName}>{name}</Text>
-        <Text style={styles.dependencyVersion}>{version}</Text>
+        <Text style={styles.dependencyVersion}>{version.resolved} ({version.spec})</Text>
       </View>
     )
   }
