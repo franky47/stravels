@@ -3,13 +3,14 @@ import { Metrics } from '../themes'
 
 export default StyleSheet.create({
   container: {
+    flex: 1
+  },
+  row: {
     flex: 1,
-    padding: Metrics.baseMargin
+    flexDirection: 'row',
+    alignItems: 'center'
   },
-  item: {
-    backgroundColor: 'white'
-  },
-  selectedItem: {
-    backgroundColor: 'rgba(0, 255, 0, 0.25)'
+  checkbox: {
+    right: Metrics.baseMargin
   }
 })

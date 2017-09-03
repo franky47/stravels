@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { FlatList, Button, Text, TouchableHighlight, ActivityIndicator } from 'react-native'
+import { View, FlatList, Button, TouchableWithoutFeedback, ActivityIndicator } from 'react-native'
+import Icon from 'react-native-vector-icons/MaterialIcons'
 import { connect } from 'react-redux'
 import { selectors } from '../redux'
 import { activitiesRequest } from '../redux/strava/actions'
@@ -8,22 +9,30 @@ import {
   computeCarbonScore
 } from '../engine/createTravel'
 import { prettifyStats, prettifyMass } from '../transforms/prettify'
-// Add Actions - replace 'Your' with whatever your reducer is called :)
-// import YourActions from '../Redux/YourRedux'
+import { getPolylineUrl } from '../services/mapboxStatic'
+
+import { Colors } from '../themes'
+import NavToolbar from '../components/nav/toolbar'
+import NavToolbarIcon from '../components/nav/icon'
+import ActivityRow from '../components/activityRow'
 
 // Styles
 import styles from './selectActivities.styles'
 
-const RowItem = (props) => {
+// -----------------------------------------------------------------------------
+
+const HeaderToolbar = (props) => {
   return (
-    <TouchableHighlight
-      onPress={() => props.onPress(props.id)}
-      style={[styles.item, props.selected ? styles.selectedItem : null]}
-    >
-      {props.children}
-    </TouchableHighlight>
+    <NavToolbar>
+      <NavToolbarIcon
+        icon='add'
+        onPress={props.create}
+        disabled={!props.createButtonEnabled}
+      />
+    </NavToolbar>
   )
 }
+
 const CreateButton = (props) => {
   return (
     <Button
@@ -34,10 +43,12 @@ const CreateButton = (props) => {
   )
 }
 
+// -----------------------------------------------------------------------------
+
 class SelectActivitiesScreen extends Component {
   static navigationOptions = ({ navigation }) => {
     const { params = {} } = navigation.state
-    const headerRight = params.create ? <CreateButton onPress={params.create} enabled={params.createButtonEnabled} /> : null
+    const headerRight = params.create ? <HeaderToolbar {...params} /> : null
     return {
       title: 'Select Activities',
       headerRight
@@ -99,16 +110,51 @@ class SelectActivitiesScreen extends Component {
       }
     })
   }
-  _renderItem ({ item }) {
+
+  render () {
     return (
-      <RowItem
-        id={item.id}
-        onPress={this._onItemPress.bind(this)}
-        selected={this.state.selected.has(item.id)}
-      >
-        <Text>{item.name}</Text>
-      </RowItem>
+      <FlatList
+        data={this.props.data}
+        renderItem={this._renderItem.bind(this)}
+        keyExtractor={(item) => item.id}
+        ListFooterComponent={this._renderSpinner.bind(this)}
+        ItemSeparatorComponent={this._renderSeparator}
+        // onEndReached={this._onEndReached.bind(this)}
+      />
     )
+  }
+  _renderItem ({ item }) {
+    const selected = this.state.selected.has(item.id)
+    const imageUrl = getPolylineUrl(item.map.summary_polyline, {
+      mapId: 'mapbox.outdoors'
+    })
+    return (
+      <TouchableWithoutFeedback
+        underlayColor='#ccc'
+        onPress={this._onItemPress.bind(this, item.id)}
+      >
+        <View style={styles.row}>
+          <ActivityRow
+            title={item.name}
+            elevation={item.total_elevation_gain}
+            imageUrl={imageUrl}
+            {...item}
+          />
+          <Icon
+            style={styles.checkbox}
+            name={selected ? 'check-box' : 'check-box-outline-blank'}
+            color={selected ? Colors.main : Colors.secondary}
+            size={24}
+          />
+        </View>
+      </TouchableWithoutFeedback>
+    )
+  }
+  _renderSeparator () {
+    return <View style={{
+      height: 1,
+      backgroundColor: '#ddd'
+    }} />
   }
   _renderSpinner () {
     if (!this.props.fetching) return null
@@ -121,19 +167,9 @@ class SelectActivitiesScreen extends Component {
     //   return { ...state, page: newPage }
     // })
   }
-
-  render () {
-    return (
-      <FlatList
-        data={this.props.data}
-        renderItem={this._renderItem.bind(this)}
-        keyExtractor={(item) => item.id}
-        ListFooterComponent={this._renderSpinner.bind(this)}
-        // onEndReached={this._onEndReached.bind(this)}
-      />
-    )
-  }
 }
+
+// -----------------------------------------------------------------------------
 
 const mapStateToProps = (state) => {
   const activities = selectors.strava.getActivities(state)
