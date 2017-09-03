@@ -3,6 +3,9 @@ import { ScrollView, View, Text, KeyboardAvoidingView, FlatList } from 'react-na
 import { connect } from 'react-redux'
 import { getVersion, getDependencies } from '../utility/about'
 
+import NavToolbar from '../components/nav/toolbar'
+import NavToolbarIcon from '../components/nav/icon'
+
 // Styles
 import styles from './about.styles'
 
@@ -39,7 +42,15 @@ const DependenciesList = (props) => {
 
 class AboutScreen extends Component {
   static navigationOptions = {
-    title: 'About'
+    title: 'About',
+    headerRight: (
+      <NavToolbar>
+        <NavToolbarIcon icon='add' />
+        <NavToolbarIcon icon='check' />
+        <NavToolbarIcon icon='edit' />
+        <NavToolbarIcon icon='delete' disabled />
+      </NavToolbar>
+    )
   }
 
   render () {
