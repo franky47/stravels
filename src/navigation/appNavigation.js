@@ -1,29 +1,16 @@
 import { StackNavigator } from 'react-navigation'
-import * as screens from '../screens'
 import styles from './appNavigation.styles'
 
-const routes = {
-  About: {
-    screen: screens.AboutScreen,
-    path: 'about',
-    title: 'About'
-  },
-  Login: {
-    screen: screens.LoginScreen,
-    path: 'login'
-  },
-  SelectActivities: {
-    screen: screens.SelectActivitiesScreen,
-    title: 'Select Activities'
-  }
-}
+import routes from './routes'
+
 const config = {
   // Default config for all screens
   headerMode: 'screen',
   initialRouteName: 'Login',
   navigationOptions: {
-    headerStyle: styles.header
-  }
+    headerStyle: styles.headerWhite
+  },
+  cardStyle: styles.navigationScreen
 }
 
 export default StackNavigator(routes, config)
