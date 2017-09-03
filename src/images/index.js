@@ -11,5 +11,7 @@ export default {
       light: require('./strava/powered-light.png'),
       white: require('./strava/powered-white.png')
     }
-  }
+  },
+
+  placeholder: require('./placeholder.png')
 }
