@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, FlatList, Button, TouchableWithoutFeedback, ActivityIndicator } from 'react-native'
+import { View, FlatList, TouchableWithoutFeedback, ActivityIndicator } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { connect } from 'react-redux'
 import { selectors } from '../redux'
@@ -30,16 +30,6 @@ const HeaderToolbar = (props) => {
         disabled={!props.createButtonEnabled}
       />
     </NavToolbar>
-  )
-}
-
-const CreateButton = (props) => {
-  return (
-    <Button
-      title='Create'
-      onPress={props.onPress}
-      disabled={!props.enabled}
-    />
   )
 }
 
