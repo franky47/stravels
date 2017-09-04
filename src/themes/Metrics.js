@@ -13,6 +13,11 @@ const metrics = {
   doubleSection: 50,
   horizontalLineHeight: 1,
   searchBarHeight: 30,
+  listRowHeight: {
+    compact: 10,
+    default: 20,
+    large: 30
+  },
   screenWidth: width < height ? width : height,
   screenHeight: width < height ? height : width,
   navBarHeight: (Platform.OS === 'ios') ? 64 : 54,

@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { View, FlatList, TouchableWithoutFeedback, ActivityIndicator } from 'react-native'
+import { View, Text, SectionList, TouchableWithoutFeedback, ActivityIndicator } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { connect } from 'react-redux'
 import { selectors } from '../redux'
@@ -9,6 +9,7 @@ import {
   computeCarbonScore
 } from '../engine/createTravel'
 import { prettifyStats, prettifyMass } from '../transforms/prettify'
+import { stateToMonthlySections } from '../transforms/activities'
 import { getPolylineUrl } from '../services/mapboxStatic'
 
 import { Colors } from '../themes'
@@ -30,6 +31,14 @@ const HeaderToolbar = (props) => {
         disabled={!props.createButtonEnabled}
       />
     </NavToolbar>
+  )
+}
+
+const SectionHeader = (props) => {
+  return (
+    <View style={styles.sectionHeader}>
+      <Text style={styles.sectionHeaderText}>{props.title}</Text>
+    </View>
   )
 }
 
@@ -57,28 +66,28 @@ class SelectActivitiesScreen extends Component {
       create: this._create.bind(this),
       createButtonEnabled: false
     })
-    if (this.props.data.length === 0) {
+    if (this.props.sections.length === 0) {
       this.props.fetchInitialData()
     }
   }
   _create () {
-    const selected = Array.from(this.state.selected)
-    const activities = this.props.data.filter((activity) => selected.indexOf(activity.id) > -1)
-    const stats = computeStats(activities)
-    console.tron.display({
-      name: 'Stats',
-      value: {
-        ...prettifyStats(stats),
-        carbonScore: prettifyMass(computeCarbonScore(stats) * 0.001)
-      }
-    })
-    this.setState({
-      selected: new Set()
-    }, () => {
-      this.props.navigation.setParams({
-        createButtonEnabled: false
-      })
-    })
+    // const selected = Array.from(this.state.selected)
+    // const activities = this.props.sections.filter((activity) => selected.indexOf(activity.id) > -1)
+    // const stats = computeStats(activities)
+    // console.tron.display({
+    //   name: 'Stats',
+    //   value: {
+    //     ...prettifyStats(stats),
+    //     carbonScore: prettifyMass(computeCarbonScore(stats) * 0.001)
+    //   }
+    // })
+    // this.setState({
+    //   selected: new Set()
+    // }, () => {
+    //   this.props.navigation.setParams({
+    //     createButtonEnabled: false
+    //   })
+    // })
   }
 
   _onItemPress (id) {
@@ -103,13 +112,15 @@ class SelectActivitiesScreen extends Component {
 
   render () {
     return (
-      <FlatList
-        data={this.props.data}
+      <SectionList
+        sections={this.props.sections}
         renderItem={this._renderItem.bind(this)}
+        renderSectionHeader={({section}) => <SectionHeader title={section.title} />}
         keyExtractor={(item) => item.id}
         ListFooterComponent={this._renderSpinner.bind(this)}
-        ItemSeparatorComponent={this._renderSeparator}
-        // onEndReached={this._onEndReached.bind(this)}
+        ItemSeparatorComponent={() => <View style={styles.separator} />}
+        // stickySectionHeadersEnabled
+        refreshing={this.props.fetching}
       />
     )
   }
@@ -120,7 +131,6 @@ class SelectActivitiesScreen extends Component {
     })
     return (
       <TouchableWithoutFeedback
-        underlayColor='#ccc'
         onPress={this._onItemPress.bind(this, item.id)}
       >
         <View style={styles.row}>
@@ -140,12 +150,6 @@ class SelectActivitiesScreen extends Component {
       </TouchableWithoutFeedback>
     )
   }
-  _renderSeparator () {
-    return <View style={{
-      height: 1,
-      backgroundColor: '#ddd'
-    }} />
-  }
   _renderSpinner () {
     if (!this.props.fetching) return null
     return <ActivityIndicator animating size='large' style={styles.spinner} />
@@ -163,9 +167,8 @@ class SelectActivitiesScreen extends Component {
 
 const mapStateToProps = (state) => {
   const activities = selectors.strava.getActivities(state)
-  const data = Object.keys(activities).map((id) => activities[id]).reverse()
   return {
-    data,
+    sections: stateToMonthlySections(activities),
     fetching: selectors.strava.isActivitiesFetching(state)
   }
 }
