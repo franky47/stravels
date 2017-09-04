@@ -16,6 +16,7 @@ exports[`component renders correctly 1`] = `
     ellipsizeMode="tail"
     style={
       Object {
+        "color": "black",
         "fontFamily": "Avenir-Book",
         "fontSize": 24,
       }
