@@ -1,8 +1,8 @@
 import deepFreeze from 'deep-freeze'
 import { createStore } from 'redux'
-import { reducer } from '../../src/redux/strava'
-import * as actions from '../../src/redux/strava/actions'
-import { create as createSelector } from '../../src/redux/strava/selectors'
+import { reducer } from '@stravels/redux/strava'
+import * as actions from '@stravels/redux/strava/actions'
+import { create as createSelector } from '@stravels/redux/strava/selectors'
 
 test('default state', () => {
   const store = createStore(reducer)

@@ -1,4 +1,4 @@
-import EventEmitter from '../../src/utility/eventEmitter'
+import EventEmitter from '@stravels/utility/eventEmitter'
 
 describe('Listener Management', () => {
   test('addListener', () => {

@@ -1,7 +1,7 @@
 import { createStore } from 'redux'
-import { reducer } from '../../src/redux/settings'
-import * as actions from '../../src/redux/settings/actions'
-import { create as createSelector } from '../../src/redux/settings/selectors'
+import { reducer } from '@stravels/redux/settings'
+import * as actions from '@stravels/redux/settings/actions'
+import { create as createSelector } from '@stravels/redux/settings/selectors'
 
 const selector = createSelector()
 

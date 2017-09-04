@@ -1,7 +1,7 @@
 import { put, call, take } from 'redux-saga/effects'
-import * as sagas from '../../src/sagas/stravaSagas'
-import * as actions from '../../src/redux/strava/actions'
-import { arrayToObject } from '../../src/transforms/convertShape'
+import * as sagas from '@stravels/sagas/stravaSagas'
+import * as actions from '@stravels/redux/strava/actions'
+import { arrayToObject } from '@stravels/transforms/convertShape'
 
 describe('Authorization Saga', () => {
   test('Deep Link Channel', () => {

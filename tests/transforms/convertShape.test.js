@@ -1,4 +1,4 @@
-import { arrayToObject } from '../../src/transforms/convertShape'
+import { arrayToObject } from '@stravels/transforms/convertShape'
 
 describe('Array to Object', () => {
   test('default args returns empty object', () => {

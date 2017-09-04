@@ -1,6 +1,6 @@
 import 'react-native'
 import React from 'react'
-import StatItem from '../../../src/components/stats/item'
+import StatItem from '@stravels/components/stats/item'
 // import { shallow } from 'enzyme'
 import renderer from 'react-test-renderer'
 
