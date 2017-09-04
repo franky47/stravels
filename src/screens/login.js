@@ -4,7 +4,8 @@ import {
   Image,
   Text,
   TouchableHighlight,
-  View
+  View,
+  StatusBar
 } from 'react-native'
 import { connect } from 'react-redux'
 import { oauthAuthorizeRequest } from '@stravels/redux/strava/actions'
@@ -21,6 +22,7 @@ class LoginScreen extends Component {
   render () {
     return (
       <View style={styles.container}>
+        <StatusBar barStyle='light-content' />
         <View style={styles.logoContainer}>
           <Image
             source={Images.loginLogo}

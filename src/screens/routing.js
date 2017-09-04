@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
 import { View, FlatList, Text, TouchableHighlight } from 'react-native'
 import { connect } from 'react-redux'
-import routes from '../navigation/routes'
+import routes from '@stravels/navigation/routes'
 import { NavigationActions } from 'react-navigation'
+import { logoutRequest } from '@stravels/redux/strava/actions'
+import confirmLogout from '@stravels/components/modals/logout'
 
 import styles from './routing.styles'
 
@@ -16,6 +18,7 @@ class RoutingScreen extends Component {
           renderItem={this._renderItem.bind(this)}
           keyExtractor={(item) => item}
         />
+        <Text onPress={() => confirmLogout(this.props.logout)}>Log out</Text>
       </View>
     )
   }
@@ -35,7 +38,8 @@ class RoutingScreen extends Component {
 const mapDispatchToProps = (dispatch) => ({
   navigate: (route) => dispatch(NavigationActions.navigate({
     routeName: route
-  }))
+  })),
+  logout: () => dispatch(logoutRequest())
 })
 
 export default connect(null, mapDispatchToProps)(RoutingScreen)

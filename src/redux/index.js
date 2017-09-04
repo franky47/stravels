@@ -1,6 +1,6 @@
 import { combineReducers } from 'redux'
 import createStore from './createStore'
-import rootSaga from '../sagas'
+import rootSaga from '@stravels/sagas'
 
 export default () => {
   const rootReducer = combineReducers({

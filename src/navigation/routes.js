@@ -1,4 +1,4 @@
-import * as screens from '../screens'
+import * as screens from '@stravels/screens'
 import header from './header'
 
 export default {

@@ -1,9 +1,9 @@
 import { createStore, applyMiddleware, compose } from 'redux'
 import { autoRehydrate } from 'redux-persist'
 import createSagaMiddleware from 'redux-saga'
-import config from '../config/development'
-import rehydration from '../services/rehydration'
-import reduxPersist from '../config/reduxPersist'
+import config from '@stravels/config/development'
+import rehydration from '@stravels/services/rehydration'
+import reduxPersist from '@stravels/config/reduxPersist'
 import screenTracking from './middlewares/screenTracking'
 
 export default (rootReducer, rootSaga) => {

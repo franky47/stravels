@@ -2,8 +2,8 @@ import { eventChannel } from 'redux-saga'
 import { call, put, take, takeEvery } from 'redux-saga/effects'
 import { Linking } from 'react-native'
 import action, * as actions from '@stravels/redux/strava/actions'
-import stravaApi from '../services/stravaApi'
-import { arrayToObject } from '../transforms/convertShape'
+import stravaApi from '@stravels/services/stravaApi'
+import { arrayToObject } from '@stravels/transforms/convertShape'
 
 export const createDeepLinkChannel = (source) => {
   return eventChannel((emit) => {

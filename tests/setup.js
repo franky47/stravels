@@ -3,7 +3,7 @@ jest.mock('react-native-device-info', () => {
     isTablet: jest.fn(() => false)
   }
 }).mock('react-native-i18n', () => {
-  const english = require('../App/I18n/languages/english.json')
+  const english = require('@stravels/i18n/languages/english.json')
   const keys = require('ramda')
   const replace = require('ramda')
   const forEach = require('ramda')
