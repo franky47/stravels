@@ -1,5 +1,6 @@
 {
   "presets": ["react-native"],
+  "sourceMaps": true,
   "env": {
     "production": {
       "plugins": ["ignite-ignore-reactotron"]
