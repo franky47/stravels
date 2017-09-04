@@ -4,6 +4,8 @@ import { reducer } from '@stravels/redux/strava'
 import * as actions from '@stravels/redux/strava/actions'
 import { create as createSelector } from '@stravels/redux/strava/selectors'
 
+const select = createSelector()
+
 test('default state', () => {
   const store = createStore(reducer)
   const state = store.getState()
@@ -221,7 +223,7 @@ describe('Activities', () => {
     store.dispatch(actions.activitiesRequest(42))
     const actual = store.getState().activities
     const expected = {
-      data: {},
+      data: [],
       fetching: true,
       error: null,
       page: 42
@@ -232,17 +234,16 @@ describe('Activities', () => {
     const store = createStore(reducer)
     const initialState = store.getState()
     deepFreeze(initialState)
-
-    store.dispatch(actions.activitiesSuccess({
-      foo: { name: 'Foo' },
-      bar: { name: 'Bar' }
-    }))
+    store.dispatch(actions.activitiesSuccess([
+      { id: 'foo', name: 'Foo' },
+      { id: 'bar', name: 'Bar' }
+    ]))
     const actual = store.getState().activities
     const expected = {
-      data: {
-        foo: { name: 'Foo' },
-        bar: { name: 'Bar' }
-      },
+      data: [
+        { id: 'foo', name: 'Foo' },
+        { id: 'bar', name: 'Bar' }
+      ],
       fetching: false,
       error: null,
       page: 0
@@ -258,7 +259,7 @@ describe('Activities', () => {
     store.dispatch(actions.activitiesFailure(error))
     const actual = store.getState().activities
     const expected = {
-      data: { },
+      data: [],
       fetching: false,
       error,
       page: 0
@@ -267,56 +268,107 @@ describe('Activities', () => {
   })
   test('combine data', () => {
     const store = createStore(reducer)
-
-    store.dispatch(actions.activitiesSuccess({
-      foo: { name: 'Foo' },
-      bar: { name: 'Bar' }
-    }))
-    store.dispatch(actions.activitiesSuccess({
-      egg: { name: 'Egg' },
-      spam: { name: 'Spam' }
-    }))
+    store.dispatch(actions.activitiesSuccess([
+      { id: 'foo', name: 'Foo' },
+      { id: 'bar', name: 'Bar' }
+    ]))
+    store.dispatch(actions.activitiesSuccess([
+      { id: 'egg', name: 'Egg' },
+      { id: 'spam', name: 'Spam' }
+    ]))
     const actual = store.getState().activities
     const expected = {
-      data: {
-        foo: { name: 'Foo' },
-        bar: { name: 'Bar' },
-        egg: { name: 'Egg' },
-        spam: { name: 'Spam' }
-      },
+      data: [
+        { id: 'foo', name: 'Foo' },
+        { id: 'bar', name: 'Bar' },
+        { id: 'egg', name: 'Egg' },
+        { id: 'spam', name: 'Spam' }
+      ],
       fetching: false,
       error: null,
       page: 0
     }
     expect(actual).toEqual(expected)
   })
+  test('combining does not duplicate', () => {
+    const store = createStore(reducer)
+    store.dispatch(actions.activitiesSuccess([
+      { id: 'foo', name: 'Foo' },
+      { id: 'bar', name: 'Bar' }
+    ]))
+    store.dispatch(actions.activitiesSuccess([
+      { id: 'foo', name: 'Foo' },
+      { id: 'egg', name: 'Egg' },
+      { id: 'bar', name: 'Bar' },
+      { id: 'spam', name: 'Spam' }
+    ]))
+    const actual = store.getState().activities
+    const expected = {
+      data: [
+        { id: 'foo', name: 'Foo' },
+        { id: 'bar', name: 'Bar' },
+        { id: 'egg', name: 'Egg' },
+        { id: 'spam', name: 'Spam' }
+      ],
+      fetching: false,
+      error: null,
+      page: 0
+    }
+    expect(actual).toEqual(expected)
+  })
+  test('update existing', () => {
+    const store = createStore(reducer)
+    store.dispatch(actions.activitiesSuccess([
+      { id: 'foo', name: 'Foo' }
+    ]))
+    store.dispatch(actions.activitiesSuccess([
+      { id: 'foo', name: 'Bar' }
+    ]))
+    const actual = select.getActivities(store.getState())
+    const expected = [
+      { id: 'foo', name: 'Bar' }
+    ]
+    expect(actual).toEqual(expected)
+  })
   test('error does not drop data', () => {
     const store = createStore(reducer)
-
-    store.dispatch(actions.activitiesSuccess({
-      foo: { name: 'Foo' },
-      bar: { name: 'Bar' }
-    }))
+    store.dispatch(actions.activitiesSuccess([
+      { id: 'foo', name: 'Foo' },
+      { id: 'bar', name: 'Bar' }
+    ]))
     store.dispatch(actions.activitiesFailure('boo'))
     const actual = store.getState().activities
     const expected = {
-      data: {
-        foo: { name: 'Foo' },
-        bar: { name: 'Bar' }
-      },
+      data: [
+        { id: 'foo', name: 'Foo' },
+        { id: 'bar', name: 'Bar' }
+      ],
       fetching: false,
       error: 'boo',
       page: 0
     }
     expect(actual).toEqual(expected)
   })
+  test('update only items with matching id field', () => {
+    const store = createStore(reducer)
+    store.dispatch(actions.activitiesSuccess([
+      { name: 'Foo', value: 'foo' }
+    ]))
+    store.dispatch(actions.activitiesSuccess([
+      { name: 'Foo', value: 'bar' }
+    ]))
+    const actual = select.getActivities(store.getState())
+    const expected = [
+      { name: 'Foo', value: 'foo' },
+      { name: 'Foo', value: 'bar' }
+    ]
+    expect(actual).toEqual(expected)
+  })
   describe('Selectors', () => {
-    const select = createSelector()
     test('page, fetching', () => {
       const store = createStore(reducer)
       store.dispatch(actions.activitiesRequest(42))
       const state = store.getState()
-
       expect(select.getActivitiesPage(state)).toEqual(42)
       expect(select.isActivitiesFetching(state)).toEqual(true)
     })
@@ -324,30 +376,27 @@ describe('Activities', () => {
       const store = createStore(reducer)
       store.dispatch(actions.activitiesFailure('error'))
       const state = store.getState()
-
       expect(select.getActivitiesError(state)).toEqual('error')
     })
     test('data', () => {
-      const data = {
-        foo: { name: 'Foo' },
-        bar: { name: 'Bar' }
-      }
+      const data = [
+        { id: 'foo', name: 'Foo' },
+        { id: 'bar', name: 'Bar' }
+      ]
       const store = createStore(reducer)
       store.dispatch(actions.activitiesSuccess(data))
       const state = store.getState()
-
       expect(select.getActivities(state)).toEqual(data)
     })
     test('activity by key', () => {
-      const data = {
-        foo: { name: 'Foo' },
-        bar: { name: 'Bar' }
-      }
+      const data = [
+        { id: 'foo', name: 'Foo' },
+        { id: 'bar', name: 'Bar' }
+      ]
       const store = createStore(reducer)
       store.dispatch(actions.activitiesSuccess(data))
       const state = store.getState()
-
-      expect(select.getActivity(state, 'foo')).toEqual({ name: 'Foo' })
+      expect(select.getActivity(state, 'foo')).toEqual({ id: 'foo', name: 'Foo' })
     })
   })
 })
@@ -361,7 +410,7 @@ describe('Friends', () => {
     store.dispatch(actions.friendsRequest(42))
     const actual = store.getState().friends
     const expected = {
-      data: {},
+      data: [],
       fetching: true,
       error: null,
       page: 42
@@ -372,17 +421,16 @@ describe('Friends', () => {
     const store = createStore(reducer)
     const initialState = store.getState()
     deepFreeze(initialState)
-
-    store.dispatch(actions.friendsSuccess({
-      foo: { name: 'Foo' },
-      bar: { name: 'Bar' }
-    }))
+    store.dispatch(actions.friendsSuccess([
+      { id: 'foo', name: 'Foo' },
+      { id: 'bar', name: 'Bar' }
+    ]))
     const actual = store.getState().friends
     const expected = {
-      data: {
-        foo: { name: 'Foo' },
-        bar: { name: 'Bar' }
-      },
+      data: [
+        { id: 'foo', name: 'Foo' },
+        { id: 'bar', name: 'Bar' }
+      ],
       fetching: false,
       error: null,
       page: 0
@@ -398,7 +446,7 @@ describe('Friends', () => {
     store.dispatch(actions.friendsFailure(error))
     const actual = store.getState().friends
     const expected = {
-      data: { },
+      data: [],
       fetching: false,
       error,
       page: 0
@@ -407,23 +455,48 @@ describe('Friends', () => {
   })
   test('combine data', () => {
     const store = createStore(reducer)
-
-    store.dispatch(actions.friendsSuccess({
-      foo: { name: 'Foo' },
-      bar: { name: 'Bar' }
-    }))
-    store.dispatch(actions.friendsSuccess({
-      egg: { name: 'Egg' },
-      spam: { name: 'Spam' }
-    }))
+    store.dispatch(actions.friendsSuccess([
+      { id: 'foo', name: 'Foo' },
+      { id: 'bar', name: 'Bar' }
+    ]))
+    store.dispatch(actions.friendsSuccess([
+      { id: 'egg', name: 'Egg' },
+      { id: 'spam', name: 'Spam' }
+    ]))
     const actual = store.getState().friends
     const expected = {
-      data: {
-        foo: { name: 'Foo' },
-        bar: { name: 'Bar' },
-        egg: { name: 'Egg' },
-        spam: { name: 'Spam' }
-      },
+      data: [
+        { id: 'foo', name: 'Foo' },
+        { id: 'bar', name: 'Bar' },
+        { id: 'egg', name: 'Egg' },
+        { id: 'spam', name: 'Spam' }
+      ],
+      fetching: false,
+      error: null,
+      page: 0
+    }
+    expect(actual).toEqual(expected)
+  })
+  test('combining does not duplicate', () => {
+    const store = createStore(reducer)
+    store.dispatch(actions.friendsSuccess([
+      { id: 'foo', name: 'Foo' },
+      { id: 'bar', name: 'Bar' }
+    ]))
+    store.dispatch(actions.friendsSuccess([
+      { id: 'foo', name: 'Foo' },
+      { id: 'egg', name: 'Egg' },
+      { id: 'bar', name: 'Bar' },
+      { id: 'spam', name: 'Spam' }
+    ]))
+    const actual = store.getState().friends
+    const expected = {
+      data: [
+        { id: 'foo', name: 'Foo' },
+        { id: 'bar', name: 'Bar' },
+        { id: 'egg', name: 'Egg' },
+        { id: 'spam', name: 'Spam' }
+      ],
       fetching: false,
       error: null,
       page: 0
@@ -432,18 +505,17 @@ describe('Friends', () => {
   })
   test('error does not drop data', () => {
     const store = createStore(reducer)
-
-    store.dispatch(actions.friendsSuccess({
-      foo: { name: 'Foo' },
-      bar: { name: 'Bar' }
-    }))
+    store.dispatch(actions.friendsSuccess([
+      { id: 'foo', name: 'Foo' },
+      { id: 'bar', name: 'Bar' }
+    ]))
     store.dispatch(actions.friendsFailure('boo'))
     const actual = store.getState().friends
     const expected = {
-      data: {
-        foo: { name: 'Foo' },
-        bar: { name: 'Bar' }
-      },
+      data: [
+        { id: 'foo', name: 'Foo' },
+        { id: 'bar', name: 'Bar' }
+      ],
       fetching: false,
       error: 'boo',
       page: 0
@@ -451,7 +523,6 @@ describe('Friends', () => {
     expect(actual).toEqual(expected)
   })
   describe('Selectors', () => {
-    const select = createSelector()
     test('page, fetching', () => {
       const store = createStore(reducer)
       store.dispatch(actions.friendsRequest(42))
@@ -468,26 +539,24 @@ describe('Friends', () => {
       expect(select.getFriendsError(state)).toEqual('error')
     })
     test('data', () => {
-      const data = {
-        foo: { name: 'Foo' },
-        bar: { name: 'Bar' }
-      }
+      const data = [
+        { id: 'foo', name: 'Foo' },
+        { id: 'bar', name: 'Bar' }
+      ]
       const store = createStore(reducer)
       store.dispatch(actions.friendsSuccess(data))
       const state = store.getState()
-
       expect(select.getFriends(state)).toEqual(data)
     })
     test('friend by key', () => {
-      const data = {
-        foo: { name: 'Foo' },
-        bar: { name: 'Bar' }
-      }
+      const data = [
+        { id: 'foo', name: 'Foo' },
+        { id: 'bar', name: 'Bar' }
+      ]
       const store = createStore(reducer)
       store.dispatch(actions.friendsSuccess(data))
       const state = store.getState()
-
-      expect(select.getFriend(state, 'foo')).toEqual({ name: 'Foo' })
+      expect(select.getFriend(state, 'foo')).toEqual({ id: 'foo', name: 'Foo' })
     })
   })
 })

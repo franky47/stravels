@@ -1,9 +1,26 @@
 import moment from 'moment'
-import { arrayToObject } from './convertShape'
+import { selectors } from '@stravels/redux'
 
-export const stateToMonthlySections = (activities = {}) => {
+export const getVisibleActivities = (state) => {
+  const allActivities = selectors.strava.getActivities(state)
+  const predicate = (activity) => {
+    if (activity.private && !selectors.settings.showPrivateActivities(state)) {
+      return false
+    }
+    switch (activity.type) {
+      case 'Ride': return selectors.settings.showRides(state)
+      case 'Hike': return selectors.settings.showHikes(state)
+      case 'Run': return selectors.settings.showRuns(state)
+      default:
+        return false
+    }
+  }
+  return allActivities.filter(predicate)
+}
+
+export const groupByMonth = (activities = []) => {
   const sections = []
-  for (const activity of Object.values(activities)) {
+  for (const activity of activities) {
     const title = moment(activity.start_date).format('MMMM YYYY')
     const index = sections.findIndex((section) => section.title === title)
     if (index === -1) {
@@ -17,5 +34,3 @@ export const stateToMonthlySections = (activities = {}) => {
   }
   return sections
 }
-
-export const apiToState = (activities = []) => arrayToObject(activities, 'id')

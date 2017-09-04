@@ -3,7 +3,6 @@ import { call, put, take, takeEvery } from 'redux-saga/effects'
 import { Linking } from 'react-native'
 import action, * as actions from '@stravels/redux/strava/actions'
 import stravaApi from '@stravels/services/stravaApi'
-import { arrayToObject } from '@stravels/transforms/convertShape'
 
 export const createDeepLinkChannel = (source) => {
   return eventChannel((emit) => {
@@ -49,8 +48,7 @@ export function * logoutSaga (api) {
 export function * activitiesSaga (api, { page }) {
   try {
     const activities = (yield call([api, api.getActivities], page)).data
-    const data = yield call(arrayToObject, activities, 'id')
-    yield put(actions.activitiesSuccess(data))
+    yield put(actions.activitiesSuccess(activities))
   } catch (error) {
     yield put(actions.activitiesFailure(error))
   }
@@ -59,8 +57,7 @@ export function * activitiesSaga (api, { page }) {
 export function * friendsSaga (api, { page }) {
   try {
     const friends = (yield call([api, api.getFriends], page)).data
-    const data = yield call(arrayToObject, friends, 'id')
-    yield put(actions.friendsSuccess(data))
+    yield put(actions.friendsSuccess(friends))
   } catch (error) {
     yield put(actions.friendsFailure(error))
   }
@@ -88,6 +85,7 @@ export default function * () {
     yield call([stravaApi, stravaApi.setAccessToken], token)
   })
   yield takeEvery(action.LogoutSuccess, function * () {
+    yield call([stravaApi, stravaApi.setAccessToken], null)
     yield put(actions.setUser(null))
   })
 }

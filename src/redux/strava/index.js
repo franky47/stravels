@@ -131,7 +131,7 @@ const ACTIVITIES_DEFAULT_STATE = {
   page: 0,
   fetching: false,
   error: null,
-  data: {}
+  data: []
 }
 
 const activitiesRequest = (state, { page }) => ({
@@ -139,15 +139,24 @@ const activitiesRequest = (state, { page }) => ({
   fetching: true,
   page
 })
-const activitiesSuccess = (state, { data }) => ({
-  ...state,
-  data: {
-    ...state.data,
-    ...data
-  },
-  fetching: false,
-  error: null
-})
+const activitiesSuccess = (state, { data }) => {
+  const activities = state.data.slice()
+  for (const activity of data) {
+    const index = activities.findIndex(({ id }) => activity.id && activity.id === id)
+    if (index > -1) {
+      // Activity is alread in the list, update its contents
+      activities[index] = activity
+    } else {
+      activities.push(activity)
+    }
+  }
+  return {
+    ...state,
+    data: activities,
+    fetching: false,
+    error: null
+  }
+}
 const activitiesFailure = (state, { error }) => ({
   ...state,
   fetching: false,
@@ -173,7 +182,7 @@ const FRIENDS_DEFAULT_STATE = {
   page: 0,
   fetching: false,
   error: null,
-  data: {}
+  data: []
 }
 
 const friendsRequest = (state, { page }) => ({
@@ -181,15 +190,24 @@ const friendsRequest = (state, { page }) => ({
   fetching: true,
   page
 })
-const friendsSuccess = (state, { data }) => ({
-  ...state,
-  data: {
-    ...state.data,
-    ...data
-  },
-  fetching: false,
-  error: null
-})
+const friendsSuccess = (state, { data }) => {
+  const friends = state.data.slice()
+  for (const friend of data) {
+    const index = friends.findIndex(({ id }) => friend.id && friend.id === id)
+    if (index > -1) {
+      // Friend is alread in the list, update its contents
+      friends[index] = friend
+    } else {
+      friends.push(friend)
+    }
+  }
+  return {
+    ...state,
+    data: friends,
+    fetching: false,
+    error: null
+  }
+}
 const friendsFailure = (state, { error }) => ({
   ...state,
   fetching: false,

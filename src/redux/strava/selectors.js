@@ -38,8 +38,8 @@ export const create = (getRoot = (state) => state) => {
 
   // Computed selectors
   selector.isLoggedIn = (state) => selector.getOAuthToken(state) && selector.getUserId(state)
-  selector.getActivity = (state, id) => selector.getActivities(state)[id]
-  selector.getFriend = (state, id) => selector.getFriends(state)[id]
+  selector.getActivity = (state, id) => selector.getActivities(state).find((obj) => obj.id === id)
+  selector.getFriend = (state, id) => selector.getFriends(state).find((obj) => obj.id === id)
 
   return selector
 }

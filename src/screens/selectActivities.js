@@ -1,20 +1,20 @@
+// Structure
 import React, { Component } from 'react'
 import { View, Text, SectionList, TouchableHighlight, ActivityIndicator } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import { connect } from 'react-redux'
-import { selectors } from '@stravels/redux'
-import { activitiesRequest } from '@stravels/redux/strava/actions'
-// import { computeStats, computeCarbonScore } from '@stravels/engine/createTravel'
-// import { prettifyStats, prettifyMass } from '@stravels/transforms/prettify'
-import { stateToMonthlySections } from '@stravels/transforms/activities'
-import { getPolylineUrl } from '@stravels/services/mapboxStatic'
-
-import { Colors } from '@stravels/themes'
 import NavToolbar from '@stravels/components/nav/toolbar'
 import NavToolbarIcon from '@stravels/components/nav/icon'
 import ActivityRow from '@stravels/components/activityRow'
 
+// Behaviour
+import { connect } from 'react-redux'
+import { selectors } from '@stravels/redux'
+import { activitiesRequest } from '@stravels/redux/strava/actions'
+import { getVisibleActivities, groupByMonth } from '@stravels/transforms/activities'
+import { getPolylineUrl } from '@stravels/services/mapboxStatic'
+
 // Styles
+import { Colors } from '@stravels/themes'
 import styles from './selectActivities.styles'
 
 // -----------------------------------------------------------------------------
@@ -117,8 +117,8 @@ class SelectActivitiesScreen extends Component {
         keyExtractor={(item) => item.id}
         ListFooterComponent={this._renderSpinner.bind(this)}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
-        // stickySectionHeadersEnabled
         refreshing={this.props.fetching}
+        // onEndReached={this._onEndReached.bind(this)}
       />
     )
   }
@@ -154,20 +154,20 @@ class SelectActivitiesScreen extends Component {
     return <ActivityIndicator animating size='large' style={styles.spinner} />
   }
   _onEndReached () {
-    // this.setState((state) => {
-    //   const newPage = state.page + 1
-    //   this.props.fetchData(newPage)
-    //   return { ...state, page: newPage }
-    // })
+    this.setState((state) => {
+      const newPage = state.page + 1
+      this.props.fetchData(newPage)
+      return { ...state, page: newPage }
+    })
   }
 }
 
 // -----------------------------------------------------------------------------
 
 const mapStateToProps = (state) => {
-  const activities = selectors.strava.getActivities(state)
+  const activities = getVisibleActivities(state)
   return {
-    sections: stateToMonthlySections(activities),
+    sections: groupByMonth(activities),
     fetching: selectors.strava.isActivitiesFetching(state)
   }
 }

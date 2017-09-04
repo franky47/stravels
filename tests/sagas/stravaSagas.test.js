@@ -1,7 +1,6 @@
 import { put, call, take } from 'redux-saga/effects'
 import * as sagas from '@stravels/sagas/stravaSagas'
 import * as actions from '@stravels/redux/strava/actions'
-import { arrayToObject } from '@stravels/transforms/convertShape'
 
 describe('Authorization Saga', () => {
   test('Deep Link Channel', () => {
@@ -138,16 +137,13 @@ describe('Activities Saga', () => {
       getActivities: () => {}
     }
     const response = {
-      data: [
-        { id: 'foo', name: 'Foo' },
-        { id: 'bar', name: 'Bar' }
-      ]
+      data: 'foo'
     }
     const request = actions.activitiesRequest(42)
     const saga = sagas.activitiesSaga(api, request)
     expect(saga.next().value).toEqual(call([api, api.getActivities], 42))
-    expect(saga.next(response).value).toEqual(call(arrayToObject, response.data, 'id'))
-    expect(saga.next('data').value).toEqual(put(actions.activitiesSuccess('data')))
+    expect(saga.next(response).value).toEqual(put(actions.activitiesSuccess('foo')))
+    expect(saga.next().done).toEqual(true)
   })
   test('failure', () => {
     const api = {
@@ -158,6 +154,7 @@ describe('Activities Saga', () => {
     const saga = sagas.activitiesSaga(api, request)
     expect(saga.next().value).toEqual(call([api, api.getActivities], 42))
     expect(saga.throw(error).value).toEqual(put(actions.activitiesFailure(error)))
+    expect(saga.next().done).toEqual(true)
   })
 })
 
@@ -175,16 +172,13 @@ describe('Friends Saga', () => {
       getFriends: () => {}
     }
     const response = {
-      data: [
-        { id: 'foo', name: 'Foo' },
-        { id: 'bar', name: 'Bar' }
-      ]
+      data: 'foo'
     }
     const request = actions.friendsRequest(42)
     const saga = sagas.friendsSaga(api, request)
     expect(saga.next().value).toEqual(call([api, api.getFriends], 42))
-    expect(saga.next(response).value).toEqual(call(arrayToObject, response.data, 'id'))
-    expect(saga.next('data').value).toEqual(put(actions.friendsSuccess('data')))
+    expect(saga.next(response).value).toEqual(put(actions.friendsSuccess('foo')))
+    expect(saga.next().done).toEqual(true)
   })
   test('failure', () => {
     const api = {
@@ -195,5 +189,6 @@ describe('Friends Saga', () => {
     const saga = sagas.friendsSaga(api, request)
     expect(saga.next().value).toEqual(call([api, api.getFriends], 42))
     expect(saga.throw(error).value).toEqual(put(actions.friendsFailure(error)))
+    expect(saga.next().done).toEqual(true)
   })
 })
