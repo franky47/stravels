@@ -22,6 +22,9 @@ export default (rootReducer, rootSaga) => {
   enhancers.push(applyMiddleware(...middleware))
 
   // Rehydration
+  if (__DEV__ && reduxPersist.wipeOnStartup) {
+    rehydration.wipeAsyncStorage()
+  }
   if (reduxPersist.active) {
     enhancers.push(autoRehydrate())
   }

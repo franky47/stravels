@@ -4,6 +4,7 @@ import { AsyncStorage } from 'react-native'
 // More info here:  https://shift.infinite.red/shipping-persistant-reducers-7341691232b1
 export default {
   active: true,
+  wipeOnStartup: false,
   reducerVersion: '1.0',
   storeConfig: {
     storage: AsyncStorage,
