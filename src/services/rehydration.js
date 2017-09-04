@@ -8,7 +8,7 @@ const wipeAsyncStorage = () => {
   return AsyncStorage.clear()
 }
 
-const updateReducers = (store: Object) => {
+const updateReducers = (store) => {
   const reducerVersion = reduxPersist.reducerVersion
   const config = reduxPersist.storeConfig
   const startup = () => store.dispatch(startupActions.startup())
