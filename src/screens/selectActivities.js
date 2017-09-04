@@ -1,14 +1,11 @@
 import React, { Component } from 'react'
-import { View, Text, SectionList, TouchableWithoutFeedback, ActivityIndicator } from 'react-native'
+import { View, Text, SectionList, TouchableHighlight, ActivityIndicator } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import { connect } from 'react-redux'
 import { selectors } from '../redux'
 import { activitiesRequest } from '../redux/strava/actions'
-import {
-  computeStats,
-  computeCarbonScore
-} from '../engine/createTravel'
-import { prettifyStats, prettifyMass } from '../transforms/prettify'
+// import { computeStats, computeCarbonScore } from '../engine/createTravel'
+// import { prettifyStats, prettifyMass } from '../transforms/prettify'
 import { stateToMonthlySections } from '../transforms/activities'
 import { getPolylineUrl } from '../services/mapboxStatic'
 
@@ -26,7 +23,8 @@ const HeaderToolbar = (props) => {
   return (
     <NavToolbar>
       <NavToolbarIcon
-        icon='add'
+        icon='check'
+        color={Colors.main}
         onPress={props.create}
         disabled={!props.createButtonEnabled}
       />
@@ -130,7 +128,8 @@ class SelectActivitiesScreen extends Component {
       mapId: 'mapbox.outdoors'
     })
     return (
-      <TouchableWithoutFeedback
+      <TouchableHighlight
+        underlayColor={Colors.highlightUnderlay}
         onPress={this._onItemPress.bind(this, item.id)}
       >
         <View style={styles.row}>
@@ -147,7 +146,7 @@ class SelectActivitiesScreen extends Component {
             size={24}
           />
         </View>
-      </TouchableWithoutFeedback>
+      </TouchableHighlight>
     )
   }
   _renderSpinner () {

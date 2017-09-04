@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { Metrics } from '../themes'
+import { Metrics, Colors } from '../themes'
 
 export default StyleSheet.create({
   mainContainer: {
@@ -8,5 +8,8 @@ export default StyleSheet.create({
   row: {
     height: Metrics.listRowHeight.normal,
     paddingHorizontal: Metrics.baseMargin
+  },
+  text: {
+    color: Colors.text
   }
 })

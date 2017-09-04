@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { Metrics } from '../../themes'
+import { Metrics, Colors } from '../../themes'
 
 export default StyleSheet.create({
   mainContainer: {
@@ -10,10 +10,12 @@ export default StyleSheet.create({
   },
   icon: {
     fontSize: 20,
-    marginRight: Metrics.baseMargin
+    marginRight: Metrics.baseMargin,
+    color: Colors.text
   },
   label: {
-    fontSize: 17
+    fontSize: 17,
+    color: Colors.text
   },
   switch: {
     position: 'absolute',

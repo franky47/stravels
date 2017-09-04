@@ -18,8 +18,8 @@ export default StyleSheet.create({
     flexDirection: 'column'
   },
   title: {
-    // fontWeight: 'bold'
-    fontSize: 15
+    fontSize: 15,
+    color: Colors.text
   },
   descriptionContainer: {
     flex: 1,

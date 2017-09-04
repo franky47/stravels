@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { Fonts } from '../../themes'
+import { Fonts, Colors } from '../../themes'
 
 const stackedStyle = StyleSheet.create({
   container: {
@@ -8,7 +8,8 @@ const stackedStyle = StyleSheet.create({
   },
   value: {
     ...Fonts.style.h4,
-    fontSize: 24
+    fontSize: 24,
+    color: Colors.text
   },
   unit: {
     fontSize: 11,

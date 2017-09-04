@@ -17,7 +17,7 @@ export default StyleSheet.create({
     height: 20
   },
   dependencyName: {
-
+    color: Colors.text
   },
   dependencyVersion: {
     color: Colors.secondary,

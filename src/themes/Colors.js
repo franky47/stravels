@@ -6,11 +6,14 @@ const colors = {
   strava: '#fc4C02',
 
   main: '#47cc5e',
+  text: 'black', // '#9C27B0'
 
   separator: 'rgba(0, 0, 0, 0.1)',
   secondary: 'grey',
   checkboxOff: 'grey',
-  checkboxOn: '#fc4C02'
+  checkboxOn: '#fc4C02',
+
+  highlightUnderlay: 'rgba(0, 0, 0, 0.05)'
 }
 
 export default colors
