@@ -36,8 +36,9 @@ export const create = (config = defaultConfig) => {
   // OAuth Flow --
 
   const setAccessToken = (token) => {
-    api.setHeader('Authorization', `Bearer ${token}`)
-    oauthApi.setHeader('Authorization', `Bearer ${token}`)
+    const value = token === null ? null : `Bearer ${token}`
+    api.setHeader('Authorization', value)
+    oauthApi.setHeader('Authorization', value)
   }
   const generateOAuthAuthorizationRequestUrl = () => {
     const params = {
@@ -86,18 +87,20 @@ export const create = (config = defaultConfig) => {
   const getAthleteById = (id) => {
     return api.get(`/athletes/${id}`)
   }
-  const getActivities = (page = 0) => {
-    // Pages start at 1
-    const params = page > 0 ? { page } : {}
-    return api.get('/activities', { params })
+  const getActivities = (page = 0, perPage = 30) => {
+    return api.get('/activities', {
+      page: page + 1, // Pages start at 1
+      per_page: perPage
+    })
   }
   const getActivityById = (id) => {
     return api.get(`/activities/${id}`)
   }
-  const getFriends = (page = 0) => {
-    // Pages start at 1
-    const params = page > 0 ? { page } : {}
-    return api.get(`/athlete/friends`, { params })
+  const getFriends = (page = 0, perPage = 30) => {
+    return api.get(`/athlete/friends`, {
+      page: page + 1, // Pages start at 1
+      per_page: perPage
+    })
   }
 
   // Usage --
