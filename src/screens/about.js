@@ -42,7 +42,6 @@ const DependenciesList = (props) => {
 
 class AboutScreen extends Component {
   static navigationOptions = {
-    title: 'About',
     headerRight: (
       <NavToolbar>
         <NavToolbarIcon icon='add' />

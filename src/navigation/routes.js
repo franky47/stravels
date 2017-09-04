@@ -10,14 +10,37 @@ export default {
   About: {
     screen: screens.AboutScreen,
     path: 'about',
-    title: 'About',
-    ...header.main
+    navigationOptions: {
+      title: 'About',
+      ...header.main.navigationOptions
+    }
   },
   SelectActivities: {
     screen: screens.SelectActivitiesScreen,
-    title: 'Select Activities'
+    navigationOptions: {
+      title: 'Select Activities'
+    }
   },
+
+  // Settings
+  Preferences: {
+    screen: screens.SettingsPreferencesScreen,
+    navigationOptions: {
+      title: 'Preferences'
+    }
+  },
+
+  // Debug Screens
   Sandbox: {
-    screen: screens.SandboxScreen
+    screen: screens.SandboxScreen,
+    navigationOptions: {
+      title: 'Sandbox'
+    }
+  },
+  Routing: {
+    screen: screens.RoutingScreen,
+    navigationOptions: {
+      title: 'Routing'
+    }
   }
 }
