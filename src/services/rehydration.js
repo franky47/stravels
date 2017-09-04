@@ -1,7 +1,7 @@
 import { AsyncStorage } from 'react-native'
 import { persistStore } from 'redux-persist'
 import reduxPersist from '../config/reduxPersist'
-import startupActions from '../redux/startupRedux'
+import startupActions from '@stravels/redux/startupRedux'
 import devConfig from '../config/development'
 
 const wipeAsyncStorage = () => {

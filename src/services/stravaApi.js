@@ -1,7 +1,7 @@
 import apisauce from 'apisauce'
 import Secrets from 'react-native-config'
 import qs from 'querystringify'
-import EventEmitter from '../utility/eventEmitter'
+import EventEmitter from '@stravels/utility/eventEmitter'
 
 // We open the authorization URL in the device official browser
 // in order to have Google Sign In working. The redirect is a deep link

@@ -7,9 +7,9 @@ import {
   View
 } from 'react-native'
 import { connect } from 'react-redux'
-import { oauthAuthorizeRequest } from '../redux/strava/actions'
-import { selectors } from '../redux'
-import { Images } from '../themes'
+import { oauthAuthorizeRequest } from '@stravels/redux/strava/actions'
+import { selectors } from '@stravels/redux'
+import { Images } from '@stravels/themes'
 
 // Styles
 import styles from './login.styles'

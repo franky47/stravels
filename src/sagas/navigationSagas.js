@@ -1,4 +1,4 @@
-import stravaActions from '../redux/strava/actions'
+import stravaActions from '@stravels/redux/strava/actions'
 import { NavigationActions } from 'react-navigation'
 import { takeEvery, put } from 'redux-saga/effects'
 

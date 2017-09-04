@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { View, Text } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import ProgressiveImage from './core/progressiveImage'
-import { Images } from '../themes'
-import { prettifyDistance, prettifyElevation } from '../transforms/prettify'
+import { Images } from '@stravels/themes'
+import { prettifyDistance, prettifyElevation } from '@stravels/transforms/prettify'
 
 import styles from './activityRow.styles'
 

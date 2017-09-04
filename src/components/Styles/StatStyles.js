@@ -1,5 +1,5 @@
 import { StyleSheet } from 'react-native'
-import { Fonts } from '../../themes'
+import { Fonts } from '@stravels/themes'
 
 const stackedStyle = StyleSheet.create({
   container: {

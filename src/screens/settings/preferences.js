@@ -1,9 +1,9 @@
 import React, { Component } from 'react'
 import { View } from 'react-native'
 import { connect } from 'react-redux'
-import ToggleSwitch from '../../components/settings/toggle'
-import * as actions from '../../redux/settings/actions'
-import { selectors } from '../../redux'
+import ToggleSwitch from '@stravels/components/settings/toggle'
+import * as actions from '@stravels/redux/settings/actions'
+import { selectors } from '@stravels/redux'
 
 import styles from './preferences.styles'
 

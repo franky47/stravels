@@ -1,10 +1,10 @@
 import React, { Component } from 'react'
 import { ScrollView, View, Text, KeyboardAvoidingView, FlatList } from 'react-native'
 import { connect } from 'react-redux'
-import { getVersion, getDependencies } from '../utility/about'
+import { getVersion, getDependencies } from '@stravels/utility/about'
 
-import NavToolbar from '../components/nav/toolbar'
-import NavToolbarIcon from '../components/nav/icon'
+import NavToolbar from '@stravels/components/nav/toolbar'
+import NavToolbarIcon from '@stravels/components/nav/icon'
 
 // Styles
 import styles from './about.styles'
