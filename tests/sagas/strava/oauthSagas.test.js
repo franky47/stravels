@@ -125,24 +125,24 @@ describe('Watchers', () => {
   test('authorization requests', () => {
     const saga = sagas.watchAuthorizationRequest('api', 'lnk')
     const actual = saga.next().value
-    const expected = call(takeEvery, types.AUTHORIZATION_REQUEST,
-                          sagas.authorizationSaga, 'api', 'lnk')
+    const expected = takeEvery(types.AUTHORIZATION_REQUEST,
+                               sagas.authorizationSaga, 'api', 'lnk')
     expect(actual).toEqual(expected)
     expect(saga.next().done).toEqual(true)
   })
   test('token exchange requests', () => {
     const saga = sagas.watchTokenExchangeRequest('api')
     const actual = saga.next().value
-    const expected = call(takeEvery, types.TOKEN_EXCHANGE_REQUEST,
-                          sagas.tokenExchangeSaga, 'api')
+    const expected = takeEvery(types.TOKEN_EXCHANGE_REQUEST,
+                               sagas.tokenExchangeSaga, 'api')
     expect(actual).toEqual(expected)
     expect(saga.next().done).toEqual(true)
   })
   test('logout requests', () => {
     const saga = sagas.watchLogoutRequest('api')
     const actual = saga.next().value
-    const expected = call(takeEvery, types.LOGOUT_REQUEST,
-                          sagas.logoutSaga, 'api')
+    const expected = takeEvery(types.LOGOUT_REQUEST,
+                               sagas.logoutSaga, 'api')
     expect(actual).toEqual(expected)
     expect(saga.next().done).toEqual(true)
   })
@@ -179,24 +179,24 @@ describe('Connection Watchers', () => {
   test('authorization success', () => {
     const saga = sagas.watchAuthorizationSuccess()
     const actual = saga.next().value
-    const expected = call(takeEvery, types.AUTHORIZATION_SUCCESS,
-                          sagas.connectAuthorizationToTokenExchange)
+    const expected = takeEvery(types.AUTHORIZATION_SUCCESS,
+                               sagas.connectAuthorizationToTokenExchange)
     expect(actual).toEqual(expected)
     expect(saga.next().done).toEqual(true)
   })
   test('token exchange success', () => {
     const saga = sagas.watchTokenExchangeSuccess()
     const actual = saga.next().value
-    const expected = call(takeEvery, types.TOKEN_EXCHANGE_SUCCESS,
-                          sagas.connectTokenExchangeToLogin)
+    const expected = takeEvery(types.TOKEN_EXCHANGE_SUCCESS,
+                               sagas.connectTokenExchangeToLogin)
     expect(actual).toEqual(expected)
     expect(saga.next().done).toEqual(true)
   })
   test('login', () => {
     const saga = sagas.watchLogin('api')
     const actual = saga.next().value
-    const expected = call(takeEvery, types.LOGIN,
-                          sagas.connectLoginToApiAuth, 'api')
+    const expected = takeEvery(types.LOGIN,
+                               sagas.connectLoginToApiAuth, 'api')
     expect(actual).toEqual(expected)
     expect(saga.next().done).toEqual(true)
   })
