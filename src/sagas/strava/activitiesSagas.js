@@ -1,4 +1,4 @@
-import { put, call, select, takeEvery } from 'redux-saga/effects'
+import { put, call, select, throttle } from 'redux-saga/effects'
 import { isEmpty, intersectionBy } from 'lodash'
 import { types, actions } from '@stravels/redux/strava/activities/actions'
 import selectors from '@stravels/redux/selectors'
@@ -11,7 +11,7 @@ const intersects = (a, b) => {
   return !isEmpty(intersectionBy(a, b, 'id'))
 }
 
-export function * requestHeadSaga (api, action) {
+export function * requestHeadSaga (api) {
   try {
     const stateActivities = yield select(selectors.strava.activities.getActivities)
     const params = {}
@@ -28,7 +28,7 @@ export function * requestHeadSaga (api, action) {
   }
 }
 
-export function * requestTailSaga (api, action) {
+export function * requestTailSaga (api) {
   try {
     const stateActivities = yield select(selectors.strava.activities.getActivities)
     const location = isEmpty(stateActivities) ? 'head' : 'tail'
@@ -43,4 +43,27 @@ export function * requestTailSaga (api, action) {
   } catch (error) {
     yield put(actions.failure(error))
   }
+}
+
+export function * tailSwitch (api) {
+  const isEof = yield select(selectors.strava.activities.isEof)
+  if (!isEof) {
+    yield call(requestTailSaga, api)
+  }
+}
+
+// Watchers
+export function * watchRequestHead (api) {
+  yield call(throttle, 1000, types.REQUEST_HEAD, requestHeadSaga, api)
+}
+export function * watchRequestTail (api) {
+  yield call(throttle, 1000, types.REQUEST_TAIL, tailSwitch, api)
+}
+
+export default function * (api) {
+  yield [
+    // Watchers
+    watchRequestHead(api),
+    watchRequestTail(api)
+  ]
 }

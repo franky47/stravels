@@ -1,4 +1,4 @@
-import { put, call, select, takeEvery } from 'redux-saga/effects'
+import { put, call, select, throttle } from 'redux-saga/effects'
 import { types, actions } from '@stravels/redux/strava/activities/actions'
 import * as sagas from '@stravels/sagas/strava/activitiesSagas'
 import selectors from '@stravels/redux/selectors'
@@ -15,32 +15,28 @@ const spam = { id: 1, name: 'spam', start_date: '2017-01-01T00:00:00Z' }
 
 describe('Request Head', () => {
   test('no activities anywhere', () => {
-    const trigger = actions.requestHead()
-    const saga = sagas.requestHeadSaga(api, trigger)
+    const saga = sagas.requestHeadSaga(api)
     expect(saga.next().value).toEqual(select(selectors.strava.activities.getActivities))
     expect(saga.next([]).value).toEqual(call([api, api.getActivities], {}))
     expect(saga.next({ data: [] }).value).toEqual(put(actions.success([], 'head')))
     expect(saga.next().done).toEqual(true)
   })
   test('empty state, received activities', () => {
-    const trigger = actions.requestHead()
-    const saga = sagas.requestHeadSaga(api, trigger)
+    const saga = sagas.requestHeadSaga(api)
     expect(saga.next().value).toEqual(select(selectors.strava.activities.getActivities))
     expect(saga.next([]).value).toEqual(call([api, api.getActivities], {}))
     expect(saga.next({ data: [foo, bar] }).value).toEqual(put(actions.success([foo, bar], 'head')))
     expect(saga.next().done).toEqual(true)
   })
   test('head intersects with state', () => {
-    const trigger = actions.requestHead()
-    const saga = sagas.requestHeadSaga(api, trigger)
+    const saga = sagas.requestHeadSaga(api)
     expect(saga.next().value).toEqual(select(selectors.strava.activities.getActivities))
     expect(saga.next([bar, egg]).value).toEqual(call([api, api.getActivities], {}))
     expect(saga.next({ data: [foo, bar] }).value).toEqual(put(actions.success([foo, bar], 'head')))
     expect(saga.next().done).toEqual(true)
   })
   test('head does not intersect with state, multiple calls', () => {
-    const trigger = actions.requestHead()
-    const saga = sagas.requestHeadSaga(api, trigger)
+    const saga = sagas.requestHeadSaga(api)
     expect(saga.next().value).toEqual(select(selectors.strava.activities.getActivities))
     expect(saga.next([egg, spam]).value).toEqual(call([api, api.getActivities], {}))
     expect(saga.next({ data: [foo] }).value).toEqual(call([api, api.getActivities], { before: Date.parse(foo.start_date) }))
@@ -52,8 +48,7 @@ describe('Request Head', () => {
 
 describe('Request Tail', () => {
   test('no activities anywhere', () => {
-    const trigger = actions.requestTail()
-    const saga = sagas.requestTailSaga(api, trigger)
+    const saga = sagas.requestTailSaga(api)
     expect(saga.next().value).toEqual(select(selectors.strava.activities.getActivities))
     expect(saga.next([]).value).toEqual(call([api, api.getActivities], {}))
     expect(saga.next({ data: [] }).value).toEqual(put(actions.setEof()))
@@ -61,24 +56,21 @@ describe('Request Tail', () => {
     expect(saga.next().done).toEqual(true)
   })
   test('empty state should actually request the head', () => {
-    const trigger = actions.requestTail()
-    const saga = sagas.requestTailSaga(api, trigger)
+    const saga = sagas.requestTailSaga(api)
     expect(saga.next().value).toEqual(select(selectors.strava.activities.getActivities))
     expect(saga.next([]).value).toEqual(call([api, api.getActivities], {}))
     expect(saga.next({ data: [foo, bar] }).value).toEqual(put(actions.success([foo, bar], 'head')))
     expect(saga.next().done).toEqual(true)
   })
   test('request after oldest element in state', () => {
-    const trigger = actions.requestTail()
-    const saga = sagas.requestTailSaga(api, trigger)
+    const saga = sagas.requestTailSaga(api)
     expect(saga.next().value).toEqual(select(selectors.strava.activities.getActivities))
     expect(saga.next([foo, bar]).value).toEqual(call([api, api.getActivities], { before: Date.parse(bar.start_date) }))
     expect(saga.next({ data: [egg, spam] }).value).toEqual(put(actions.success([egg, spam], 'tail')))
     expect(saga.next().done).toEqual(true)
   })
   test('receive empty data results in setEof', () => {
-    const trigger = actions.requestTail()
-    const saga = sagas.requestTailSaga(api, trigger)
+    const saga = sagas.requestTailSaga(api)
     expect(saga.next().value).toEqual(select(selectors.strava.activities.getActivities))
     expect(saga.next([foo, bar]).value).toEqual(call([api, api.getActivities], { before: Date.parse(bar.start_date) }))
     expect(saga.next({ data: [] }).value).toEqual(put(actions.setEof()))
@@ -87,19 +79,43 @@ describe('Request Tail', () => {
   })
   test('failure in selector', () => {
     const error = new Error('boo')
-    const trigger = actions.requestTail()
-    const saga = sagas.requestTailSaga(api, trigger)
+    const saga = sagas.requestTailSaga(api)
     expect(saga.next().value).toEqual(select(selectors.strava.activities.getActivities))
     expect(saga.throw(error).value).toEqual(put(actions.failure(error)))
     expect(saga.next().done).toEqual(true)
   })
   test('failure in api call', () => {
     const error = new Error('boo')
-    const trigger = actions.requestTail()
-    const saga = sagas.requestTailSaga(api, trigger)
+    const saga = sagas.requestTailSaga(api)
     expect(saga.next().value).toEqual(select(selectors.strava.activities.getActivities))
     expect(saga.next([foo, bar]).value).toEqual(call([api, api.getActivities], { before: Date.parse(bar.start_date) }))
     expect(saga.throw(error).value).toEqual(put(actions.failure(error)))
+    expect(saga.next().done).toEqual(true)
+  })
+})
+
+describe('Watchers', () => {
+  describe('Tail Switch', () => {
+    test('should call the saga when the EoF flag is cleared', () => {
+      const saga = sagas.tailSwitch(api)
+      expect(saga.next().value).toEqual(select(selectors.strava.activities.isEof))
+      expect(saga.next(false).value).toEqual(call(sagas.requestTailSaga, api))
+      expect(saga.next().done).toEqual(true)
+    })
+    test('should return when the EoF flag is set', () => {
+      const saga = sagas.tailSwitch(api)
+      expect(saga.next().value).toEqual(select(selectors.strava.activities.isEof))
+      expect(saga.next(true).done).toEqual(true)
+    })
+  })
+  test('Request Head Watcher', () => {
+    const saga = sagas.watchRequestHead(api)
+    expect(saga.next().value).toEqual(call(throttle, 1000, types.REQUEST_HEAD, sagas.requestHeadSaga, api))
+    expect(saga.next().done).toEqual(true)
+  })
+  test('Request Tail Watcher', () => {
+    const saga = sagas.watchRequestTail(api)
+    expect(saga.next().value).toEqual(call(throttle, 1000, types.REQUEST_TAIL, sagas.tailSwitch, api))
     expect(saga.next().done).toEqual(true)
   })
 })
