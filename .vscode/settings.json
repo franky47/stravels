@@ -1,4 +1,7 @@
 {
     "standard.enable": true,
-    "eslint.enable": false
+    "eslint.enable": false,
+    "npm.includeDirectories": [
+      "src"
+    ]
 }
