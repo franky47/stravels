@@ -55,3 +55,14 @@ export const simplifyPolyline = (polyline) => {
 
   return encoded ? Polyline.encode(points) : points
 }
+
+export const getColorForIndex = (index) => {
+  const colors = [
+    '#7cb342',
+    '#039be5',
+    '#5e35b1',
+    '#e53935',
+    '#ffb300'
+  ]
+  return colors[index % colors.length]
+}

@@ -67,23 +67,10 @@ class SelectActivitiesScreen extends Component {
     }
   }
   _create () {
-    // const selected = Array.from(this.state.selected)
-    // const activities = this.props.sections.filter((activity) => selected.indexOf(activity.id) > -1)
-    // const stats = computeStats(activities)
-    // console.tron.display({
-    //   name: 'Stats',
-    //   value: {
-    //     ...prettifyStats(stats),
-    //     carbonScore: prettifyMass(computeCarbonScore(stats) * 0.001)
-    //   }
-    // })
-    // this.setState({
-    //   selected: new Set()
-    // }, () => {
-    //   this.props.navigation.setParams({
-    //     createButtonEnabled: false
-    //   })
-    // })
+    const activities = Array.from(this.state.selected)
+    this.props.navigation.navigate('Travel', {
+      activitiesIds: activities
+    })
   }
 
   _onItemPress (id) {
@@ -113,6 +100,7 @@ class SelectActivitiesScreen extends Component {
         renderItem={this._renderItem.bind(this)}
         renderSectionHeader={({section}) => <SectionHeader title={section.title} />}
         keyExtractor={(item) => item.id}
+        ListHeaderComponent={this._renderError.bind(this)}
         ListFooterComponent={this._renderSpinner.bind(this)}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         refreshing={this.props.fetching}
@@ -145,6 +133,10 @@ class SelectActivitiesScreen extends Component {
       </TouchableHighlight>
     )
   }
+  _renderError () {
+    if (!this.props.error) return null
+    return <Text>{this.props.error}</Text>
+  }
   _renderSpinner () {
     if (!this.props.showBottomSpinner) return null
     return <ActivityIndicator animating size='large' style={styles.spinner} />
@@ -161,6 +153,7 @@ const mapStateToProps = (state) => {
   return {
     sections: groupByMonth(activities),
     fetching,
+    error: selectors.strava.activities.getError(state),
     showBottomSpinner: fetching && activities.length !== 0,
     enableOnEndReached: !selectors.strava.activities.isEof(state)
   }
