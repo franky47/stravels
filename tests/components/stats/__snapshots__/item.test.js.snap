@@ -14,15 +14,22 @@ exports[`component renders correctly 1`] = `
     allowFontScaling={true}
     disabled={false}
     ellipsizeMode="tail"
-    style={
-      Object {
-        "color": "black",
-        "fontFamily": "Avenir-Book",
-        "fontSize": 24,
-      }
-    }
   >
-    42
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      disabled={false}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "black",
+          "fontFamily": "Avenir-Book",
+          "fontSize": 24,
+        }
+      }
+    >
+      42
+    </Text>
     <Text
       accessible={true}
       allowFontScaling={true}
@@ -36,7 +43,7 @@ exports[`component renders correctly 1`] = `
         }
       }
     >
-      BAR
+       BAR
     </Text>
   </Text>
   <Text
