@@ -1,17 +1,11 @@
 import { createActions } from 'reduxsauce'
 
 const config = {
-  setUnits: ['value'],
-
-  // Activity Filter
-  showRides: ['value'],
-  showHikes: ['value'],
-  showRuns: ['value'],
-  showPrivate: ['value']
+  set: ['user']
 }
 
 const { Types, Creators } = createActions(config, {
-  prefix: 'Settings/'
+  prefix: 'Strava/User'
 })
 
 export {

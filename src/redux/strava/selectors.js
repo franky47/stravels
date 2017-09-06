@@ -1,45 +1,9 @@
-export const create = (getRoot = (state) => state) => {
-  const paths = {
-    oauth: (state) => getRoot(state).oauth,
-    user: (state) => getRoot(state).user,
-    activities: (state) => getRoot(state).activities,
-    friends: (state) => getRoot(state).friends
-  }
+import oauth from './oauth/selectors'
+import user from './user/selectors'
+import activities from './activities/selectors'
 
-  // Pure accessors
-  const selector = {
-    // OAuth
-    getOAuthPhase: (state) => paths.oauth(state).phase,
-    isOAuthFetching: (state) => paths.oauth(state).fetching,
-    getOAuthToken: (state) => paths.oauth(state).token,
-    getOAuthError: (state) => paths.oauth(state).error,
-
-    // User
-    getUserId: (state) => paths.user(state).id,
-    getUserName: (state) => {
-      const first = paths.user(state).firstname
-      const last = paths.user(state).lastname
-      return `${first} ${last}`
-    },
-    getUserProfilePicture: (state) => paths.user(state).profile,
-
-    // Activities
-    getActivitiesPage: (state) => paths.activities(state).page,
-    isActivitiesFetching: (state) => paths.activities(state).fetching,
-    getActivitiesError: (state) => paths.activities(state).error,
-    getActivities: (state) => paths.activities(state).data,
-
-    // Friends
-    getFriendsPage: (state) => paths.friends(state).page,
-    isFriendsFetching: (state) => paths.friends(state).fetching,
-    getFriendsError: (state) => paths.friends(state).error,
-    getFriends: (state) => paths.friends(state).data
-  }
-
-  // Computed selectors
-  selector.isLoggedIn = (state) => selector.getOAuthToken(state) && selector.getUserId(state)
-  selector.getActivity = (state, id) => selector.getActivities(state).find((obj) => obj.id === id)
-  selector.getFriend = (state, id) => selector.getFriends(state).find((obj) => obj.id === id)
-
-  return selector
-}
+export default (stateMapper = (s) => s) => ({
+  oauth: oauth((state) => stateMapper(state).oauth),
+  user: user((state) => stateMapper(state).user),
+  activities: activities((state) => stateMapper(state).activities)
+})

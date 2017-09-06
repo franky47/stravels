@@ -9,8 +9,8 @@ import ActivityRow from '@stravels/components/activityRow'
 // Behaviour
 import { connect } from 'react-redux'
 import { selectors } from '@stravels/redux'
-import { activitiesRequest } from '@stravels/redux/strava/actions'
-import { getVisibleActivities, groupByMonth } from '@stravels/transforms/activities'
+import { actions as activities } from '@stravels/redux/strava/activities/actions'
+import { filterActivities, groupByMonth } from '@stravels/transforms/activities'
 
 // Styles
 import { Colors } from '@stravels/themes'
@@ -161,7 +161,9 @@ class SelectActivitiesScreen extends Component {
 // -----------------------------------------------------------------------------
 
 const mapStateToProps = (state) => {
-  const activities = getVisibleActivities(state)
+  const allActivities = selectors.strava.activities.getActivities(state)
+  const filter = selectors.settings.getActivityFilter(state)
+  const activities = filterActivities(allActivities, filter)
   return {
     sections: groupByMonth(activities),
     fetching: selectors.strava.isActivitiesFetching(state)
@@ -170,8 +172,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    fetchInitialData: () => dispatch(activitiesRequest(1)),
-    fetchData: (page) => dispatch(activitiesRequest(page))
+    fetchInitialData: () => dispatch(activities.requestHead()),
+    fetchData: (page) => dispatch(activities.requestTail())
   }
 }
 

@@ -1,6 +1,7 @@
-import actions from './actions'
+import { createReducer } from 'reduxsauce'
+import { types } from './actions'
 
-const DEFAULT_STATE = {
+export const DEFAULT_STATE = {
   units: 'metric',
   activityFilter: {
     showRides: true,
@@ -14,7 +15,8 @@ const setUnits = (state, { value }) => ({
   ...state,
   units: value
 })
-const activityFilter = (state, key, value) => ({
+
+const activityFilter = (key) => (state, { value }) => ({
   ...state,
   activityFilter: {
     ...state.activityFilter,
@@ -22,19 +24,15 @@ const activityFilter = (state, key, value) => ({
   }
 })
 
-export const reducer = (state = DEFAULT_STATE, action) => {
-  switch (action.type) {
-    case actions.SetUnits:
-      return setUnits(state, action)
-    case actions.ShowRides:
-      return activityFilter(state, 'showRides', action.value)
-    case actions.ShowHikes:
-      return activityFilter(state, 'showHikes', action.value)
-    case actions.ShowRuns:
-      return activityFilter(state, 'showRuns', action.value)
-    case actions.ShowPrivateActivities:
-      return activityFilter(state, 'showPrivate', action.value)
-    default:
-      return state
-  }
-}
+const showRides = activityFilter('showRides')
+const showHikes = activityFilter('showHikes')
+const showRuns = activityFilter('showRuns')
+const showPrivate = activityFilter('showPrivate')
+
+export default createReducer(DEFAULT_STATE, {
+  [types.SET_UNITS]: setUnits,
+  [types.SHOW_RIDES]: showRides,
+  [types.SHOW_HIKES]: showHikes,
+  [types.SHOW_RUNS]: showRuns,
+  [types.SHOW_PRIVATE]: showPrivate
+})

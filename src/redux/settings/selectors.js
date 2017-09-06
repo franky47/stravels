@@ -1,13 +1,13 @@
-export const create = (getRoot = (state) => state) => {
-  const selector = {
-    getUnits: (state) => getRoot(state).units,
-    getActivityFilter: (state) => getRoot(state).activityFilter,
-    showRides: (state) => getRoot(state).activityFilter.showRides,
-    showHikes: (state) => getRoot(state).activityFilter.showHikes,
-    showRuns: (state) => getRoot(state).activityFilter.showRuns,
-    showPrivateActivities: (state) => getRoot(state).activityFilter.showPrivate
-  }
+export const getUnits = (state) => state.units
+export const showRides = (state) => state.activityFilter.showRides
+export const showHikes = (state) => state.activityFilter.showHikes
+export const showRuns = (state) => state.activityFilter.showRuns
+export const showPrivate = (state) => state.activityFilter.showPrivate
 
-  // Computed selectors
-  return selector
-}
+export default (stateMapper = (s) => s) => ({
+  getUnits: (parentState) => getUnits(stateMapper(parentState)),
+  showRides: (parentState) => showRides(stateMapper(parentState)),
+  showHikes: (parentState) => showHikes(stateMapper(parentState)),
+  showRuns: (parentState) => showRuns(stateMapper(parentState)),
+  showPrivate: (parentState) => showPrivate(stateMapper(parentState))
+})
