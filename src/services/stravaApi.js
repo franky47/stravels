@@ -20,7 +20,6 @@ export const create = (config = defaultConfig) => {
     baseURL: config.baseUrl + basePath,
     headers: {
       Accept: 'application/json'
-      // Authorization: `Bearer ${Secrets.STRAVA_ACCESS_TOKEN_RO}`
     }
   })
 
@@ -81,26 +80,32 @@ export const create = (config = defaultConfig) => {
 
   // API Endpoints --
 
+  const paginationDefaultOptions = {
+    page: 0,
+    per_page: undefined, // Strava default is 30
+    before: undefined,
+    after: undefined
+  }
+
+  const paginated = (endpoint, options) => {
+    options = { ...paginationDefaultOptions, ...options }
+    return api.get(endpoint, {
+      ...options,
+      page: options.page + 1 // Pages start at 1
+    })
+  }
+
   const getAthlete = () => {
     return api.get('/athlete')
   }
   const getAthleteById = (id) => {
     return api.get(`/athletes/${id}`)
   }
-  const getActivities = (page = 0, perPage = 30) => {
-    return api.get('/activities', {
-      page: page + 1, // Pages start at 1
-      per_page: perPage
-    })
-  }
+  const getActivities = (options = paginationDefaultOptions) => paginated('/activities', options)
+  const getFriends = (options = paginationDefaultOptions) => paginated('/athlete/friends', options)
+
   const getActivityById = (id) => {
     return api.get(`/activities/${id}`)
-  }
-  const getFriends = (page = 0, perPage = 30) => {
-    return api.get(`/athlete/friends`, {
-      page: page + 1, // Pages start at 1
-      per_page: perPage
-    })
   }
 
   // Usage --
