@@ -1,8 +1,8 @@
-import { computeStats } from '@stravels/engine/createTravel'
+import * as stats from '@stravels/engine/stats'
 
 describe('Stats', () => {
   test('it should work with an empty list', () => {
-    const actual = computeStats()
+    const actual = stats.computeStats()
     const expected = {
       distance: 0.0,
       total_elevation_gain: 0.0,
@@ -32,7 +32,7 @@ describe('Stats', () => {
       average_watts: 100.0,
       average_speed: 12.0
     }
-    const actual = computeStats([activity])
+    const actual = stats.computeStats([activity])
     const expected = {
       distance: 42.0,
       total_elevation_gain: 200.0,
@@ -50,7 +50,7 @@ describe('Stats', () => {
     expect(actual).toEqual(expected)
   })
   test('it should ignore missing keys', () => {
-    const actual = computeStats([{ foo: 'bar' }])
+    const actual = stats.computeStats([{ foo: 'bar' }])
     const expected = {
       distance: 0.0,
       total_elevation_gain: 0.0,
@@ -73,7 +73,7 @@ describe('Stats', () => {
       { distance: 1.0 },
       { distance: 1.0 }
     ]
-    const actual = computeStats(input).distance
+    const actual = stats.computeStats(input).distance
     const expected = 3.0
     expect(actual).toEqual(expected)
   })
@@ -83,7 +83,7 @@ describe('Stats', () => {
       { foo: 1.0 },
       { distance: 1.0 }
     ]
-    const actual = computeStats(input).distance
+    const actual = stats.computeStats(input).distance
     const expected = 2.0
     expect(actual).toEqual(expected)
   })
@@ -93,7 +93,7 @@ describe('Stats', () => {
       { max_speed: 3.0 },
       { max_speed: 2.0 }
     ]
-    const actual = computeStats(input).max_speed
+    const actual = stats.computeStats(input).max_speed
     const expected = 3.0
     expect(actual).toEqual(expected)
   })
@@ -103,7 +103,7 @@ describe('Stats', () => {
       { foo: 3.0 },
       { max_speed: 2.0 }
     ]
-    const actual = computeStats(input).max_speed
+    const actual = stats.computeStats(input).max_speed
     const expected = 2.0
     expect(actual).toEqual(expected)
   })
@@ -113,7 +113,7 @@ describe('Stats', () => {
       { elev_low: 3.0 },
       { elev_low: 2.0 }
     ]
-    const actual = computeStats(input).elev_low
+    const actual = stats.computeStats(input).elev_low
     const expected = 1.0
     expect(actual).toEqual(expected)
   })
@@ -123,7 +123,7 @@ describe('Stats', () => {
       { foo: 3.0 },
       { elev_low: 2.0 }
     ]
-    const actual = computeStats(input).elev_low
+    const actual = stats.computeStats(input).elev_low
     const expected = 1.0
     expect(actual).toEqual(expected)
   })
@@ -133,7 +133,7 @@ describe('Stats', () => {
       { average_speed: 3.0 },
       { average_speed: 2.0 }
     ]
-    const actual = computeStats(input).average_speed
+    const actual = stats.computeStats(input).average_speed
     const expected = 2.0
     expect(actual).toEqual(expected)
   })
@@ -143,8 +143,15 @@ describe('Stats', () => {
       { foo: 3.0 },
       { average_speed: 2.0 }
     ]
-    const actual = computeStats(input).average_speed
+    const actual = stats.computeStats(input).average_speed
     const expected = 1.0
     expect(actual).toEqual(expected)
+  })
+})
+
+describe('Carbon Score', () => {
+  test('should be null with default stats', () => {
+    const score = stats.computeCarbonScore(stats.computeStats())
+    expect(score).toEqual(0.0)
   })
 })
