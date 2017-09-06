@@ -11,7 +11,6 @@ import { connect } from 'react-redux'
 import { selectors } from '@stravels/redux'
 import { activitiesRequest } from '@stravels/redux/strava/actions'
 import { getVisibleActivities, groupByMonth } from '@stravels/transforms/activities'
-import { getPolylineUrl } from '@stravels/services/mapboxStatic'
 
 // Styles
 import { Colors } from '@stravels/themes'
@@ -124,9 +123,6 @@ class SelectActivitiesScreen extends Component {
   }
   _renderItem ({ item }) {
     const selected = this.state.selected.has(item.id)
-    const imageUrl = getPolylineUrl(item.map.summary_polyline, {
-      mapId: 'mapbox.outdoors'
-    })
     return (
       <TouchableHighlight
         underlayColor={Colors.highlightUnderlay}
@@ -136,13 +132,13 @@ class SelectActivitiesScreen extends Component {
           <ActivityRow
             title={item.name}
             elevation={item.total_elevation_gain}
-            imageUrl={imageUrl}
+            polyline={item.map.summary_polyline}
             {...item}
           />
           <Icon
             style={styles.checkbox}
             name={selected ? 'check-box' : 'check-box-outline-blank'}
-            color={selected ? Colors.main : Colors.secondary}
+            color={selected ? Colors.checkboxOn : Colors.checkboxOff}
             size={24}
           />
         </View>

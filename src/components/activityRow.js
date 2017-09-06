@@ -1,8 +1,7 @@
 import React, { Component } from 'react'
 import { View, Text } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
-import ProgressiveImage from './core/progressiveImage'
-import { Images } from '@stravels/themes'
+import MapThumbnail from './mapThumbnail'
 import { prettifyDistance, prettifyElevation } from '@stravels/transforms/prettify'
 
 import styles from './activityRow.styles'
@@ -29,10 +28,10 @@ export default class ActivityRow extends Component {
   // --
 
   _renderImage () {
-    return <ProgressiveImage
+    return <MapThumbnail
       style={styles.image}
-      source={{ uri: this.props.imageUrl }}
-      placeholder={Images.placeholder}
+      polyline={this.props.polyline}
+      options={{ mapId: 'mapbox.outdoors' }}
     />
   }
   _renderTitle () {

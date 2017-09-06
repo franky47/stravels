@@ -11,7 +11,7 @@ const colors = {
   separator: 'rgba(0, 0, 0, 0.1)',
   secondary: 'grey',
   checkboxOff: 'grey',
-  checkboxOn: '#fc4C02',
+  checkboxOn: '#47cc5e',
 
   highlightUnderlay: 'rgba(0, 0, 0, 0.05)'
 }
