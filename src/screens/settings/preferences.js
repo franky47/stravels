@@ -2,8 +2,8 @@ import React, { Component } from 'react'
 import { View } from 'react-native'
 import { connect } from 'react-redux'
 import ToggleSwitch from '@stravels/components/settings/toggle'
-import * as actions from '@stravels/redux/settings/actions'
-import { selectors } from '@stravels/redux'
+import { actions as settings } from '@stravels/redux/settings/actions'
+import selectors from '@stravels/redux/selectors'
 
 import styles from './preferences.styles'
 
@@ -41,7 +41,7 @@ class PreferencesScreen extends Component {
 const mapStateToProps = (state) => {
   return {
     // Activity Filter
-    showPrivate: selectors.settings.showPrivateActivities(state),
+    showPrivate: selectors.settings.showPrivate(state),
     showRides: selectors.settings.showRides(state),
     showHikes: selectors.settings.showHikes(state),
     showRuns: selectors.settings.showRuns(state)
@@ -49,10 +49,10 @@ const mapStateToProps = (state) => {
 }
 const mapDispatchToProps = (dispatch) => {
   return {
-    onShowPrivateChange: (value) => dispatch(actions.showPrivateActivities(!!value)),
-    onShowRidesChange: (value) => dispatch(actions.showRides(!!value)),
-    onShowHikesChange: (value) => dispatch(actions.showHikes(!!value)),
-    onShowRunsChange: (value) => dispatch(actions.showRuns(!!value))
+    onShowPrivateChange: (value) => dispatch(settings.showPrivate(!!value)),
+    onShowRidesChange: (value) => dispatch(settings.showRides(!!value)),
+    onShowHikesChange: (value) => dispatch(settings.showHikes(!!value)),
+    onShowRunsChange: (value) => dispatch(settings.showRuns(!!value))
   }
 }
 

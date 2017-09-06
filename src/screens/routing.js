@@ -3,7 +3,7 @@ import { View, FlatList, Text, TouchableHighlight } from 'react-native'
 import { connect } from 'react-redux'
 import routes from '@stravels/navigation/routes'
 import { NavigationActions } from 'react-navigation'
-import { logoutRequest } from '@stravels/redux/strava/actions'
+import { actions as oauth } from '@stravels/redux/strava/oauth/actions'
 import confirmLogout from '@stravels/components/modals/logout'
 
 import styles from './routing.styles'
@@ -39,7 +39,7 @@ const mapDispatchToProps = (dispatch) => ({
   navigate: (route) => dispatch(NavigationActions.navigate({
     routeName: route
   })),
-  logout: () => dispatch(logoutRequest())
+  logout: () => dispatch(oauth.logoutRequest())
 })
 
 export default connect(null, mapDispatchToProps)(RoutingScreen)

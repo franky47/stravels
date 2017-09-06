@@ -54,10 +54,10 @@ export function * tailSwitch (api) {
 
 // Watchers
 export function * watchRequestHead (api) {
-  yield call(throttle, 1000, types.REQUEST_HEAD, requestHeadSaga, api)
+  yield throttle(1000, types.REQUEST_HEAD, requestHeadSaga, api)
 }
 export function * watchRequestTail (api) {
-  yield call(throttle, 1000, types.REQUEST_TAIL, tailSwitch, api)
+  yield throttle(1000, types.REQUEST_TAIL, tailSwitch, api)
 }
 
 export default function * (api) {

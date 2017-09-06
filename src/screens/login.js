@@ -8,8 +8,8 @@ import {
   StatusBar
 } from 'react-native'
 import { connect } from 'react-redux'
-import { oauthAuthorizeRequest } from '@stravels/redux/strava/actions'
-import { selectors } from '@stravels/redux'
+import { actions as oauth } from '@stravels/redux/strava/oauth/actions'
+import selectors from '@stravels/redux/selectors'
 import { Images } from '@stravels/themes'
 
 // Styles
@@ -70,17 +70,15 @@ class LoginScreen extends Component {
 
 const mapStateToProps = (state) => {
   return {
-    fetching: selectors.strava.isOAuthFetching(state),
-    displayName: selectors.strava.getUserName(state),
-    photoUrl: selectors.strava.getUserProfilePicture(state),
-    loggedIn: selectors.strava.isLoggedIn(state),
-    error: selectors.strava.getOAuthError(state)
+    fetching: selectors.strava.oauth.isFetching(state),
+    loggedIn: selectors.strava.oauth.isLoggedIn(state),
+    error: selectors.strava.oauth.getError(state)
   }
 }
 
 const mapDispatchToProps = (dispatch, ownProps) => {
   return {
-    requestAuth: () => dispatch(oauthAuthorizeRequest())
+    requestAuth: () => dispatch(oauth.authorizationRequest())
   }
 }
 

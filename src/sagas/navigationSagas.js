@@ -1,4 +1,4 @@
-import stravaActions from '@stravels/redux/strava/actions'
+import { types as oauth } from '@stravels/redux/strava/oauth/actions'
 import { NavigationActions } from 'react-navigation'
 import { takeEvery, put } from 'redux-saga/effects'
 
@@ -17,6 +17,6 @@ export function * resetToLoginScreen () {
 }
 
 export default function * () {
-  yield takeEvery(stravaActions.Login, resetToMainScreen)
-  yield takeEvery(stravaActions.LogoutSuccess, resetToLoginScreen)
+  yield takeEvery(oauth.LOGIN, resetToMainScreen)
+  yield takeEvery(oauth.LOGOUT_SUCCESS, resetToLoginScreen)
 }

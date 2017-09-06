@@ -61,24 +61,24 @@ export function * connectLoginToApiAuth (api, { token }) {
 
 // Watchers
 export function * watchAuthorizationRequest (api, linking) {
-  yield call(takeEvery, types.AUTHORIZATION_REQUEST, authorizationSaga, api, linking)
+  yield takeEvery(types.AUTHORIZATION_REQUEST, authorizationSaga, api, linking)
 }
 export function * watchTokenExchangeRequest (api) {
-  yield call(takeEvery, types.TOKEN_EXCHANGE_REQUEST, tokenExchangeSaga, api)
+  yield takeEvery(types.TOKEN_EXCHANGE_REQUEST, tokenExchangeSaga, api)
 }
 export function * watchLogoutRequest (api) {
-  yield call(takeEvery, types.LOGOUT_REQUEST, logoutSaga, api)
+  yield takeEvery(types.LOGOUT_REQUEST, logoutSaga, api)
 }
 
 // Connection watchers
 export function * watchAuthorizationSuccess () {
-  yield call(takeEvery, types.AUTHORIZATION_SUCCESS, connectAuthorizationToTokenExchange)
+  yield takeEvery(types.AUTHORIZATION_SUCCESS, connectAuthorizationToTokenExchange)
 }
 export function * watchTokenExchangeSuccess () {
-  yield call(takeEvery, types.TOKEN_EXCHANGE_SUCCESS, connectTokenExchangeToLogin)
+  yield takeEvery(types.TOKEN_EXCHANGE_SUCCESS, connectTokenExchangeToLogin)
 }
 export function * watchLogin (api) {
-  yield call(takeEvery, types.LOGIN, connectLoginToApiAuth, api)
+  yield takeEvery(types.LOGIN, connectLoginToApiAuth, api)
 }
 
 export default function * (api) {
