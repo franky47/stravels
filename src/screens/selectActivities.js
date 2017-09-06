@@ -8,7 +8,7 @@ import ActivityRow from '@stravels/components/activityRow'
 
 // Behaviour
 import { connect } from 'react-redux'
-import { selectors } from '@stravels/redux'
+import selectors from '@stravels/redux/selectors'
 import { actions as activities } from '@stravels/redux/strava/activities/actions'
 import { filterActivities, groupByMonth } from '@stravels/transforms/activities'
 
@@ -53,8 +53,7 @@ class SelectActivitiesScreen extends Component {
   constructor (props) {
     super(props)
     this.state = {
-      selected: new Set(),
-      page: 1
+      selected: new Set()
     }
   }
 
@@ -64,7 +63,7 @@ class SelectActivitiesScreen extends Component {
       createButtonEnabled: false
     })
     if (this.props.sections.length === 0) {
-      this.props.fetchInitialData()
+      this.props.requestHead()
     }
   }
   _create () {
@@ -117,7 +116,8 @@ class SelectActivitiesScreen extends Component {
         ListFooterComponent={this._renderSpinner.bind(this)}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         refreshing={this.props.fetching}
-        // onEndReached={this._onEndReached.bind(this)}
+        onEndReached={this.props.requestTail}
+        onRefresh={this.props.refresh}
       />
     )
   }
@@ -146,15 +146,8 @@ class SelectActivitiesScreen extends Component {
     )
   }
   _renderSpinner () {
-    if (!this.props.fetching) return null
+    if (!this.props.showBottomSpinner) return null
     return <ActivityIndicator animating size='large' style={styles.spinner} />
-  }
-  _onEndReached () {
-    this.setState((state) => {
-      const newPage = state.page + 1
-      this.props.fetchData(newPage)
-      return { ...state, page: newPage }
-    })
   }
 }
 
@@ -164,17 +157,29 @@ const mapStateToProps = (state) => {
   const allActivities = selectors.strava.activities.getActivities(state)
   const filter = selectors.settings.getActivityFilter(state)
   const activities = filterActivities(allActivities, filter)
+  const fetching = selectors.strava.activities.isFetching(state)
   return {
     sections: groupByMonth(activities),
-    fetching: selectors.strava.isActivitiesFetching(state)
+    fetching,
+    showBottomSpinner: fetching && activities.length !== 0,
+    enableOnEndReached: !selectors.strava.activities.isEof(state)
   }
 }
-
-const mapDispatchToProps = (dispatch) => {
+const mergeProps = (stateProps, { dispatch }, ownProps) => {
   return {
-    fetchInitialData: () => dispatch(activities.requestHead()),
-    fetchData: (page) => dispatch(activities.requestTail())
+    ...stateProps,
+    ...ownProps,
+    requestHead: () => dispatch(activities.requestHead()),
+    refresh: () => {
+      dispatch(activities.clear())
+      dispatch(activities.requestHead())
+    },
+    requestTail: () => {
+      if (stateProps.enableOnEndReached) {
+        dispatch(activities.requestTail())
+      }
+    }
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SelectActivitiesScreen)
+export default connect(mapStateToProps, null, mergeProps)(SelectActivitiesScreen)
