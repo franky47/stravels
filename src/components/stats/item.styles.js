@@ -37,4 +37,4 @@ const inlineStyle = StyleSheet.create({
   }
 })
 
-export default (inline) => inline ? inlineStyle : stackedStyle
+export default (inline = false) => inline ? inlineStyle : stackedStyle

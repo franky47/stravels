@@ -1,20 +1,23 @@
 import React from 'react'
 import { View } from 'react-native'
-import StatItem from './StatItem'
+import StatItem from './item'
 
+// Styles
+import { prettifyStats } from '@stravels/transforms/prettify'
 import styles from './banner.styles'
 
 export default (props) => {
+  const stats = prettifyStats(props.stats)
   return (
     <View style={styles.container} >
       <View style={styles.row}>
-        <StatItem label='distance' value={42.12} unit='km' />
-        <StatItem label='moving time' value={28.3} unit='h' />
+        <StatItem label='distance' {...(stats.distance)} />
+        <StatItem label='moving time' {...(stats.moving_time)} />
       </View>
       <View style={styles.row}>
-        <StatItem label='avg speed' value={12.2} unit='km/h' />
-        <StatItem label='elevation gain' value={6012} unit='m' />
-        <StatItem label='max speed' value={42.12} unit='km/h' />
+        <StatItem label='avg speed' {...(stats.average_speed)} />
+        <StatItem label='elevation gain' {...(stats.total_elevation_gain)} />
+        <StatItem label='max speed' {...(stats.max_speed)} />
       </View>
     </View>
   )

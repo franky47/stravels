@@ -7,10 +7,10 @@ export default (props) => {
   const styles = getStyles(props.inline)
   return (
     <View style={styles.container}>
-      <Text style={styles.value}>
-        {props.value}
+      <Text>
+        <Text style={styles.value}>{props.value}</Text>
         { props.unit &&
-          <Text style={styles.unit}>{props.unit.toUpperCase()}</Text>
+          <Text style={styles.unit}>{' ' + props.unit.toUpperCase()}</Text>
         }
       </Text>
       <Text style={styles.label}>{props.label.toUpperCase()}</Text>
