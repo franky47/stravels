@@ -14,9 +14,9 @@ const metrics = {
   horizontalLineHeight: 1,
   searchBarHeight: 30,
   listRowHeight: {
-    compact: 10,
-    default: 20,
-    large: 30
+    compact: 20,
+    default: 30,
+    large: 50
   },
   screenWidth: width < height ? width : height,
   screenHeight: width < height ? height : width,

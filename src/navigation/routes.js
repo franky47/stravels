@@ -21,6 +21,13 @@ export default {
       title: 'Select Activities'
     }
   },
+  Travel: {
+    screen: screens.TravelScreen,
+    navigationOptions: {
+      title: 'Travel Summary',
+      ...header.main.navigationOptions
+    }
+  },
 
   // Settings
   Preferences: {

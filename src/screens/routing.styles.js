@@ -6,7 +6,7 @@ export default StyleSheet.create({
     flex: 1
   },
   row: {
-    height: Metrics.listRowHeight.normal,
+    height: Metrics.listRowHeight.default,
     paddingHorizontal: Metrics.baseMargin
   },
   text: {
