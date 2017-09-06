@@ -1,21 +1,19 @@
 import moment from 'moment'
-import { selectors } from '@stravels/redux'
 
-export const getVisibleActivities = (state) => {
-  const allActivities = selectors.strava.getActivities(state)
+export const filterActivities = (activities = [], filter) => {
   const predicate = (activity) => {
-    if (activity.private && !selectors.settings.showPrivateActivities(state)) {
+    if (activity.private && !filter.showPrivate) {
       return false
     }
     switch (activity.type) {
-      case 'Ride': return selectors.settings.showRides(state)
-      case 'Hike': return selectors.settings.showHikes(state)
-      case 'Run': return selectors.settings.showRuns(state)
+      case 'Ride': return filter.showRides
+      case 'Hike': return filter.showHikes
+      case 'Run': return filter.showRuns
       default:
         return false
     }
   }
-  return allActivities.filter(predicate)
+  return activities.filter(predicate)
 }
 
 export const groupByMonth = (activities = []) => {
@@ -33,4 +31,24 @@ export const groupByMonth = (activities = []) => {
     }
   }
   return sections
+}
+
+export const getOldestUnixDate = (activities = []) => {
+  if (activities.length === 0) {
+    return 0
+  }
+  return activities.reduce((min, activity) => {
+    const time = Date.parse(activity.start_date)
+    return Math.min(min, time)
+  }, Number.MAX_VALUE)
+}
+
+export const getNewestUnixDate = (activities = []) => {
+  if (activities.length === 0) {
+    return Number.MAX_VALUE
+  }
+  return activities.reduce((min, activity) => {
+    const time = Date.parse(activity.start_date)
+    return Math.max(min, time)
+  }, 0)
 }
