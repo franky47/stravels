@@ -1,9 +1,10 @@
+import { PixelRatio } from 'react-native'
 import Secrets from 'react-native-config'
 
 const defaultOptions = {
   width: 100,
   height: 100,
-  retina: true,
+  retina: PixelRatio.get() > 1.0,
   format: 'png',
   mapId: 'mapbox.streets',
   strokeWidth: 4,
