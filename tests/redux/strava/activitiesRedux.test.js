@@ -5,6 +5,12 @@ import createSelector from '@stravels/redux/strava/activities/selectors'
 
 const select = createSelector()
 
+// Mock activities
+const foo = { id: 4, name: 'foo', start_date: '2017-01-04T00:00:00Z' }
+const bar = { id: 3, name: 'bar', start_date: '2017-01-03T00:00:00Z' }
+const egg = { id: 2, name: 'egg', start_date: '2017-01-02T00:00:00Z' }
+const spam = { id: 1, name: 'spam', start_date: '2017-01-01T00:00:00Z' }
+
 describe('Default State', () => {
   test('should match the exported value', () => {
     const store = createStore(reducer)
@@ -84,36 +90,38 @@ describe('Responses', () => {
       const expected = false
       expect(actual).toEqual(expected)
     })
-    test('unspecified insertAt should append data', () => {
+    test('tail should append data', () => {
       const store = createStore(reducer)
-      store.dispatch(actions.success(['foo', 'bar']))
-      store.dispatch(actions.success(['egg', 'spam']))
+      store.dispatch(actions.success([foo, bar], 'tail'))
+      store.dispatch(actions.success([egg, spam], 'tail'))
       const actual = select.getActivities(store.getState())
-      const expected = ['foo', 'bar', 'egg', 'spam']
+      const expected = [foo, bar, egg, spam]
       expect(actual).toEqual(expected)
     })
-    test('specifying tail should append data', () => {
+    test('intersecting tail should update common data', () => {
+      const baz = { ...bar, name: 'baz' }
       const store = createStore(reducer)
-      store.dispatch(actions.success(['foo', 'bar'], 'tail'))
-      store.dispatch(actions.success(['egg', 'spam'], 'tail'))
+      store.dispatch(actions.success([foo, bar, egg], 'tail'))
+      store.dispatch(actions.success([egg, baz, spam], 'tail'))
       const actual = select.getActivities(store.getState())
-      const expected = ['foo', 'bar', 'egg', 'spam']
+      const expected = [foo, baz, egg, spam]
       expect(actual).toEqual(expected)
     })
-    test('specifying head should prepend data', () => {
+    test('head should prepend data', () => {
       const store = createStore(reducer)
-      store.dispatch(actions.success(['foo', 'bar'], 'head'))
-      store.dispatch(actions.success(['egg', 'spam'], 'head'))
+      store.dispatch(actions.success([foo, bar], 'head'))
+      store.dispatch(actions.success([egg, spam], 'head'))
       const actual = select.getActivities(store.getState())
-      const expected = ['egg', 'spam', 'foo', 'bar']
+      const expected = [egg, spam, foo, bar]
       expect(actual).toEqual(expected)
     })
-    test('invalid insertAt should not change data', () => {
+    test('intersecting head should update common data', () => {
       const store = createStore(reducer)
-      store.dispatch(actions.success(['foo', 'bar'], 'random location'))
-      store.dispatch(actions.success(['egg', 'spam'], 'random location'))
+      const gee = { ...egg, name: 'gee' }
+      store.dispatch(actions.success([egg, spam], 'head'))
+      store.dispatch(actions.success([foo, bar, gee], 'head'))
       const actual = select.getActivities(store.getState())
-      const expected = []
+      const expected = [foo, bar, gee, spam]
       expect(actual).toEqual(expected)
     })
     test('empty tail data should not set eof', () => {

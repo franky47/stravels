@@ -1,4 +1,5 @@
 import { createReducer } from 'reduxsauce'
+import { differenceBy } from 'lodash'
 import { types } from './actions'
 
 export const DEFAULT_STATE = {
@@ -15,24 +16,34 @@ const request = (state, action) => ({
 })
 
 // Responses
-const success = (state, { data, insertAt }) => {
-  if (insertAt === 'tail') {
-    return {
-      ...state,
-      data: [...state.data, ...data],
-      fetching: false,
-      error: null
-    }
-  } else if (insertAt === 'head') {
-    return {
-      ...state,
-      data: [...data, ...state.data],
-      fetching: false,
-      error: null
+
+const updateCommon = (stateData, newData) => {
+  const data = [...stateData]
+  for (const n in newData) {
+    for (const s in data) {
+      if (newData[n].id === data[s].id) {
+        data[s] = newData[n]
+      }
     }
   }
-  return state
+  return data
 }
+const insertNew = (stateData, newData, insertAt) => {
+  const data = differenceBy(newData, stateData, 'id')
+  if (insertAt === 'head') {
+    return [...data, ...stateData]
+  } else if (insertAt === 'tail') {
+    return [...stateData, ...data]
+  }
+  return stateData
+}
+
+const success = (state, { data, insertAt }) => ({
+  ...state,
+  data: updateCommon(insertNew(state.data, data, insertAt), data),
+  fetching: false,
+  error: null
+})
 
 const failure = (state, { error }) => ({
   ...state,
