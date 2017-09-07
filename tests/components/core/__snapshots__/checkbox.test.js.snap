@@ -1,0 +1,209 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Check / Uncheck checked 1`] = `
+<Text
+  accessible={true}
+  allowFontScaling={false}
+  disabled={false}
+  ellipsizeMode="tail"
+  onPress={[Function]}
+  style={
+    Array [
+      Object {
+        "color": "#47cc5e",
+        "fontSize": 24,
+      },
+      undefined,
+      Object {
+        "fontFamily": "Material Icons",
+        "fontStyle": "normal",
+        "fontWeight": "normal",
+      },
+    ]
+  }
+>
+  
+</Text>
+`;
+
+exports[`Check / Uncheck unchecked 1`] = `
+<Text
+  accessible={true}
+  allowFontScaling={false}
+  disabled={false}
+  ellipsizeMode="tail"
+  onPress={[Function]}
+  style={
+    Array [
+      Object {
+        "color": "grey",
+        "fontSize": 24,
+      },
+      undefined,
+      Object {
+        "fontFamily": "Material Icons",
+        "fontStyle": "normal",
+        "fontWeight": "normal",
+      },
+    ]
+  }
+>
+  
+</Text>
+`;
+
+exports[`Custom Colors disabled - checked 1`] = `
+<Text
+  accessible={true}
+  allowFontScaling={false}
+  disabled={false}
+  ellipsizeMode="tail"
+  onPress={[Function]}
+  style={
+    Array [
+      Object {
+        "color": "#47cc5e",
+        "fontSize": 24,
+      },
+      undefined,
+      Object {
+        "fontFamily": "Material Icons",
+        "fontStyle": "normal",
+        "fontWeight": "normal",
+      },
+    ]
+  }
+>
+  
+</Text>
+`;
+
+exports[`Custom Colors disabled - unchecked 1`] = `
+<Text
+  accessible={true}
+  allowFontScaling={false}
+  disabled={false}
+  ellipsizeMode="tail"
+  onPress={[Function]}
+  style={
+    Array [
+      Object {
+        "color": "grey",
+        "fontSize": 24,
+      },
+      undefined,
+      Object {
+        "fontFamily": "Material Icons",
+        "fontStyle": "normal",
+        "fontWeight": "normal",
+      },
+    ]
+  }
+>
+  
+</Text>
+`;
+
+exports[`Custom Colors enabled - checked 1`] = `
+<Text
+  accessible={true}
+  allowFontScaling={false}
+  disabled={false}
+  ellipsizeMode="tail"
+  onPress={[Function]}
+  style={
+    Array [
+      Object {
+        "color": "#f00",
+        "fontSize": 24,
+      },
+      undefined,
+      Object {
+        "fontFamily": "Material Icons",
+        "fontStyle": "normal",
+        "fontWeight": "normal",
+      },
+    ]
+  }
+>
+  
+</Text>
+`;
+
+exports[`Custom Colors enabled - unchecked 1`] = `
+<Text
+  accessible={true}
+  allowFontScaling={false}
+  disabled={false}
+  ellipsizeMode="tail"
+  onPress={[Function]}
+  style={
+    Array [
+      Object {
+        "color": "#f00",
+        "fontSize": 24,
+      },
+      undefined,
+      Object {
+        "fontFamily": "Material Icons",
+        "fontStyle": "normal",
+        "fontWeight": "normal",
+      },
+    ]
+  }
+>
+  
+</Text>
+`;
+
+exports[`Size support checked 1`] = `
+<Text
+  accessible={true}
+  allowFontScaling={false}
+  disabled={false}
+  ellipsizeMode="tail"
+  onPress={[Function]}
+  style={
+    Array [
+      Object {
+        "color": "#47cc5e",
+        "fontSize": 42,
+      },
+      undefined,
+      Object {
+        "fontFamily": "Material Icons",
+        "fontStyle": "normal",
+        "fontWeight": "normal",
+      },
+    ]
+  }
+>
+  
+</Text>
+`;
+
+exports[`Size support unchecked 1`] = `
+<Text
+  accessible={true}
+  allowFontScaling={false}
+  disabled={false}
+  ellipsizeMode="tail"
+  onPress={[Function]}
+  style={
+    Array [
+      Object {
+        "color": "grey",
+        "fontSize": 42,
+      },
+      undefined,
+      Object {
+        "fontFamily": "Material Icons",
+        "fontStyle": "normal",
+        "fontWeight": "normal",
+      },
+    ]
+  }
+>
+  
+</Text>
+`;
