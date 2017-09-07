@@ -24,7 +24,11 @@
     "lintdiff": "git diff --name-only --cached --relative | grep '\\.js$' | xargs standard | snazzy",
     "fixcode": "standard --fix",
     "ios": "react-native run-ios",
-    "android": "react-native run-android"
+    "ios:debug": "react-native run-ios --configuration Debug",
+    "ios:release": "react-native run-ios --configuration Release",
+    "android": "react-native run-android",
+    "android:debug": "react-native run-android --configuration Debug",
+    "android:release": "react-native run-android --configuration Release"
   },
   "dependencies": {
     "@mapbox/polyline": "^0.2.0",
