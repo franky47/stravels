@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { View, Text } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import MapThumbnail from './mapThumbnail'
@@ -12,7 +12,7 @@ const icons = {
   'Ride': 'directions-bike'
 }
 
-export default class ActivityRow extends Component {
+export default class ActivityRow extends PureComponent {
   render () {
     return (
       <View style={styles.mainContainer}>

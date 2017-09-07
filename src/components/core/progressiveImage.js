@@ -1,17 +1,16 @@
 // Source:
 // https://medium.com/technoetics/adding-image-placeholders-in-react-native-the-right-way-9140e78ac5c2
 
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { Animated, View } from 'react-native'
 
-export default class ProgressiveImage extends Component {
+export default class ProgressiveImage extends PureComponent {
   constructor (props) {
     super(props)
     this.state = {
       placeholderOpacity: new Animated.Value(1.0)
     }
   }
-
   onLoad () {
     Animated.timing(this.state.placeholderOpacity, {
       toValue: 0,
@@ -27,7 +26,6 @@ export default class ProgressiveImage extends Component {
       >
         <Animated.Image
           resizeMode={'contain'}
-          key={this.props.key}
           style={[
             { position: 'absolute' },
             this.props.style
@@ -37,7 +35,6 @@ export default class ProgressiveImage extends Component {
         />
         <Animated.Image
           resizeMode={'contain'}
-          key={this.props.key}
           style={[
             {
               backgroundColor: '#e9eef1',
