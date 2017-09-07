@@ -18,30 +18,53 @@ describe('Request Head', () => {
     const saga = sagas.requestHeadSaga(api)
     expect(saga.next().value).toEqual(select(selectors.strava.activities.getActivities))
     expect(saga.next([]).value).toEqual(call([api, api.getActivities], {}))
-    expect(saga.next({ data: [] }).value).toEqual(put(actions.success([], 'head')))
+    expect(saga.next({ data: [], ok: true }).value).toEqual(put(actions.success([], 'head')))
     expect(saga.next().done).toEqual(true)
   })
   test('empty state, received activities', () => {
     const saga = sagas.requestHeadSaga(api)
     expect(saga.next().value).toEqual(select(selectors.strava.activities.getActivities))
     expect(saga.next([]).value).toEqual(call([api, api.getActivities], {}))
-    expect(saga.next({ data: [foo, bar] }).value).toEqual(put(actions.success([foo, bar], 'head')))
+    expect(saga.next({ data: [foo, bar], ok: true }).value).toEqual(put(actions.success([foo, bar], 'head')))
     expect(saga.next().done).toEqual(true)
   })
   test('head intersects with state', () => {
     const saga = sagas.requestHeadSaga(api)
     expect(saga.next().value).toEqual(select(selectors.strava.activities.getActivities))
     expect(saga.next([bar, egg]).value).toEqual(call([api, api.getActivities], {}))
-    expect(saga.next({ data: [foo, bar] }).value).toEqual(put(actions.success([foo, bar], 'head')))
+    expect(saga.next({ data: [foo, bar], ok: true }).value).toEqual(put(actions.success([foo, bar], 'head')))
     expect(saga.next().done).toEqual(true)
   })
   test('head does not intersect with state, multiple calls', () => {
     const saga = sagas.requestHeadSaga(api)
     expect(saga.next().value).toEqual(select(selectors.strava.activities.getActivities))
     expect(saga.next([egg, spam]).value).toEqual(call([api, api.getActivities], {}))
-    expect(saga.next({ data: [foo] }).value).toEqual(call([api, api.getActivities], { before: 0.001 * Date.parse(foo.start_date) }))
-    expect(saga.next({ data: [bar] }).value).toEqual(call([api, api.getActivities], { before: 0.001 * Date.parse(bar.start_date) }))
-    expect(saga.next({ data: [egg] }).value).toEqual(put(actions.success([foo, bar, egg], 'head')))
+    expect(saga.next({ data: [foo], ok: true }).value).toEqual(call([api, api.getActivities], { before: 0.001 * Date.parse(foo.start_date) }))
+    expect(saga.next({ data: [bar], ok: true }).value).toEqual(call([api, api.getActivities], { before: 0.001 * Date.parse(bar.start_date) }))
+    expect(saga.next({ data: [egg], ok: true }).value).toEqual(put(actions.success([foo, bar, egg], 'head')))
+    expect(saga.next().done).toEqual(true)
+  })
+  test('failure in selector', () => {
+    const error = new Error('boo')
+    const saga = sagas.requestHeadSaga(api)
+    expect(saga.next().value).toEqual(select(selectors.strava.activities.getActivities))
+    expect(saga.throw(error).value).toEqual(put(actions.failure(error)))
+    expect(saga.next().done).toEqual(true)
+  })
+  test('failure in api call', () => {
+    const response = {
+      ok: false,
+      problem: 'uh oh',
+      data: [{
+        resource: 'foo',
+        field: 'bar',
+        code: 'egg'
+      }]
+    }
+    const saga = sagas.requestTailSaga(api)
+    expect(saga.next().value).toEqual(select(selectors.strava.activities.getActivities))
+    expect(saga.next([]).value).toEqual(call([api, api.getActivities], {}))
+    expect(saga.next(response).value).toEqual(put(actions.failure({ problem: 'uh oh', data: response.data })))
     expect(saga.next().done).toEqual(true)
   })
 })
@@ -51,7 +74,7 @@ describe('Request Tail', () => {
     const saga = sagas.requestTailSaga(api)
     expect(saga.next().value).toEqual(select(selectors.strava.activities.getActivities))
     expect(saga.next([]).value).toEqual(call([api, api.getActivities], {}))
-    expect(saga.next({ data: [] }).value).toEqual(put(actions.setEof()))
+    expect(saga.next({ data: [], ok: true }).value).toEqual(put(actions.setEof()))
     expect(saga.next().value).toEqual(put(actions.success([], 'head')))
     expect(saga.next().done).toEqual(true)
   })
@@ -59,21 +82,21 @@ describe('Request Tail', () => {
     const saga = sagas.requestTailSaga(api)
     expect(saga.next().value).toEqual(select(selectors.strava.activities.getActivities))
     expect(saga.next([]).value).toEqual(call([api, api.getActivities], {}))
-    expect(saga.next({ data: [foo, bar] }).value).toEqual(put(actions.success([foo, bar], 'head')))
+    expect(saga.next({ data: [foo, bar], ok: true }).value).toEqual(put(actions.success([foo, bar], 'head')))
     expect(saga.next().done).toEqual(true)
   })
   test('request after oldest element in state', () => {
     const saga = sagas.requestTailSaga(api)
     expect(saga.next().value).toEqual(select(selectors.strava.activities.getActivities))
     expect(saga.next([foo, bar]).value).toEqual(call([api, api.getActivities], { before: 0.001 * Date.parse(bar.start_date) }))
-    expect(saga.next({ data: [egg, spam] }).value).toEqual(put(actions.success([egg, spam], 'tail')))
+    expect(saga.next({ data: [egg, spam], ok: true }).value).toEqual(put(actions.success([egg, spam], 'tail')))
     expect(saga.next().done).toEqual(true)
   })
   test('receive empty data results in setEof', () => {
     const saga = sagas.requestTailSaga(api)
     expect(saga.next().value).toEqual(select(selectors.strava.activities.getActivities))
     expect(saga.next([foo, bar]).value).toEqual(call([api, api.getActivities], { before: 0.001 * Date.parse(bar.start_date) }))
-    expect(saga.next({ data: [] }).value).toEqual(put(actions.setEof()))
+    expect(saga.next({ data: [], ok: true }).value).toEqual(put(actions.setEof()))
     expect(saga.next().value).toEqual(put(actions.success([], 'tail')))
     expect(saga.next().done).toEqual(true)
   })
@@ -85,11 +108,19 @@ describe('Request Tail', () => {
     expect(saga.next().done).toEqual(true)
   })
   test('failure in api call', () => {
-    const error = new Error('boo')
+    const response = {
+      ok: false,
+      problem: 'uh oh',
+      data: [{
+        resource: 'foo',
+        field: 'bar',
+        code: 'egg'
+      }]
+    }
     const saga = sagas.requestTailSaga(api)
     expect(saga.next().value).toEqual(select(selectors.strava.activities.getActivities))
     expect(saga.next([foo, bar]).value).toEqual(call([api, api.getActivities], { before: 0.001 * Date.parse(bar.start_date) }))
-    expect(saga.throw(error).value).toEqual(put(actions.failure(error)))
+    expect(saga.next(response).value).toEqual(put(actions.failure({ problem: 'uh oh', data: response.data })))
     expect(saga.next().done).toEqual(true)
   })
 })

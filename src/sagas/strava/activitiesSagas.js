@@ -11,14 +11,25 @@ const intersects = (a, b) => {
   return !isEmpty(intersectionBy(a, b, 'id'))
 }
 
+const handleApiSauceError = ({ ok, problem, data }) => {
+  if (!ok) {
+    const error = {
+      problem,
+      data
+    }
+    throw error
+  }
+}
+
 export function * requestHeadSaga (api) {
   try {
     const stateActivities = yield select(selectors.strava.activities.getActivities)
     const params = {}
     let apiActivities = []
     do {
-      const { data } = yield call([api, api.getActivities], params)
-      apiActivities = apiActivities.concat(data)
+      const response = yield call([api, api.getActivities], params)
+      handleApiSauceError(response)
+      apiActivities = apiActivities.concat(response.data)
       params.before = getOldestUnixDate(apiActivities)
       // \todo: add delay here to avoid swarming the API
     } while (!intersects(apiActivities, stateActivities))
@@ -35,11 +46,12 @@ export function * requestTailSaga (api) {
     const params = isEmpty(stateActivities) ? {} : {
       before: getOldestUnixDate(stateActivities)
     }
-    const { data } = yield call([api, api.getActivities], params)
-    if (isEmpty(data)) {
+    const response = yield call([api, api.getActivities], params)
+    handleApiSauceError(response)
+    if (isEmpty(response.data)) {
       yield put(actions.setEof())
     }
-    yield put(actions.success(data, location))
+    yield put(actions.success(response.data, location))
   } catch (error) {
     yield put(actions.failure(error))
   }
