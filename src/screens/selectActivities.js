@@ -1,10 +1,10 @@
 // Structure
 import React, { Component } from 'react'
 import { View, Text, SectionList, TouchableHighlight, ActivityIndicator } from 'react-native'
-import Icon from 'react-native-vector-icons/MaterialIcons'
 import NavToolbar from '@stravels/components/nav/toolbar'
 import NavToolbarIcon from '@stravels/components/nav/icon'
 import ActivityRow from '@stravels/components/activityRow'
+import Checkbox from '@stravels/components/core/checkbox'
 
 // Behaviour
 import { connect } from 'react-redux'
@@ -123,11 +123,10 @@ class SelectActivitiesScreen extends Component {
             polyline={item.map.summary_polyline}
             {...item}
           />
-          <Icon
+          <Checkbox
             style={styles.checkbox}
-            name={selected ? 'check-box' : 'check-box-outline-blank'}
-            color={selected ? Colors.checkboxOn : Colors.checkboxOff}
             size={24}
+            checked={selected}
           />
         </View>
       </TouchableHighlight>
@@ -135,7 +134,7 @@ class SelectActivitiesScreen extends Component {
   }
   _renderError () {
     if (!this.props.error) return null
-    return <Text>{this.props.error}</Text>
+    return <Text>{JSON.stringify(this.props.error, null, 2)}</Text>
   }
   _renderSpinner () {
     if (!this.props.showBottomSpinner) return null
@@ -168,7 +167,7 @@ const mergeProps = (stateProps, { dispatch }, ownProps) => {
       dispatch(activities.requestHead())
     },
     requestTail: () => {
-      if (stateProps.enableOnEndReached) {
+      if (stateProps.enableOnEndReached && stateProps.sections.length && !stateProps.fetching) {
         dispatch(activities.requestTail())
       }
     }
