@@ -1,25 +1,20 @@
 // Structure
-import React, { Component } from 'react'
-import {
-  ActivityIndicator,
-  Image,
-  Text,
-  TouchableHighlight,
-  View
-} from 'react-native'
+import React, { PureComponent } from 'react'
+import { ActivityIndicator, Image, Text, View } from 'react-native'
 import StatusBar from '@stravels/components/core/statusBar'
+import ConnectWithStrava from '@stravels/components/connectWithStrava'
 import Link from '@stravels/components/core/link'
+import { Images } from '@stravels/themes'
 
 // Behaviour
 import { connect } from 'react-redux'
 import { actions as oauth } from '@stravels/redux/strava/oauth/actions'
 import selectors from '@stravels/redux/selectors'
-import { Images } from '@stravels/themes'
 
 // Styles
 import styles from './login.styles'
 
-class LoginScreen extends Component {
+class LoginScreen extends PureComponent {
   static navigationOptions = {
     header: null
   }
@@ -47,15 +42,7 @@ class LoginScreen extends Component {
   _renderButton () {
     const showButton = !this.props.fetching // todo: better logic
     if (showButton) {
-      return (
-        <TouchableHighlight
-          onPress={this.props.requestAuth}
-          style={styles.buttonContainer}
-          underlayColor='transparent'
-        >
-          <Image source={Images.strava.connect.light} />
-        </TouchableHighlight>
-      )
+      return <ConnectWithStrava onPress={this.props.requestAuth} />
     } else {
       return <ActivityIndicator
         animating
