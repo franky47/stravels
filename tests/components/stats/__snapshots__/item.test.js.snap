@@ -30,6 +30,7 @@ exports[`component renders correctly 1`] = `
     >
       42
     </Text>
+     
     <Text
       accessible={true}
       allowFontScaling={true}
@@ -43,7 +44,7 @@ exports[`component renders correctly 1`] = `
         }
       }
     >
-       BAR
+      BAR
     </Text>
   </Text>
   <Text
