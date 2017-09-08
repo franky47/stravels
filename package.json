@@ -8,6 +8,7 @@
     "clean": "rm -rf $TMPDIR/react-* && watchman watch-del-all && npm cache clean --force",
     "clean:android": "cd android/ && ./gradlew clean && cd .. && react-native run-android",
     "clean:packages": "rm -rf node_modules && yarn && npm shrinkwrap",
+    "clean:mapbox": "react-native unlink react-native-mapbox-gl && npm run clean:packages && react-native link",
     "newclear": "rm -rf $TMPDIR/react-* && watchman watch-del-all && rm -rf ios/build && rm -rf node_modules/ && npm cache clean --force && npm i",
     "test:watch": "jest --watch",
     "updateSnapshot": "jest --updateSnapshot",
