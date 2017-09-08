@@ -97,11 +97,11 @@ class SelectActivitiesScreen extends Component {
     return (
       <SectionList
         sections={this.props.sections}
-        renderItem={this._renderItem.bind(this)}
+        renderItem={this._renderItem}
         renderSectionHeader={({section}) => <SectionHeader title={section.title} />}
         keyExtractor={(item) => item.id}
-        ListHeaderComponent={this._renderError.bind(this)}
-        ListFooterComponent={this._renderSpinner.bind(this)}
+        ListHeaderComponent={this._renderError}
+        ListFooterComponent={this._renderSpinner}
         ItemSeparatorComponent={() => <View style={styles.separator} />}
         refreshing={this.props.fetching}
         onEndReached={this.props.requestTail}
@@ -109,7 +109,7 @@ class SelectActivitiesScreen extends Component {
       />
     )
   }
-  _renderItem ({ item }) {
+  _renderItem = ({ item }) => {
     const selected = this.state.selected.has(item.id)
     return (
       <TouchableHighlight
@@ -132,11 +132,11 @@ class SelectActivitiesScreen extends Component {
       </TouchableHighlight>
     )
   }
-  _renderError () {
+  _renderError = () => {
     if (!this.props.error) return null
     return <Text>{JSON.stringify(this.props.error, null, 2)}</Text>
   }
-  _renderSpinner () {
+  _renderSpinner = () => {
     if (!this.props.showBottomSpinner) return null
     return <ActivityIndicator animating size='large' style={styles.spinner} />
   }

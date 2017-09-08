@@ -15,24 +15,22 @@ class RoutingScreen extends Component {
       <View style={styles.mainContainer} >
         <FlatList
           data={data}
-          renderItem={this._renderItem.bind(this)}
+          renderItem={this._renderItem}
           keyExtractor={(item) => item}
         />
         <Text onPress={() => confirmLogout(this.props.logout)}>Log out</Text>
       </View>
     )
   }
-  _renderItem ({ item }) {
-    return (
-      <TouchableHighlight
-        style={styles.row}
-        underlayColor='transparent'
-        onPress={() => this.props.navigate(item)}
-      >
-        <Text style={styles.text}>{item}</Text>
-      </TouchableHighlight>
-    )
-  }
+  _renderItem = ({ item }) => (
+    <TouchableHighlight
+      style={styles.row}
+      underlayColor='transparent'
+      onPress={() => this.props.navigate(item)}
+    >
+      <Text style={styles.text}>{item}</Text>
+    </TouchableHighlight>
+  )
 }
 
 const mapDispatchToProps = (dispatch) => ({

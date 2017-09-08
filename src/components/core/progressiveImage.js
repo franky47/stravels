@@ -11,7 +11,7 @@ export default class ProgressiveImage extends PureComponent {
       placeholderOpacity: new Animated.Value(1.0)
     }
   }
-  onLoad () {
+  onLoad = () => {
     Animated.timing(this.state.placeholderOpacity, {
       toValue: 0,
       duration: 250
@@ -31,7 +31,7 @@ export default class ProgressiveImage extends PureComponent {
             this.props.style
           ]}
           source={this.props.source}
-          onLoad={this.onLoad.bind(this)}
+          onLoad={this.onLoad}
         />
         <Animated.Image
           resizeMode={'contain'}
