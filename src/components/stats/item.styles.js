@@ -1,8 +1,8 @@
 import { StyleSheet } from 'react-native'
 import { Fonts, Colors } from '@stravels/themes'
 
-const stackedStyle = StyleSheet.create({
-  container: {
+export default StyleSheet.create({
+  mainContainer: {
     flexDirection: 'column',
     alignItems: 'center'
   },
@@ -22,19 +22,3 @@ const stackedStyle = StyleSheet.create({
     color: '#aaa'
   }
 })
-const inlineStyle = StyleSheet.create({
-  container: {
-    flexDirection: 'row'
-  },
-  value: {
-
-  },
-  unit: {
-
-  },
-  label: {
-
-  }
-})
-
-export default (inline = false) => inline ? inlineStyle : stackedStyle
