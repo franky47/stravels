@@ -1,7 +1,10 @@
+// Structure
 import React, { Component } from 'react'
-import { View, StatusBar } from 'react-native'
-import ReduxNavigation from './navigation/reduxNavigation'
+import { View } from 'react-native'
+
+// Beahviour
 import { connect } from 'react-redux'
+import ReduxNavigation from './navigation/reduxNavigation'
 import startupActions from './redux/startupRedux'
 import reduxPersist from './config/reduxPersist'
 
@@ -19,7 +22,6 @@ class RootContainer extends Component {
   render () {
     return (
       <View style={styles.applicationRootView}>
-        <StatusBar barStyle='dark-content' />
         <ReduxNavigation />
       </View>
     )
