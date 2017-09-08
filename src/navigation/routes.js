@@ -24,7 +24,7 @@ export default {
   Travel: {
     screen: screens.TravelScreen,
     navigationOptions: {
-      title: 'Travel Summary',
+      title: 'Summary',
       ...header.main.navigationOptions
     }
   },
