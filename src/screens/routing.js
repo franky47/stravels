@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import routes from '@stravels/navigation/routes'
 import { NavigationActions } from 'react-navigation'
 import { actions as oauth } from '@stravels/redux/strava/oauth/actions'
-import confirmLogout from '@stravels/components/modals/logout'
+import { confirmLogout } from '@stravels/utility/alerts'
 
 import styles from './routing.styles'
 

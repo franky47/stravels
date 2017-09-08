@@ -1,6 +1,6 @@
 import { Alert } from 'react-native'
 
-export default (onConfirm, onDismiss = () => {}) => {
+export const confirmLogout = (onConfirm, onDismiss = () => {}) => {
   const buttons = [
     {
       text: 'Cancel',
