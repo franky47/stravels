@@ -32,6 +32,7 @@
   },
   "dependencies": {
     "@mapbox/polyline": "^0.2.0",
+    "@turf/turf": "^4.7.2",
     "apisauce": "^0.14.0",
     "axios": "^0.16.2",
     "firebase": "^4.2.0",
