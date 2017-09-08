@@ -28,6 +28,16 @@ export default StyleSheet.create({
       android: 18 // todo: check on Android
     })
   },
+  links: {
+    flexDirection: 'row'
+  },
+  link: {
+    margin: Metrics.baseMargin,
+    padding: Metrics.baseMargin,
+    fontSize: 15,
+    color: 'rgba(255, 255, 255, 0.75)',
+    textDecorationLine: 'underline'
+  },
   error: {
     color: 'rgba(255, 255, 255, 0.75)'
   },

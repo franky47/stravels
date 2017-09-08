@@ -1,12 +1,16 @@
+// Structure
 import React, { Component } from 'react'
 import {
   ActivityIndicator,
   Image,
   Text,
   TouchableHighlight,
-  View,
-  StatusBar
+  View
 } from 'react-native'
+import StatusBar from '@stravels/components/core/statusBar'
+import Link from '@stravels/components/core/link'
+
+// Behaviour
 import { connect } from 'react-redux'
 import { actions as oauth } from '@stravels/redux/strava/oauth/actions'
 import selectors from '@stravels/redux/selectors'
@@ -22,7 +26,7 @@ class LoginScreen extends Component {
   render () {
     return (
       <View style={styles.container}>
-        <StatusBar barStyle='light-content' />
+        <StatusBar main />
         <View style={styles.logoContainer}>
           <Image
             source={Images.loginLogo}
@@ -32,6 +36,7 @@ class LoginScreen extends Component {
         <View style={styles.uiContainer}>
           { this._renderButton() }
           { this._renderError() }
+          { this._renderLinks() }
           <View style={styles.footer}>
             <Image source={Images.strava.poweredBy.white} />
           </View>
@@ -59,6 +64,14 @@ class LoginScreen extends Component {
         style={styles.spinner}
       />
     }
+  }
+  _renderLinks () {
+    return (
+      <View style={styles.links}>
+        <Link style={styles.link} text='Terms & Conditions' url='https://stravels.io/terms-conditions' />
+        <Link style={styles.link} text='Privacy Policies' url='https://stravels.io/privacy' />
+      </View>
+    )
   }
   _renderError () {
     const error = this.props.error
