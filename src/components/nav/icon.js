@@ -1,21 +1,21 @@
 import React from 'react'
-import NavToolbarItem from './item'
 import Icon from 'react-native-vector-icons/MaterialIcons'
+import NavToolbarTouchable from './touchable'
 
-const defaultProps = {
-  disabledColor: '#ccc',
-  color: '#333'
-}
-
-export default function NavToolbarIcon (props = defaultProps) {
-  const p = {...defaultProps, ...props}
+export default function NavToolbarIcon (props) {
   return (
-    <NavToolbarItem {...props} >
+    <NavToolbarTouchable {...props} >
       <Icon
         name={props.icon}
-        size={24}
-        color={p.disabled ? p.disabledColor : p.color}
+        size={props.size}
+        color={props.disabled ? props.disabledColor : props.color}
       />
-    </NavToolbarItem>
+    </NavToolbarTouchable>
   )
+}
+
+NavToolbarIcon.defaultProps = {
+  size: 24,
+  disabledColor: '#ccc',
+  color: '#333'
 }

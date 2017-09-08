@@ -1,20 +1,19 @@
 import React from 'react'
-import { View } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 
-import styles from './toolbar.styles'
-
-export const ToolbarItem = (item) => {
+export default function NavToolbar ({ children }) {
   return (
-    <View style={styles.item}>
-      { item }
+    <View style={styles.mainContainer} >
+      { children }
     </View>
   )
 }
 
-export default function NavToolbar (props) {
-  return (
-    <View style={styles.container} >
-      { React.Children.map(props.children, (child) => ToolbarItem(child)) }
-    </View>
-  )
-}
+const styles = StyleSheet.create({
+  mainContainer: {
+    flex: 1,
+    flexDirection: 'row',
+    justifyContent: 'flex-end',
+    alignItems: 'stretch'
+  }
+})
