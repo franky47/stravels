@@ -52,3 +52,8 @@ export const getNewestUnixDate = (activities = []) => {
     return Math.max(min, time)
   }, 0))
 }
+
+export const normalizeDistances = (activities = []) => {
+  const sum = activities.reduce((sum, activity) => sum + activity.distance, 0.0)
+  return activities.map((activity) => activity.distance / sum)
+}

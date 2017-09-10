@@ -6,19 +6,22 @@ import { View } from 'react-native'
 import { getColorForIndex } from '@stravels/engine/map'
 import styles from './progress.styles'
 
-const Segment = ({ color }) => {
+const Segment = ({ color, length, border }) => {
   const style = {
-    backgroundColor: color
+    backgroundColor: color,
+    flex: length,
+    borderRadius: border ? 4 : 0,
+    marginHorizontal: border ? 1 : 0
   }
-  return <View style={[ styles.segment, style ]} />
+  return <View style={style} />
 }
 
-export default function ProgressIndicator ({ length, index }) {
-  const sections = []
-  for (let i = 0; i < length; i++) {
-    const color = i === index ? getColorForIndex(i) : '#CFD8DC'
-    sections.push(<Segment color={color} key={`progress-${i}`} />)
-  }
+export default function ProgressIndicator ({ lengths, index }) {
+  const sections = lengths.map((length, i) => {
+    const color = (i === index || index === undefined) ? getColorForIndex(i) : '#CFD8DC'
+    const border = index !== undefined
+    return <Segment color={color} key={`progress-${i}`} length={length} border={border} />
+  })
   return (
     <View style={styles.mainContainer}>
       { sections }

@@ -15,6 +15,7 @@ import selectors from '@stravels/redux/selectors'
 import { computeStats } from '@stravels/engine/stats'
 import Swiper from '@stravels/components/core/swiper'
 import { prettifyDateRange } from '@stravels/transforms/prettify'
+import { normalizeDistances } from '@stravels/transforms/activities'
 
 // Styles
 import styles from './travel.styles'
@@ -53,7 +54,7 @@ class TravelScreen extends Component {
           onSwipeRight={this.onSwipeRight.bind(this)}
         >
           <ProgressIndicator
-            length={this.props.polylines.length}
+            lengths={this.props.normalizedLengths}
             index={this.props.focused}
           />
           <View style={styles.titleBar}>
@@ -118,6 +119,7 @@ const mapStateToProps = (state, ownProps) => {
     focused,
     stats,
     numSegments: activities.length,
+    normalizedLengths: normalizeDistances(activities),
     names: activities.map(a => a.name),
     dates: activities.map(a => moment(a.start_date).format('Do MMMM YYYY')),
     polylines: activities.map(a => Polyline.decode(a.map.summary_polyline)),
