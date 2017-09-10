@@ -16,8 +16,11 @@ export const prettifyElevation = (meters = 0) => ({
 
 export const prettifyDuration = (seconds = 0) => {
   const duration = moment.duration(seconds, 'seconds')
+  const h = duration.hours().toString()
+  const m = duration.minutes().toString().padStart(2, '0')
+  const s = duration.seconds().toString().padStart(2, '0')
   return {
-    value: `${duration.hours()}:${duration.minutes()}:${duration.seconds()}`,
+    value: `${h}:${m}:${s}`,
     unit: ''
   }
 }
