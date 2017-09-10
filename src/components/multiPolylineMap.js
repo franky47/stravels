@@ -43,8 +43,8 @@ export default class MultiPolylineMap extends Component {
                     props.focused < props.polylines.length
     const data = focused ? turf.lineString(props.polylines[props.focused])
                          : turf.multiLineString(props.polylines)
-    const padding = 40 // todo: adapt to screen density
-    this.map.setVisibleCoordinateBounds(...turf.bbox(data), ...Array(4).fill(padding))
+    const scale = focused ? 1.4 : 1.25
+    this.map.setVisibleCoordinateBounds(...turf.bbox(turf.transformScale(data, scale)))
   }
 
   onTap = ({ latitude, longitude }) => {
@@ -75,7 +75,6 @@ export default class MultiPolylineMap extends Component {
         coordinates,
         strokeColor: getColorForIndex(index),
         strokeWidth: 3,
-        strokeAlpha: 1.0,
         id: this.props.names[index]
       }
     })
