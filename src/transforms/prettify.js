@@ -1,4 +1,5 @@
 import moment from 'moment'
+import { isEmpty } from 'lodash'
 
 export const prettifyDistance = (meters = 0) => {
   const km = meters >= 1000.0
@@ -13,10 +14,13 @@ export const prettifyElevation = (meters = 0) => ({
   unit: 'm'
 })
 
-export const prettifyDuration = (seconds = 0) => ({
-  value: moment.duration(seconds, 'seconds').asHours().toFixed(1),
-  unit: 'h'
-})
+export const prettifyDuration = (seconds = 0) => {
+  const duration = moment.duration(seconds, 'seconds')
+  return {
+    value: `${duration.hours()}:${duration.minutes()}:${duration.seconds()}`,
+    unit: ''
+  }
+}
 
 export const prettifyKilojoules = (kilojoules = 0) => {
   const factor = kilojoules < 1000.0 ? (kilojoules < 1.0 ? 1000.0 : 1.0) : 0.001
@@ -63,3 +67,16 @@ export const prettifyStats = (stats) => ({
   average_distance: prettifyDistance(stats.average_distance),
   average_moving_time: prettifyDuration(stats.average_moving_time)
 })
+
+export const prettifyDateRange = (dates = []) => {
+  if (isEmpty(dates)) return 'N.A.'
+  const first = moment(dates[0])
+  const last = moment(dates[dates.length - 1])
+  if (first.year() !== last.year()) {
+    return `${first.format('Do MMMM YYYY')} - ${last.format('Do MMMM YYYY')}`
+  } else if (first.month() !== last.month()) {
+    return `${first.format('Do MMMM')} - ${last.format('Do MMMM')} ${last.format('YYYY')}`
+  } else {
+    return `${first.format('Do')} - ${last.format('Do')} ${last.format('MMMM YYYY')}`
+  }
+}
