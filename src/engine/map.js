@@ -1,5 +1,8 @@
 import Polyline from '@mapbox/polyline'
 import simplify from 'simplify-js'
+import { bbox } from '@turf/turf'
+
+const decode = (p) => typeof p === 'string' ? Polyline.decode(p) : p
 
 export const getPolylinesBounds = (polylines = [], padding = 1.0) => {
   let init = true
@@ -44,6 +47,25 @@ export const getPolylinesBounds = (polylines = [], padding = 1.0) => {
     }
   }
 }
+
+export const scaleBounds = (bounds, scale = 1.0) => {
+  const center = {
+    lat: (bounds.neLat + bounds.swLat) * 0.5,
+    lng: (bounds.neLng + bounds.swLng) * 0.5
+  }
+  const radius = {
+    lat: (bounds.neLat - bounds.swLat) * 0.5 * scale,
+    lng: (bounds.neLng - bounds.swLng) * 0.5 * scale
+  }
+  return {
+    swLat: center.lat - radius.lat,
+    swLng: center.lng - radius.lng,
+    neLat: center.lat + radius.lat,
+    neLng: center.lng + radius.lng
+  }
+}
+
+export const getPolylineBounds = (polyline) => bbox(decode(polyline))
 
 export const simplifyPolyline = (polyline) => {
   const encoded = typeof polyline === 'string'
