@@ -1,5 +1,6 @@
 import moment from 'moment'
 import { isEmpty } from 'lodash'
+require('babel-polyfill')
 
 export const prettifyDistance = (meters = 0) => {
   const km = meters >= 1000.0

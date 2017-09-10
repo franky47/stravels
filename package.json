@@ -36,6 +36,7 @@
     "@turf/turf": "^4.7.2",
     "apisauce": "^0.14.0",
     "axios": "^0.16.2",
+    "babel-polyfill": "^6.26.0",
     "firebase": "^4.2.0",
     "format-json": "^1.0.3",
     "lodash": "^4.17.2",
