@@ -11,6 +11,10 @@ const colors = {
     android: '#4CAF50', // Material green 500
     ios: '#47cc5e'      // Apple green
   }),
+  mainShaded: Platform.select({
+    android: '#388E3C', // Material green 700
+    ios: '#27AC3E'
+  }),
   text: 'black',
 
   separator: 'rgba(0, 0, 0, 0.1)',
