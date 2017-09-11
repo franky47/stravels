@@ -16,6 +16,11 @@ class PreferencesScreen extends Component {
           value={this.props.showPrivate}
           onChange={this.props.onShowPrivateChange}
         />
+        <ToggleSwitch label='Show Commutes'
+          icon='work'
+          value={this.props.showCommutes}
+          onChange={this.props.onShowCommutesChange}
+        />
         <ToggleSwitch label='Show Rides'
           icon='directions-bike'
           value={this.props.showRides}
@@ -42,6 +47,7 @@ const mapStateToProps = (state) => {
   return {
     // Activity Filter
     showPrivate: selectors.settings.showPrivate(state),
+    showCommutes: selectors.settings.showCommutes(state),
     showRides: selectors.settings.showRides(state),
     showHikes: selectors.settings.showHikes(state),
     showRuns: selectors.settings.showRuns(state)
@@ -50,6 +56,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     onShowPrivateChange: (value) => dispatch(settings.showPrivate(!!value)),
+    onShowCommutesChange: (value) => dispatch(settings.showCommutes(!!value)),
     onShowRidesChange: (value) => dispatch(settings.showRides(!!value)),
     onShowHikesChange: (value) => dispatch(settings.showHikes(!!value)),
     onShowRunsChange: (value) => dispatch(settings.showRuns(!!value))
