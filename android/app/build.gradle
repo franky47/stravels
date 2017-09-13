@@ -145,6 +145,10 @@ android {
 }
 
 dependencies {
+    compile project(':mobile-center-push')
+    compile project(':mobile-center-crashes')
+    compile project(':mobile-center-analytics')
+    compile project(':mobile-center')
     compile project(':react-native-mapbox-gl')
     compile project(':react-native-config')
     compile project(':react-native-i18n')
