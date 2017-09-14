@@ -3,5 +3,8 @@
     "eslint.enable": false,
     "npm.includeDirectories": [
       "src"
-    ]
+    ],
+    "path-intellisense.mappings": {
+      "@stravels": "${workspaceRoot}/src"
+    }
 }
