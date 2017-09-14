@@ -1,4 +1,5 @@
 {
   "name": "@stravels",
-  "description": "The root of the app sources, package.json provided for absolute imports."
+  "description": "The root of the app sources, package.json provided for absolute imports.",
+  "private": true
 }
