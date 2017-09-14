@@ -18,6 +18,7 @@ test('default selectors', () => {
   expect(selector.showRides(state)).toEqual(true)
   expect(selector.showHikes(state)).toEqual(true)
   expect(selector.showRuns(state)).toEqual(true)
+  expect(selector.showCommutes(state)).toEqual(true)
   expect(selector.showPrivate(state)).toEqual(true)
 })
 
@@ -48,6 +49,13 @@ describe('Settings', () => {
       const store = createStore(reducer)
       store.dispatch(actions.showRuns('foo'))
       const actual = selector.showRuns(store.getState())
+      const expected = 'foo'
+      expect(actual).toEqual(expected)
+    })
+    test('show commutes', () => {
+      const store = createStore(reducer)
+      store.dispatch(actions.showCommutes('foo'))
+      const actual = selector.showCommutes(store.getState())
       const expected = 'foo'
       expect(actual).toEqual(expected)
     })

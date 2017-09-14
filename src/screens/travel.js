@@ -1,7 +1,8 @@
 // Structure
 import React, { Component } from 'react'
-import { View, Text, TouchableHighlight, StatusBar } from 'react-native'
+import { View, Text, TouchableHighlight } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
+import StatusBar from '@stravels/components/core/statusBar'
 import MultiPolylineMap from '@stravels/components/multiPolylineMap'
 import ProgressIndicator from '@stravels/components/map/progress'
 import StatsBanner from '@stravels/components/stats/banner'
@@ -36,7 +37,7 @@ class TravelScreen extends Component {
   render () {
     return (
       <View style={styles.mainContainer}>
-        <StatusBar barStyle='light-content' />
+        <StatusBar main shaded />
         <MultiPolylineMap
           style={styles.map}
           polylines={this.props.polylines}

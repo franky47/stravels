@@ -7,6 +7,7 @@ export const DEFAULT_STATE = {
     showRides: true,
     showHikes: true,
     showRuns: true,
+    showCommutes: true,
     showPrivate: true
   }
 }
@@ -27,6 +28,7 @@ const activityFilter = (key) => (state, { value }) => ({
 const showRides = activityFilter('showRides')
 const showHikes = activityFilter('showHikes')
 const showRuns = activityFilter('showRuns')
+const showCommutes = activityFilter('showCommutes')
 const showPrivate = activityFilter('showPrivate')
 
 export default createReducer(DEFAULT_STATE, {
@@ -34,5 +36,6 @@ export default createReducer(DEFAULT_STATE, {
   [types.SHOW_RIDES]: showRides,
   [types.SHOW_HIKES]: showHikes,
   [types.SHOW_RUNS]: showRuns,
+  [types.SHOW_COMMUTES]: showCommutes,
   [types.SHOW_PRIVATE]: showPrivate
 })

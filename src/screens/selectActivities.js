@@ -127,6 +127,7 @@ class SelectActivitiesScreen extends Component {
             style={styles.checkbox}
             size={24}
             checked={selected}
+            onPress={this._onItemPress.bind(this, item.id)}
           />
         </View>
       </TouchableHighlight>

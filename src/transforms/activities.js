@@ -5,6 +5,9 @@ export const filterActivities = (activities = [], filter) => {
     if (activity.private && !filter.showPrivate) {
       return false
     }
+    if (activity.commute && !filter.showCommutes) {
+      return false
+    }
     switch (activity.type) {
       case 'Ride': return filter.showRides
       case 'Hike': return filter.showHikes

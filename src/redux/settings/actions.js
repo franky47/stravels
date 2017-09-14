@@ -7,6 +7,7 @@ const config = {
   showRides: ['value'],
   showHikes: ['value'],
   showRuns: ['value'],
+  showCommutes: ['value'],
   showPrivate: ['value']
 }
 
