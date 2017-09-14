@@ -8,6 +8,8 @@
  */
 
 #import "AppDelegate.h"
+
+// Visual Studio Mobile Center
 #import <RNPush/RNPush.h>
 #import <RNCrashes/RNCrashes.h>
 #import <RNAnalytics/RNAnalytics.h>
@@ -41,13 +43,12 @@
 {
   NSURL *jsCodeLocation;
 
+  // Visual Studio Mobile Center
   [RNPush register];  // Initialize Mobile Center push
-
   [RNCrashes registerWithCrashDelegate: [[RNCrashesDelegateAlwaysSend alloc] init]];  // Initialize Mobile Center crashes
-
   [RNAnalytics registerWithInitiallyEnabled:true];  // Initialize Mobile Center analytics
+  [RNMobileCenter register];  // Initialize Mobile Center
 
-  [RNMobileCenter register];  // Initialize Mobile Center 
   // [RCTDevLoadingView setEnabled:NO];
   jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
 
