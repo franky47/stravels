@@ -52,6 +52,10 @@ fastlane/report.xml
 fastlane/Preview.html
 fastlane/screenshots
 
+# Temp files
+.vscode/.react/
+
 # Secrets
 .env
-.vscode/.react/
+MobileCenter-Config.plist
+mobile-center-config.json
