@@ -124,7 +124,17 @@ android {
         }
     }
     buildTypes {
+        debug {
+            // Note: CodePush updates should not be tested in Debug mode as they are overriden by the RN packager.
+            // However, because CodePush checks for updates in all modes, we must supply a key.
+            buildConfigField "String", "CODEPUSH_KEY", '""'
+            applicationIdSuffix ".debug"
+        }
+        releaseStaging {
+            buildConfigField "String", "CODEPUSH_KEY", '"7c11cetf9pg7Vw8MGIoYQ7gID_x2f8b0f9ad-f5de-433d-8f47-ae86b04fab79"'
+        }
         release {
+            buildConfigField "String", "CODEPUSH_KEY", '"jzpge4qqSK9q9VJYl8MkWl21lLlff8b0f9ad-f5de-433d-8f47-ae86b04fab79"'
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
