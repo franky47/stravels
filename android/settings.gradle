@@ -1,4 +1,6 @@
 rootProject.name = 'stravels'
+include ':react-native-code-push'
+project(':react-native-code-push').projectDir = new File(rootProject.projectDir, '../node_modules/react-native-code-push/android/app')
 include ':mobile-center-push'
 project(':mobile-center-push').projectDir = new File(rootProject.projectDir, '../node_modules/mobile-center-push/android')
 include ':mobile-center-crashes'
