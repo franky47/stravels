@@ -130,7 +130,7 @@ android {
             buildConfigField "String", "CODEPUSH_KEY", '""'
             applicationIdSuffix ".debug"
         }
-        releaseStaging {
+        releaseStaging {
             buildConfigField "String", "CODEPUSH_KEY", '"7c11cetf9pg7Vw8MGIoYQ7gID_x2f8b0f9ad-f5de-433d-8f47-ae86b04fab79"'
         }
         release {
