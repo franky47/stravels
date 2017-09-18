@@ -1,10 +1,10 @@
 // Structure
 import React, { Component } from 'react'
-import { View, Text, SectionList, TouchableHighlight, ActivityIndicator } from 'react-native'
+import { View, Text, SectionList, ActivityIndicator } from 'react-native'
 import NavToolbar from '@stravels/components/nav/toolbar'
 import NavToolbarIcon from '@stravels/components/nav/icon'
 import ActivityRow from '@stravels/components/activityRow'
-import Checkbox from '@stravels/components/core/checkbox'
+import MultiSelectList from '@stravels/components/containers/multiSelectList'
 
 // Behaviour
 import { connect } from 'react-redux'
@@ -50,40 +50,23 @@ class SelectActivitiesScreen extends Component {
       headerRight
     }
   }
-  constructor (props) {
-    super(props)
-    this.state = {
-      selected: new Set()
-    }
+
+  state = {
+    selected: new Set()
   }
 
   componentDidMount () {
     this.props.navigation.setParams({
-      create: this._create.bind(this),
+      create: this._create,
       createButtonEnabled: false
     })
     if (this.props.sections.length === 0) {
       this.props.requestHead()
     }
   }
-  _create () {
-    const activities = Array.from(this.state.selected)
-    this.props.navigation.navigate('Travel', {
-      activitiesIds: activities
-    })
-  }
 
-  _onItemPress (id) {
-    this.setState((state) => {
-      // copy the map rather than modifying state.
-      const selected = new Set(state.selected)
-      if (selected.has(id)) {
-        selected.delete(id)
-      } else {
-        selected.add(id)
-      }
-      return { selected }
-    }, () => {
+  onSelectedItemsChange = (selected) => {
+    this.setState({ selected }, () => {
       const enabled = this.state.selected.size !== 0
       if (this.props.navigation.state.params.createButtonEnabled !== enabled) {
         this.props.navigation.setParams({
@@ -93,9 +76,17 @@ class SelectActivitiesScreen extends Component {
     })
   }
 
+  _create = () => {
+    const activities = Array.from(this.state.selected)
+    this.props.navigation.navigate('Travel', {
+      activitiesIds: activities
+    })
+  }
+
   render () {
     return (
-      <SectionList
+      <MultiSelectList
+        ListType={SectionList}
         sections={this.props.sections}
         renderItem={this._renderItem}
         renderSectionHeader={({section}) => <SectionHeader title={section.title} />}
@@ -106,31 +97,21 @@ class SelectActivitiesScreen extends Component {
         refreshing={this.props.fetching}
         onEndReached={this.props.requestTail}
         onRefresh={this.props.refresh}
+        rowStyle={styles.row}
+        checkboxStyle={styles.checkbox}
+        selectedItems={this.state.selected}
+        onSelectedItemsChange={this.onSelectedItemsChange}
       />
     )
   }
   _renderItem = ({ item }) => {
-    const selected = this.state.selected.has(item.id)
     return (
-      <TouchableHighlight
-        underlayColor={Colors.highlightUnderlay}
-        onPress={this._onItemPress.bind(this, item.id)}
-      >
-        <View style={styles.row}>
-          <ActivityRow
-            title={item.name}
-            elevation={item.total_elevation_gain}
-            polyline={item.map.summary_polyline}
-            {...item}
-          />
-          <Checkbox
-            style={styles.checkbox}
-            size={24}
-            checked={selected}
-            onPress={this._onItemPress.bind(this, item.id)}
-          />
-        </View>
-      </TouchableHighlight>
+      <ActivityRow
+        title={item.name}
+        elevation={item.total_elevation_gain}
+        polyline={item.map.summary_polyline}
+        {...item}
+      />
     )
   }
   _renderError = () => {
