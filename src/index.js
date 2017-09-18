@@ -1,5 +1,6 @@
 import './config'
 import developmentConfig from './config/development'
+import codePush from './config/codePush'
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import RootContainer from './rootContainer'
@@ -28,4 +29,6 @@ class App extends Component {
 }
 
 // allow reactotron overlay for fast design in dev mode
-export default developmentConfig.useReactotron ? console.tron.overlay(App) : App
+const Application = developmentConfig.useReactotron ? console.tron.overlay(App) : App
+
+export default codePush(Application)

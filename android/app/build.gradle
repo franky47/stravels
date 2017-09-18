@@ -74,6 +74,7 @@ import com.android.build.OutputFile
  */
 
 apply from: "../../node_modules/react-native/react.gradle"
+apply from: "../../node_modules/react-native-code-push/android/codepush.gradle"
 
 /**
  * Set this to true to create two separate APKs instead of one:
@@ -103,6 +104,7 @@ android {
         ndk {
             abiFilters "armeabi-v7a", "x86"
         }
+        multiDexEnabled true
     }
     signingConfigs {
         release {
@@ -123,10 +125,21 @@ android {
         }
     }
     buildTypes {
+        debug {
+            // Note: CodePush updates should not be tested in Debug mode as they are overriden by the RN packager.
+            // However, because CodePush checks for updates in all modes, we must supply a key.
+            buildConfigField "String", "CODEPUSH_KEY", '""'
+            applicationIdSuffix ".debug"
+        }
         release {
+            buildConfigField "String", "CODEPUSH_KEY", '"jzpge4qqSK9q9VJYl8MkWl21lLlff8b0f9ad-f5de-433d-8f47-ae86b04fab79"'
             minifyEnabled enableProguardInReleaseBuilds
             proguardFiles getDefaultProguardFile("proguard-android.txt"), "proguard-rules.pro"
             signingConfig signingConfigs.release
+        }
+        releaseStaging {
+            initWith release
+            buildConfigField "String", "CODEPUSH_KEY", '"7c11cetf9pg7Vw8MGIoYQ7gID_x2f8b0f9ad-f5de-433d-8f47-ae86b04fab79"'
         }
     }
     // applicationVariants are e.g. debug, release
@@ -142,9 +155,18 @@ android {
             }
         }
     }
+
+    dexOptions {
+        javaMaxHeapSize "4g"
+    }
 }
 
 dependencies {
+    compile project(':react-native-code-push')
+    compile project(':mobile-center-push')
+    compile project(':mobile-center-crashes')
+    compile project(':mobile-center-analytics')
+    compile project(':mobile-center')
     compile project(':react-native-mapbox-gl')
     compile project(':react-native-config')
     compile project(':react-native-i18n')
