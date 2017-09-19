@@ -36,7 +36,12 @@ export default class ActivityRow extends PureComponent {
   }
   _renderTitle () {
     const lock = this.props.private ? <Icon name='lock' /> : null
-    return <Text style={styles.title}>{this.props.title} {lock}</Text>
+    const work = this.props.commute ? <Icon name='work' /> : null
+    return <Text style={styles.title}>
+      {this.props.title}
+      {work !== null ? ' ' : ''}{work}
+      {lock !== null ? ' ' : ''}{lock}
+    </Text>
   }
   _renderDescription () {
     const prettifyToString = (obj) => `${obj.value}${obj.unit}`
