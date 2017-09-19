@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { View, FlatList, Text, TouchableHighlight } from 'react-native'
 import { connect } from 'react-redux'
 import routes from '@stravels/navigation/routes'
@@ -8,7 +8,26 @@ import { confirmLogout } from '@stravels/utility/alerts'
 
 import styles from './routing.styles'
 
-class RoutingScreen extends Component {
+class RouteItem extends PureComponent {
+  render () {
+    return (
+      <TouchableHighlight
+        style={styles.row}
+        underlayColor='transparent'
+        onPress={this._onPress}
+      >
+        <Text style={styles.text}>{this.props.route}</Text>
+      </TouchableHighlight>
+    )
+  }
+  _onPress = () => {
+    this.props.navigate(this.props.route)
+  }
+}
+
+// --
+
+class RoutingScreen extends PureComponent {
   render () {
     const data = Object.keys(routes)
     return (
@@ -18,26 +37,29 @@ class RoutingScreen extends Component {
           renderItem={this._renderItem}
           keyExtractor={(item) => item}
         />
-        <Text onPress={() => confirmLogout(this.props.logout)}>Log out</Text>
+        <View style={styles.footer}>
+          <Text onPress={this._confirmLogout}>
+            Log out
+          </Text>
+        </View>
       </View>
     )
   }
   _renderItem = ({ item }) => (
-    <TouchableHighlight
-      style={styles.row}
-      underlayColor='transparent'
-      onPress={() => this.props.navigate(item)}
-    >
-      <Text style={styles.text}>{item}</Text>
-    </TouchableHighlight>
+    <RouteItem
+      route={item}
+      navigate={this.props.navigate}
+    />
+
   )
+  _confirmLogout = () => {
+    confirmLogout(this.props.requestLogout)
+  }
 }
 
 const mapDispatchToProps = (dispatch) => ({
-  navigate: (route) => dispatch(NavigationActions.navigate({
-    routeName: route
-  })),
-  logout: () => dispatch(oauth.logoutRequest())
+  navigate: (route) => dispatch(NavigationActions.navigate({ routeName: route })),
+  requestLogout: () => dispatch(oauth.logoutRequest())
 })
 
 export default connect(null, mapDispatchToProps)(RoutingScreen)
