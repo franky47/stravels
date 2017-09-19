@@ -68,3 +68,10 @@
 -dontwarn java.nio.file.*
 -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
 -dontwarn okio.**
+
+-keep class com.stravels.BuildConfig { *; }
+
+-dontwarn com.AlexanderZaytsev.RNI18n.*
+-dontwarn com.auth0.jwt.internal.com.fasterxml.jackson.databind.**
+-dontwarn com.auth0.jwt.internal.org.bouncycastle.**
+-dontwarn com.auth0.jwt.pem.PemReader
