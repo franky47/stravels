@@ -23,7 +23,9 @@ module.exports = functions.https.onRequest((request, response) => {
   const generateToken = (data) => {
     return admin.auth().createCustomToken(data.uid, {})
       .catch((error) => {
-        utility.throwError(500, `Error received in createCustomToken: ${error.toString()}`)
+        utility.throwError(500,
+          `Error in admin.auth().createCustomToken: ${error.toString()}`
+        )
       })
   }
   return Promise.resolve()
