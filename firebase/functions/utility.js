@@ -14,7 +14,7 @@ const defaultConfig = {
 }
 
 const validateInput = (request, _config = defaultConfig) => {
-  const config = { ...defaultConfig, ..._config }
+  const config = Object.assign({}, defaultConfig, _config)
   if (request.method !== config.allowedMethod) {
     throwError(403, `Only ${config.allowedMethod} method is allowed.`)
   }
@@ -23,7 +23,7 @@ const validateInput = (request, _config = defaultConfig) => {
     throwError(400, 'Empty request body.')
   }
   for (const key of config.requiredKeys) {
-    if (!data.key) {
+    if (!data.hasOwnProperty(key)) {
       throwError(400, `Field '${key}' is missing.`)
     }
   }

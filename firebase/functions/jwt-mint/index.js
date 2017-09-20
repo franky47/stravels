@@ -1,7 +1,9 @@
 const functions = require('firebase-functions')
 const admin = require('firebase-admin')
 
-const serviceAccount = require('../../stravels-5d45d-firebase-adminsdk-qakvx-b2a0c45713.json')
+// Credentials
+const serviceKey = 'stravels-5d45d-firebase-adminsdk-qakvx-b2a0c45713'
+const serviceAccount = functions.config().stravels[serviceKey]
 
 const utility = require('../utility')
 
@@ -10,8 +12,10 @@ admin.initializeApp({
   credential: admin.credential.cert(serviceAccount)
 })
 
+// HTTPS Entrypoint --
+
 module.exports = functions.https.onRequest((request, response) => {
-  const validateInput = () => utility.validateInput({
+  const validateInput = () => utility.validateInput(request, {
     allowedMethod: 'POST',
     allowEmptyBody: false,
     requiredKeys: ['uid']
