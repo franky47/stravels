@@ -51,7 +51,7 @@
     "prop-types": "^15.5.10",
     "querystringify": "^1.0.0",
     "ramda": "^0.24.1",
-    "react": "16.0.0-alpha.12",
+    "react": "16.0.0-rc.3",
     "react-native": "0.48.3",
     "react-native-animatable": "^1.2.3",
     "react-native-code-push": "^5.1.0-beta",
