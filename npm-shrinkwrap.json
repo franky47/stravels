@@ -901,6 +901,10 @@
         "@turf/inside": "4.7.3"
       }
     },
+    "@types/node": {
+      "version": "6.0.88",
+      "dev": true
+    },
     "abab": {
       "version": "1.0.3",
       "dev": true
@@ -2140,25 +2144,15 @@
       }
     },
     "cheerio": {
-      "version": "0.22.0",
+      "version": "1.0.0-rc.2",
       "dev": true,
       "requires": {
         "css-select": "1.2.0",
         "dom-serializer": "0.1.0",
         "entities": "1.1.1",
         "htmlparser2": "3.9.2",
-        "lodash.assignin": "4.2.0",
-        "lodash.bind": "4.2.1",
-        "lodash.defaults": "4.2.0",
-        "lodash.filter": "4.6.0",
-        "lodash.flatten": "4.4.0",
-        "lodash.foreach": "4.5.0",
-        "lodash.map": "4.6.0",
-        "lodash.merge": "4.6.0",
-        "lodash.pick": "4.4.0",
-        "lodash.reduce": "4.6.0",
-        "lodash.reject": "4.6.0",
-        "lodash.some": "4.6.0"
+        "lodash": "4.17.4",
+        "parse5": "3.0.2"
       }
     },
     "ci-info": {
@@ -2220,6 +2214,10 @@
     },
     "color-name": {
       "version": "1.1.3"
+    },
+    "colors": {
+      "version": "0.5.1",
+      "dev": true
     },
     "combined-stream": {
       "version": "1.0.5",
@@ -2619,6 +2617,10 @@
       "version": "3.3.0",
       "dev": true
     },
+    "discontinuous-range": {
+      "version": "1.0.0",
+      "dev": true
+    },
     "doctrine": {
       "version": "1.5.0",
       "dev": true,
@@ -2774,27 +2776,18 @@
       }
     },
     "enzyme": {
-      "version": "3.0.0-alpha.1",
+      "version": "3.0.0-beta.6",
       "dev": true,
       "requires": {
-        "cheerio": "0.22.0",
+        "cheerio": "1.0.0-rc.2",
         "function.prototype.name": "1.0.3",
         "is-subset": "0.1.1",
         "lodash": "4.17.4",
         "object-is": "1.0.1",
         "object.assign": "4.0.4",
         "object.entries": "1.0.4",
-        "object.values": "1.0.4",
-        "prop-types": "15.5.10",
         "raf": "3.3.2",
-        "semver": "5.4.1",
-        "uuid": "3.1.0"
-      },
-      "dependencies": {
-        "uuid": {
-          "version": "3.1.0",
-          "dev": true
-        }
+        "rst-selector-parser": "2.2.1"
       }
     },
     "errno": {
@@ -5723,6 +5716,10 @@
         "xml-name-validator": "2.0.1"
       },
       "dependencies": {
+        "parse5": {
+          "version": "1.5.1",
+          "dev": true
+        },
         "sax": {
           "version": "1.2.4",
           "dev": true
@@ -5875,20 +5872,8 @@
     "lodash.assign": {
       "version": "4.2.0"
     },
-    "lodash.assignin": {
-      "version": "4.2.0",
-      "dev": true
-    },
-    "lodash.bind": {
-      "version": "4.2.1",
-      "dev": true
-    },
     "lodash.cond": {
       "version": "4.5.2",
-      "dev": true
-    },
-    "lodash.defaults": {
-      "version": "4.2.0",
       "dev": true
     },
     "lodash.escape": {
@@ -5897,16 +5882,8 @@
         "lodash._root": "3.0.1"
       }
     },
-    "lodash.filter": {
-      "version": "4.6.0",
-      "dev": true
-    },
-    "lodash.flatten": {
+    "lodash.flattendeep": {
       "version": "4.4.0",
-      "dev": true
-    },
-    "lodash.foreach": {
-      "version": "4.5.0",
       "dev": true
     },
     "lodash.isarguments": {
@@ -5923,14 +5900,6 @@
         "lodash.isarray": "3.0.4"
       }
     },
-    "lodash.map": {
-      "version": "4.6.0",
-      "dev": true
-    },
-    "lodash.merge": {
-      "version": "4.6.0",
-      "dev": true
-    },
     "lodash.pad": {
       "version": "4.5.1"
     },
@@ -5940,27 +5909,11 @@
     "lodash.padstart": {
       "version": "4.6.1"
     },
-    "lodash.pick": {
-      "version": "4.4.0",
-      "dev": true
-    },
     "lodash.pickby": {
       "version": "4.6.0"
     },
-    "lodash.reduce": {
-      "version": "4.6.0",
-      "dev": true
-    },
-    "lodash.reject": {
-      "version": "4.6.0",
-      "dev": true
-    },
     "lodash.restparam": {
       "version": "3.6.1"
-    },
-    "lodash.some": {
-      "version": "4.6.0",
-      "dev": true
     },
     "lodash.template": {
       "version": "3.6.2",
@@ -6377,6 +6330,15 @@
       "version": "1.4.0",
       "dev": true
     },
+    "nearley": {
+      "version": "2.11.0",
+      "dev": true,
+      "requires": {
+        "nomnom": "1.6.2",
+        "railroad-diagrams": "1.0.0",
+        "randexp": "0.4.6"
+      }
+    },
     "negotiator": {
       "version": "0.5.3"
     },
@@ -6442,6 +6404,14 @@
     },
     "node-uuid": {
       "version": "1.4.7"
+    },
+    "nomnom": {
+      "version": "1.6.2",
+      "dev": true,
+      "requires": {
+        "colors": "0.5.1",
+        "underscore": "1.4.4"
+      }
     },
     "nopt": {
       "version": "4.0.1",
@@ -6535,16 +6505,6 @@
       "requires": {
         "for-own": "0.1.5",
         "is-extendable": "0.1.1"
-      }
-    },
-    "object.values": {
-      "version": "1.0.4",
-      "dev": true,
-      "requires": {
-        "define-properties": "1.1.2",
-        "es-abstract": "1.8.0",
-        "function-bind": "1.1.0",
-        "has": "1.0.1"
       }
     },
     "on-finished": {
@@ -6730,8 +6690,11 @@
       }
     },
     "parse5": {
-      "version": "1.5.1",
-      "dev": true
+      "version": "3.0.2",
+      "dev": true,
+      "requires": {
+        "@types/node": "6.0.88"
+      }
     },
     "parsejson": {
       "version": "0.0.3",
@@ -7009,6 +6972,10 @@
         }
       }
     },
+    "railroad-diagrams": {
+      "version": "1.0.0",
+      "dev": true
+    },
     "ramda": {
       "version": "0.24.1"
     },
@@ -7016,6 +6983,14 @@
       "version": "2.0.0",
       "requires": {
         "ramda": "0.24.1"
+      }
+    },
+    "randexp": {
+      "version": "0.4.6",
+      "dev": true,
+      "requires": {
+        "discontinuous-range": "1.0.0",
+        "ret": "0.1.15"
       }
     },
     "random-bytes": {
@@ -7082,19 +7057,12 @@
       }
     },
     "react": {
-      "version": "16.0.0-alpha.12",
+      "version": "16.0.0-rc.3",
       "requires": {
-        "create-react-class": "15.6.0",
         "fbjs": "0.8.14",
         "loose-envify": "1.3.1",
         "object-assign": "4.1.1",
         "prop-types": "15.5.10"
-      }
-    },
-    "react-addons-perf": {
-      "requires": {
-        "fbjs": "0.8.14",
-        "object-assign": "4.1.1"
       }
     },
     "react-clone-referenced-element": {
@@ -7593,13 +7561,13 @@
       }
     },
     "react-native-animatable": {
-      "version": "1.2.3",
+      "version": "1.2.4",
       "requires": {
         "prop-types": "15.5.10"
       }
     },
     "react-native-code-push": {
-      "version": "5.1.0-beta",
+      "version": "5.1.1-beta",
       "requires": {
         "code-push": "1.11.2-beta",
         "glob": "5.0.15",
@@ -8208,6 +8176,10 @@
         "onetime": "1.1.0"
       }
     },
+    "ret": {
+      "version": "0.1.15",
+      "dev": true
+    },
     "right-align": {
       "version": "0.1.3",
       "requires": {
@@ -8248,6 +8220,14 @@
     },
     "robust-sum": {
       "version": "1.0.0"
+    },
+    "rst-selector-parser": {
+      "version": "2.2.1",
+      "dev": true,
+      "requires": {
+        "lodash.flattendeep": "4.4.0",
+        "nearley": "2.11.0"
+      }
     },
     "run-async": {
       "version": "2.3.0",
@@ -9073,6 +9053,10 @@
     },
     "ultron": {
       "version": "1.0.2"
+    },
+    "underscore": {
+      "version": "1.4.4",
+      "dev": true
     },
     "union-find": {
       "version": "1.0.2"
