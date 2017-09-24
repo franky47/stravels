@@ -5,6 +5,7 @@ import { Colors } from '@stravels/themes'
 export default function StatusBar ({ main, shaded }) {
   const props = Platform.select({
     android: {
+      // todo: use translucent instead
       backgroundColor: main ? (shaded ? Colors.mainShaded : Colors.main) : 'black'
     },
     ios: {

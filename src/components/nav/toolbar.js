@@ -13,7 +13,7 @@ const styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     flexDirection: 'row',
-    justifyContent: 'flex-end',
+    padding: 2,
     alignItems: 'stretch'
   }
 })

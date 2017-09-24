@@ -16,7 +16,7 @@ export default function NavToolbarTouchable ({ onPress, disabled, children }) {
 
 const styles = StyleSheet.create({
   mainContainer: {
-    width: 40,
+    width: 48,
     height: '100%',
     alignContent: 'center',
     alignItems: 'center',

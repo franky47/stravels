@@ -5,10 +5,10 @@ import routes from './routes'
 
 const config = {
   // Default config for all screens
-  headerMode: 'screen',
+  // headerMode: 'screen',
   initialRouteName: 'Login',
   navigationOptions: {
-    headerStyle: styles.headerWhite
+    headerStyle: styles.headerMain
   },
   cardStyle: styles.navigationScreen
 }
