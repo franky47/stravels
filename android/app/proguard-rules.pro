@@ -75,3 +75,4 @@
 -dontwarn com.auth0.jwt.internal.com.fasterxml.jackson.databind.**
 -dontwarn com.auth0.jwt.internal.org.bouncycastle.**
 -dontwarn com.auth0.jwt.pem.PemReader
+-dontwarn com.nimbusds.jose.**
