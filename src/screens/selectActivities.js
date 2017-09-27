@@ -57,7 +57,7 @@ class SelectActivitiesScreen extends Component {
 
   componentDidMount () {
     this.props.navigation.setParams({
-      create: this._create,
+      create: this.create,
       createButtonEnabled: false
     })
     if (this.props.sections.length === 0) {
@@ -76,24 +76,26 @@ class SelectActivitiesScreen extends Component {
     })
   }
 
-  _create = () => {
+  create = () => {
     const activities = Array.from(this.state.selected)
     this.props.navigation.navigate('Travel', {
       activitiesIds: activities
     })
   }
 
+  // Rendering --
+
   render () {
     return (
       <MultiSelectList
         ListType={SectionList}
         sections={this.props.sections}
-        renderItem={this._renderItem}
-        renderSectionHeader={({section}) => <SectionHeader title={section.title} />}
-        keyExtractor={(item) => item.id}
-        ListHeaderComponent={this._renderError}
-        ListFooterComponent={this._renderSpinner}
-        ItemSeparatorComponent={() => <View style={styles.separator} />}
+        renderItem={this.renderItem}
+        renderSectionHeader={this.renderSectionHeader}
+        keyExtractor={this.keyExtractor}
+        ListHeaderComponent={this.renderError}
+        ListFooterComponent={this.renderSpinner}
+        ItemSeparatorComponent={this.renderSeparator}
         refreshing={this.props.fetching}
         onEndReached={this.props.requestTail}
         onRefresh={this.props.refresh}
@@ -104,21 +106,27 @@ class SelectActivitiesScreen extends Component {
       />
     )
   }
-  _renderItem = ({ item }) => {
-    return (
-      <ActivityRow
-        title={item.name}
-        elevation={item.total_elevation_gain}
-        polyline={item.map.summary_polyline}
-        {...item}
-      />
-    )
-  }
-  _renderError = () => {
+
+  keyExtractor = (item) => item.id
+  renderItem = ({ item }) => (
+    <ActivityRow
+      title={item.name}
+      elevation={item.total_elevation_gain}
+      polyline={item.map.summary_polyline}
+      {...item}
+    />
+  )
+  renderSectionHeader = ({section}) => <SectionHeader title={section.title} />
+  renderSeparator = () => <View style={styles.separator} />
+  renderError = () => {
     if (!this.props.error) return null
-    return <Text>{JSON.stringify(this.props.error, null, 2)}</Text>
+    try {
+      return <Text>{JSON.stringify(this.props.error, null, 2)}</Text>
+    } catch (except) {
+      return <Text>{except}</Text>
+    }
   }
-  _renderSpinner = () => {
+  renderSpinner = () => {
     if (!this.props.showBottomSpinner) return null
     return <ActivityIndicator animating size='large' style={styles.spinner} />
   }
