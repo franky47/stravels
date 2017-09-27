@@ -19,7 +19,6 @@
 #import <React/RCTBundleURLProvider.h>
 #import <React/RCTRootView.h>
 #import <React/RCTLinkingManager.h>
-// #import <React/RCTDevLoadingView.h>
 
 @implementation AppDelegate
 
@@ -50,8 +49,6 @@
   [RNAnalytics registerWithInitiallyEnabled:true];  // Initialize Mobile Center analytics
   [RNMobileCenter register];  // Initialize Mobile Center
 
-  // [RCTDevLoadingView setEnabled:NO];
-  
 #ifdef DEBUG
     jsCodeLocation = [[RCTBundleURLProvider sharedSettings] jsBundleURLForBundleRoot:@"index.ios" fallbackResource:nil];
 #else
