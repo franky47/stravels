@@ -1,5 +1,6 @@
 [
   {
+    "id": "foo",
     "name": "2017 Holidays Part 1: Saint Etienne - Orange",
     "start_date": "2017-07-29T10:33:38Z",
     "end_date": "2017-08-07T08:35:35Z",
@@ -15,6 +16,7 @@
     ]
   },
   {
+    "id": "bar",
     "name": "2017 Holidays Part 2: Grenoble - Genève",
     "start_date": "2017-08-12T08:45:38Z",
     "end_date": "2017-08-15T06:46:12Z",
