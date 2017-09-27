@@ -1,16 +1,20 @@
-import React, { Component } from 'react'
-import { View, Text } from 'react-native'
+import React, { PureComponent } from 'react'
 import { connect } from 'react-redux'
+import TravelsList from '@stravels/components/containers/travelsList'
 
-import styles from './tab.styles'
-
-class FeedTabYou extends Component {
+class FeedTabYou extends PureComponent {
   render () {
-    return (
-      <View style={styles.mainContainer}>
-        <Text>Your feed</Text>
-      </View>
-    )
+    return <TravelsList
+      data={this.props.data}
+      onItemPress={this.onItemPress}
+      onEmptyCallToActionPress={this.onEmptyCallToActionPress}
+    />
+  }
+  onItemPress = (id) => {
+    console.tron.log(id)
+  }
+  onEmptyCallToActionPress = () => {
+    console.tron.log('Create new travel')
   }
 }
 
@@ -18,6 +22,7 @@ class FeedTabYou extends Component {
 
 const mapStateToProps = (state) => {
   return {
+    data: require('@stravels/fixtures/travels.json').reverse()
   }
 }
 const mapDispatchToProps = (dispatch) => {
