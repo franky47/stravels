@@ -11,7 +11,7 @@ export default StyleSheet.create({
     alignItems: 'center'
   },
   separator: {
-    height: 1,
+    height: 0.5,
     backgroundColor: Colors.separator
   },
   emptyContainer: {

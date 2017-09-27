@@ -11,8 +11,10 @@ export default class TravelRow extends PureComponent {
     return (
       <View style={styles.mainContainer}>
         <Text style={styles.title}>{title}</Text>
-        <View style={styles.description}>
-          <Text>{dateRange}</Text>
+        <View style={styles.descriptionContainer}>
+          <Text style={styles.descriptionText}>
+            {dateRange}
+          </Text>
         </View>
       </View>
     )
