@@ -5,7 +5,7 @@ import StatusBar from '@stravels/components/core/statusBar'
 function FeedTab ({ children }) {
   const android = Platform.OS === 'android'
   return (
-    <View>
+    <View style={{ flex: 1 }}>
       <StatusBar main={android} shaded={android} />
       { children }
     </View>
