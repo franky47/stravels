@@ -72,10 +72,12 @@ export const prettifyStats = (stats) => ({
   average_moving_time: prettifyDuration(stats.average_moving_time)
 })
 
-export const prettifyDateRange = (dates = []) => {
-  if (isEmpty(dates)) return 'N.A.'
-  const first = moment(dates[0])
-  const last = moment(dates[dates.length - 1])
+export const prettifyDateRange = (start, end) => {
+  if (start === undefined || end === undefined) {
+    return 'N.A.'
+  }
+  const first = moment(start)
+  const last = moment(end)
   if (first.year() !== last.year()) {
     return `${first.format('Do MMMM YYYY')} - ${last.format('Do MMMM YYYY')}`
   } else if (first.month() !== last.month()) {

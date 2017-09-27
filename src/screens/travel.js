@@ -116,6 +116,8 @@ const mapStateToProps = (state, ownProps) => {
   const focused = navParams.focused
   const stats = focused !== undefined ? computeStats([activities[focused]])
                                       : computeStats(activities)
+  const startDate = (activities[0] || {}).start_date
+  const endDate = (activities[activities.length - 1] || {}).start_date
   return {
     focused,
     stats,
@@ -126,7 +128,7 @@ const mapStateToProps = (state, ownProps) => {
     polylines: activities.map(a => Polyline.decode(a.map.summary_polyline)),
     startPoints: activities.map(a => a.start_latlng),
     endPoints: activities.map(a => a.end_latlng),
-    dateRange: prettifyDateRange(activities.map(a => a.start_date))
+    dateRange: prettifyDateRange(startDate, endDate)
   }
 }
 const mapDispatchToProps = (dispatch) => {
