@@ -20,7 +20,7 @@ export default StyleSheet.create({
     backgroundColor: Colors.separator
   },
   sectionHeaderText: {
-    // color: Colors.main,
+    color: Colors.text,
     fontWeight: '700'
   },
   row: {
