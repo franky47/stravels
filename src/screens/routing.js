@@ -14,13 +14,13 @@ class RouteItem extends PureComponent {
       <TouchableHighlight
         style={styles.row}
         underlayColor='transparent'
-        onPress={this._onPress}
+        onPress={this.onPress}
       >
         <Text style={styles.text}>{this.props.route}</Text>
       </TouchableHighlight>
     )
   }
-  _onPress = () => {
+  onPress = () => {
     this.props.navigate(this.props.route)
   }
 }
@@ -34,25 +34,24 @@ class RoutingScreen extends PureComponent {
       <View style={styles.mainContainer} >
         <FlatList
           data={data}
-          renderItem={this._renderItem}
+          renderItem={this.renderItem}
           keyExtractor={(item) => item}
         />
         <View style={styles.footer}>
-          <Text onPress={this._confirmLogout}>
+          <Text onPress={this.confirmLogout}>
             Log out
           </Text>
         </View>
       </View>
     )
   }
-  _renderItem = ({ item }) => (
+  renderItem = ({ item }) => (
     <RouteItem
       route={item}
       navigate={this.props.navigate}
     />
-
   )
-  _confirmLogout = () => {
+  confirmLogout = () => {
     confirmLogout(this.props.requestLogout)
   }
 }

@@ -15,7 +15,7 @@ export default class MultiPolylineMap extends Component {
         onFinishLoadingMap={this.onFinishLoadingMap}
         onTap={this.onTap}
         styleURL={this.props.styleUrl}
-        annotations={this._getAnnotations()}
+        annotations={this.getAnnotations()}
         // annotationsAreImmutable
       />
     )
@@ -62,13 +62,13 @@ export default class MultiPolylineMap extends Component {
 
   // Annotations --
 
-  _getAnnotations = () => [
-    ...this._generatePolylines(),
-    ...this._generateMarkers(this.props.startPoints, 'Start'),
-    ...this._generateMarkers(this.props.endPoints, 'End')
+  getAnnotations = () => [
+    ...this.generatePolylines(),
+    ...this.generateMarkers(this.props.startPoints, 'Start'),
+    ...this.generateMarkers(this.props.endPoints, 'End')
   ]
 
-  _generatePolylines () {
+  generatePolylines () {
     return this.props.polylines.map((coordinates, index) => {
       return {
         type: 'polyline',
@@ -79,7 +79,7 @@ export default class MultiPolylineMap extends Component {
       }
     })
   }
-  _generateMarkers (source, label) {
+  generateMarkers (source, label) {
     return source.map((coordinates, index) => ({
       coordinates,
       type: 'point',

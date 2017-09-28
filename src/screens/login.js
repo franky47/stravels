@@ -29,9 +29,9 @@ class LoginScreen extends PureComponent {
           />
         </View>
         <View style={styles.uiContainer}>
-          { this._renderButton() }
-          { this._renderError() }
-          { this._renderLinks() }
+          { this.renderButton() }
+          { this.renderError() }
+          { this.renderLinks() }
           <View style={styles.footer}>
             <Image source={Images.strava.poweredBy.white} />
           </View>
@@ -39,7 +39,7 @@ class LoginScreen extends PureComponent {
       </View>
     )
   }
-  _renderButton () {
+  renderButton () {
     const showButton = !this.props.fetching // todo: better logic
     if (showButton) {
       return <ConnectWithStrava onPress={this.props.requestAuth} />
@@ -52,7 +52,7 @@ class LoginScreen extends PureComponent {
       />
     }
   }
-  _renderLinks () {
+  renderLinks () {
     return (
       <View style={styles.links}>
         <Link style={styles.link} text='Terms & Conditions' url='https://stravels.io/terms-conditions' />
@@ -60,7 +60,7 @@ class LoginScreen extends PureComponent {
       </View>
     )
   }
-  _renderError () {
+  renderError () {
     const error = this.props.error
     if (!error) return null
     const text = error.message || error.toString() || JSON.stringify(error)

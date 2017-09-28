@@ -16,10 +16,10 @@ export default class ActivityRow extends PureComponent {
   render () {
     return (
       <View style={styles.mainContainer}>
-        { this._renderImage() }
+        { this.renderImage() }
         <View style={styles.textContainer}>
-          { this._renderTitle() }
-          { this._renderDescription() }
+          { this.renderTitle() }
+          { this.renderDescription() }
         </View>
       </View>
     )
@@ -27,14 +27,14 @@ export default class ActivityRow extends PureComponent {
 
   // --
 
-  _renderImage () {
+  renderImage () {
     return <MapThumbnail
       style={styles.image}
       polyline={this.props.polyline}
       options={{ mapId: 'mapbox.outdoors' }}
     />
   }
-  _renderTitle () {
+  renderTitle () {
     const lock = this.props.private ? <Icon name='lock' /> : null
     const work = this.props.commute ? <Icon name='work' /> : null
     return <Text style={styles.title}>
@@ -43,7 +43,7 @@ export default class ActivityRow extends PureComponent {
       {lock !== null ? ' ' : ''}{lock}
     </Text>
   }
-  _renderDescription () {
+  renderDescription () {
     const prettifyToString = (obj) => `${obj.value}${obj.unit}`
     const distance = prettifyToString(prettifyDistance(this.props.distance))
     const elevation = prettifyToString(prettifyElevation(this.props.elevation))
