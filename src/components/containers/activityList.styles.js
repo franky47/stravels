@@ -2,7 +2,7 @@ import { StyleSheet } from 'react-native'
 import { Colors, Metrics } from '@stravels/themes'
 
 export default StyleSheet.create({
-  container: {
+  mainContainer: {
     flex: 1
   },
   sectionHeader: {
@@ -15,20 +15,12 @@ export default StyleSheet.create({
     borderBottomWidth: 1,
     borderBottomColor: Colors.separator
   },
-  separator: {
-    height: 1,
-    backgroundColor: Colors.separator
-  },
   sectionHeaderText: {
     color: Colors.text,
     fontWeight: '700'
   },
-  row: {
-    flex: 1,
-    flexDirection: 'row',
-    alignItems: 'center'
-  },
-  checkbox: {
-    right: Metrics.baseMargin
+  separator: {
+    height: 1,
+    backgroundColor: Colors.separator
   }
 })

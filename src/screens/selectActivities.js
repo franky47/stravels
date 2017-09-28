@@ -1,10 +1,8 @@
 // Structure
 import React, { Component } from 'react'
-import { View, Text, SectionList, ActivityIndicator } from 'react-native'
 import NavToolbar from '@stravels/components/nav/toolbar'
 import NavToolbarIcon from '@stravels/components/nav/icon'
-import ActivityRow from '@stravels/components/activityRow'
-import MultiSelectList from '@stravels/components/containers/multiSelectList'
+import ActivityList from '@stravels/components/containers/activityList'
 
 // Behaviour
 import { connect } from 'react-redux'
@@ -14,7 +12,6 @@ import { filterActivities, groupByMonth } from '@stravels/transforms/activities'
 
 // Styles
 import { Colors } from '@stravels/themes'
-import styles from './selectActivities.styles'
 
 // -----------------------------------------------------------------------------
 
@@ -28,14 +25,6 @@ const HeaderToolbar = (props) => {
         disabled={!props.createButtonEnabled}
       />
     </NavToolbar>
-  )
-}
-
-const SectionHeader = (props) => {
-  return (
-    <View style={styles.sectionHeader}>
-      <Text style={styles.sectionHeaderText}>{props.title}</Text>
-    </View>
   )
 }
 
@@ -83,52 +72,22 @@ class SelectActivitiesScreen extends Component {
     })
   }
 
-  // Rendering --
+  keyExtractor = (item) => item.id
+
+  // --
 
   render () {
     return (
-      <MultiSelectList
-        ListType={SectionList}
+      <ActivityList
         sections={this.props.sections}
-        renderItem={this.renderItem}
-        renderSectionHeader={this.renderSectionHeader}
         keyExtractor={this.keyExtractor}
-        ListHeaderComponent={this.renderError}
-        ListFooterComponent={this.renderSpinner}
-        ItemSeparatorComponent={this.renderSeparator}
-        refreshing={this.props.fetching}
+        onSelectedItemsChange={this.onSelectedItemsChange}
         onEndReached={this.props.requestTail}
         onRefresh={this.props.refresh}
-        rowStyle={styles.row}
-        checkboxStyle={styles.checkbox}
+        refreshing={this.props.fetching}
         selectedItems={this.state.selected}
-        onSelectedItemsChange={this.onSelectedItemsChange}
       />
     )
-  }
-
-  keyExtractor = (item) => item.id
-  renderItem = ({ item }) => (
-    <ActivityRow
-      title={item.name}
-      elevation={item.total_elevation_gain}
-      polyline={item.map.summary_polyline}
-      {...item}
-    />
-  )
-  renderSectionHeader = ({section}) => <SectionHeader title={section.title} />
-  renderSeparator = () => <View style={styles.separator} />
-  renderError = () => {
-    if (!this.props.error) return null
-    try {
-      return <Text>{JSON.stringify(this.props.error, null, 2)}</Text>
-    } catch (except) {
-      return <Text>{except}</Text>
-    }
-  }
-  renderSpinner = () => {
-    if (!this.props.showBottomSpinner) return null
-    return <ActivityIndicator animating size='large' style={styles.spinner} />
   }
 }
 
