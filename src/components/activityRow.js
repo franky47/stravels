@@ -1,11 +1,13 @@
+// Structure
 import React, { PureComponent } from 'react'
 import { View, Text } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import MapThumbnail from './mapThumbnail'
 import ActivityTypeIcon from '@stravels/components/strava/activityTypeIcon'
-import { prettifyDistance, prettifyElevation } from '@stravels/transforms/prettify'
 
+// Styles
 import styles from './activityRow.styles'
+import { prettifyDistance, prettifyElevation } from '@stravels/transforms/prettify'
 
 export default class ActivityRow extends PureComponent {
   render () {
@@ -14,7 +16,10 @@ export default class ActivityRow extends PureComponent {
         <MapThumbnail
           style={styles.image}
           polyline={this.props.polyline}
-          options={{ mapId: 'mapbox.outdoors' }}
+          options={{
+            mapId: 'mapbox.light',
+            strokeColor: '2c2'
+          }}
         />
         <View style={styles.textContainer}>
           { this.renderTitle() }
