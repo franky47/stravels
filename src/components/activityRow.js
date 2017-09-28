@@ -2,15 +2,10 @@ import React, { PureComponent } from 'react'
 import { View, Text } from 'react-native'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 import MapThumbnail from './mapThumbnail'
+import ActivityTypeIcon from '@stravels/components/strava/activityTypeIcon'
 import { prettifyDistance, prettifyElevation } from '@stravels/transforms/prettify'
 
 import styles from './activityRow.styles'
-
-const icons = {
-  'Run': 'directions-run',
-  'Hike': 'directions-walk',
-  'Ride': 'directions-bike'
-}
 
 export default class ActivityRow extends PureComponent {
   render () {
@@ -50,9 +45,7 @@ export default class ActivityRow extends PureComponent {
 
     return (
       <View style={styles.descriptionContainer}>
-        { icons.hasOwnProperty(this.props.type) &&
-          <Icon style={styles.descriptionIcon} name={icons[this.props.type]} />
-        }
+        <ActivityTypeIcon style={styles.descriptionIcon} type={this.props.type} />
         <Text style={styles.descriptionText}>{distance}</Text>
         <Icon style={styles.descriptionIcon} name='trending-up' />
         <Text style={styles.descriptionText}>{elevation}</Text>
