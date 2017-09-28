@@ -17,7 +17,9 @@ const defaultOptions = {
 export const getPolylineUrl = (polyline, options = defaultOptions) => {
   const opt = {...defaultOptions, ...options}
   const baseUrl = `https://api.mapbox.com/v4`
-  const overlay = `path-${opt.strokeWidth}+${opt.strokeColor}-${opt.strokeOpacity}+${opt.fillColor}-${opt.fillOpacity}(${encodeURIComponent(polyline)})`
+  const stroke = `${opt.strokeWidth}+${opt.strokeColor}-${opt.strokeOpacity}`
+  const fill = `${opt.fillColor}-${opt.fillOpacity}`
+  const overlay = `path-${stroke}+${fill}(${encodeURIComponent(polyline)})`
   const retina = opt.retina ? '@2x' : ''
   const token = Secrets.MAPBOX_ACCESS_TOKEN
   return `${baseUrl}/${opt.mapId}/${overlay}/auto/${opt.width}x${opt.height}${retina}.${opt.format}?access_token=${token}`
