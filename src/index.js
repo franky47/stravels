@@ -15,9 +15,11 @@ import { wrapReactotronOverlay, wrapCodePush } from './utility/hof'
  * We separate like this to play nice with React Native's hot reloading.
  */
 class App extends Component {
+  store = createStore()
+
   render () {
     return (
-      <Provider store={store}>
+      <Provider store={this.store}>
         <RootContainer />
       </Provider>
     )
