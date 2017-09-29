@@ -1,5 +1,5 @@
 export { default as Login } from './login'
-// export { default as TravelsList } from './travelsList'
+export { default as TravelsList } from './travelsList'
 export { default as SelectActivities } from './selectActivities'
 export { default as TravelOverview } from './travelOverview'
 
