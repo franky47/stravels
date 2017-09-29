@@ -1,6 +1,7 @@
 // Structure
 import React, { PureComponent } from 'react'
 import { View, Text, Button, FlatList, TouchableHighlight } from 'react-native'
+import PropTypes from 'prop-types'
 import TravelRow from '@stravels/components/travelRow'
 
 // Styles
@@ -29,7 +30,15 @@ class TouchableRow extends PureComponent {
   }
 }
 
+// --
+
 export default class TravelsList extends PureComponent {
+  static propTypes = {
+    data: PropTypes.array.isRequired,
+    onItemPress: PropTypes.func,
+    onEmptyCallToActionPress: PropTypes.func
+  }
+
   render () {
     if (this.props.data.length === 0) {
       return this.renderEmpty()
