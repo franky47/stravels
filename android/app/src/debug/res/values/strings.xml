@@ -2,6 +2,6 @@
     <string moduleConfig="true" name="reactNativeCodePush_androidDeploymentKey"></string>
     <string moduleConfig="true" name="mobileCenterCrashes_whenToSendCrashes">ALWAYS_SEND</string>
     <string moduleConfig="true" name="mobileCenterAnalytics_whenToEnableAnalytics">ALWAYS_SEND</string>
-    <string name="app_name">Stravels DEBUG</string>
+    <string name="app_name">Stravels DBG</string>
     <string name="uri_scheme">stravels</string>
 </resources>
