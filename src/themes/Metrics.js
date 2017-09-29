@@ -1,4 +1,5 @@
-import {Dimensions, Platform} from 'react-native'
+import { Dimensions, Platform } from 'react-native'
+import { statusBarHeight } from './utility'
 
 const { width, height } = Dimensions.get('window')
 
@@ -20,6 +21,7 @@ const metrics = {
   },
   screenWidth: width < height ? width : height,
   screenHeight: width < height ? height : width,
+  statusBarHeight,
   navBarHeight: (Platform.OS === 'ios') ? 64 : 54,
   buttonRadius: 5,
   buttonHeight: 40,

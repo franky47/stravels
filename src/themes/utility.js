@@ -1,6 +1,6 @@
-import { Platform } from 'react-native'
+import { Platform, Dimensions, StatusBar } from 'react-native'
 
-// https://github.com/alekhurst/react-native-elevated-view
+// From https://github.com/alekhurst/react-native-elevated-view
 const elevation = (value) => {
   return Platform.select({
     android: {
@@ -16,6 +16,23 @@ const elevation = (value) => {
   })
 }
 
+// From https://github.com/ptelad/react-native-iphone-x-helper
+const iPhoneX = () => {
+  const { height, width } = Dimensions.get('window')
+  return (
+    Platform.OS === 'ios' &&
+    !Platform.isPad &&
+    !Platform.isTVOS &&
+    (height === 812 || width === 812)
+  )
+}
+
+const statusBarHeight = Platform.select({
+  ios: iPhoneX() ? 44 : 20,
+  android: StatusBar.currentHeight
+})
+
 export default {
-  elevation
+  elevation,
+  statusBarHeight
 }
