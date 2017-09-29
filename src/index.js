@@ -1,13 +1,9 @@
 import './config'
-import developmentConfig from './config/development'
-import codePush from './config/codePush'
 import React, { Component } from 'react'
 import { Provider } from 'react-redux'
 import RootContainer from './rootContainer'
 import createStore from './redux'
-
-// create our store
-const store = createStore()
+import { wrapReactotronOverlay, wrapCodePush } from './utility/hof'
 
 /**
  * Provides an entry point into our application.  Both index.ios.js and index.android.js
@@ -28,7 +24,4 @@ class App extends Component {
   }
 }
 
-// allow reactotron overlay for fast design in dev mode
-const Application = developmentConfig.useReactotron ? console.tron.overlay(App) : App
-
-export default codePush(Application)
+export default wrapCodePush(wrapReactotronOverlay(App))
