@@ -5,12 +5,12 @@ import { Colors } from '@stravels/themes'
 export default function StatusBar ({ main, shaded }) {
   const props = Platform.select({
     android: {
-      // todo: use translucent instead
-      backgroundColor: main ? (shaded ? Colors.mainShaded : Colors.main) : 'black'
+      translucent: true,
+      backgroundColor: shaded ? 'rgba(0, 0, 0, 0.3)' : Colors.transparent
     },
     ios: {
       barStyle: main ? 'light-content' : 'dark-content'
     }
   })
-  return <ReactNativeStatusBar {...props} />
+  return <ReactNativeStatusBar {...props} animated />
 }
