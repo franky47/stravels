@@ -32,6 +32,7 @@
     "ios:debug": "react-native run-ios --configuration Debug",
     "ios:release": "react-native run-ios --configuration Release",
     "android": "react-native run-android",
+    "android:emulator": "cd $ANDROID_HOME/tools && emulator @Nexus_5X_API_26_x86 &",
     "android:debug": "react-native run-android --configuration Debug",
     "android:release": "react-native run-android --configuration Release"
   },
