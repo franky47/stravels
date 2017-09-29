@@ -4,7 +4,7 @@ import routes from './routes'
 import NavToolbar from '@stravels/components/nav/toolbar'
 import NavToolbarIcon from '@stravels/components/nav/icon'
 import MenuToolbar from '@stravels/components/nav/menuToolbar'
-import { SelectActivitiesScreen } from '@stravels/screens'
+import { SelectActivities } from '@stravels/screens'
 
 // Styles
 import { Colors } from '@stravels/themes'
@@ -54,6 +54,6 @@ export default StackNavigator({
     })
   },
   SelectActivities: {
-    screen: SelectActivitiesScreen
+    screen: SelectActivities
   }
 })

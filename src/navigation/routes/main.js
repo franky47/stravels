@@ -17,14 +17,14 @@ const drawerItems = {
     }
   },
   Settings: {
-    screen: screens.SettingsPreferencesScreen,
+    screen: screens.SettingsPreferences,
     path: 'settings',
     navigationOptions: {
       title: 'Settings'
     }
   },
   About: {
-    screen: screens.AboutScreen,
+    screen: screens.About,
     path: 'about',
     navigationOptions: {
       title: 'About'

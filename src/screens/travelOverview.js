@@ -19,7 +19,7 @@ import { prettifyDateRange } from '@stravels/transforms/prettify'
 import { normalizeDistances } from '@stravels/transforms/activities'
 
 // Styles
-import styles from './travel.styles'
+import styles from './travelOverview.styles'
 
 const BackToSummary = ({ onPress }) => {
   return (
@@ -33,7 +33,7 @@ const BackToSummary = ({ onPress }) => {
   )
 }
 
-class TravelScreen extends Component {
+class TravelOverview extends Component {
   render () {
     return (
       <View style={styles.mainContainer}>
@@ -136,4 +136,4 @@ const mapDispatchToProps = (dispatch) => {
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(TravelScreen)
+export default connect(mapStateToProps, mapDispatchToProps)(TravelOverview)

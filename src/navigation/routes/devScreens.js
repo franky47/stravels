@@ -6,7 +6,7 @@ import header from './header'
 export default TabNavigator({
   // Debug Screens
   About: {
-    screen: screens.AboutScreen,
+    screen: screens.About,
     path: 'about',
     navigationOptions: {
       title: 'About',
@@ -14,15 +14,9 @@ export default TabNavigator({
     }
   },
   Sandbox: {
-    screen: screens.SandboxScreen,
+    screen: screens.Sandbox,
     navigationOptions: {
       title: 'Sandbox'
-    }
-  },
-  Routing: {
-    screen: screens.RoutingScreen,
-    navigationOptions: {
-      title: 'Routing'
     }
   }
 })

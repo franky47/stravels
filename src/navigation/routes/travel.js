@@ -5,13 +5,13 @@ import header from './header'
 
 export default StackNavigator({
   SelectActivities: {
-    screen: screens.SelectActivitiesScreen,
+    screen: screens.SelectActivities,
     navigationOptions: {
       title: 'Select Activities'
     }
   },
   Travel: {
-    screen: screens.TravelScreen,
+    screen: screens.Travel,
     navigationOptions: {
       title: 'Overview',
       ...header.main.navigationOptions
