@@ -1,4 +1,4 @@
-import { put, call, select, throttle } from 'redux-saga/effects'
+import { all, put, call, select, throttle } from 'redux-saga/effects'
 import { isEmpty, intersectionBy } from 'lodash'
 import { types, actions } from '@stravels/redux/strava/activities/actions'
 import selectors from '@stravels/redux/selectors'
@@ -73,9 +73,9 @@ export function * watchRequestTail (api) {
 }
 
 export default function * (api) {
-  yield [
+  yield all([
     // Watchers
     watchRequestHead(api),
     watchRequestTail(api)
-  ]
+  ])
 }

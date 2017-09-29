@@ -1,5 +1,5 @@
 import { eventChannel } from 'redux-saga'
-import { call, put, take, takeEvery } from 'redux-saga/effects'
+import { all, call, put, take, takeEvery } from 'redux-saga/effects'
 import { Linking } from 'react-native'
 import { types, actions } from '@stravels/redux/strava/oauth/actions'
 import { actions as userActions } from '@stravels/redux/strava/user/actions'
@@ -82,7 +82,7 @@ export function * watchLogin (api) {
 }
 
 export default function * (api) {
-  yield [
+  yield all([
     // Watchers
     watchAuthorizationRequest(api, Linking),
     watchTokenExchangeRequest(api),
@@ -92,5 +92,5 @@ export default function * (api) {
     watchAuthorizationSuccess(),
     watchTokenExchangeSuccess(),
     watchLogin(api)
-  ]
+  ])
 }
