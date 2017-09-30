@@ -30,7 +30,7 @@ export default class ActivityList extends PureComponent {
     onEndReached: PropTypes.func,
     onRefresh: PropTypes.func,
     refreshing: PropTypes.bool,
-    error: PropTypes.oneOfType([null, String]),
+    error: PropTypes.string,
     showBottomSpinner: PropTypes.bool
   }
   static defaultProps = {
