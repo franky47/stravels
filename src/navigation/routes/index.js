@@ -21,7 +21,7 @@ export default {
     navigationOptions: {
       title: 'Select Activities'
     }
-  },
+  }
   // TravelOverview: {
   //   screen: screens.TravelOverview,
   //   path: 'travel/overview',
