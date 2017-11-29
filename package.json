@@ -34,7 +34,9 @@
     "android": "react-native run-android",
     "android:emulator": "cd $ANDROID_HOME/tools && emulator @Nexus_5X_API_26_x86 &",
     "android:debug": "react-native run-android --configuration Debug",
-    "android:release": "react-native run-android --configuration Release"
+    "android:release": "react-native run-android --configuration Release",
+    "snyk-protect": "snyk protect",
+    "prepublish": "npm run snyk-protect"
   },
   "dependencies": {
     "@mapbox/polyline": "^0.2.0",
@@ -70,7 +72,8 @@
     "redux-saga": "^0.15.6",
     "reduxsauce": "^0.6.0",
     "seamless-immutable": "^7.0.1",
-    "simplify-js": "^1.2.1"
+    "simplify-js": "^1.2.1",
+    "snyk": "^1.52.0"
   },
   "devDependencies": {
     "babel-eslint": "^8.0.0",
@@ -120,5 +123,6 @@
       "FormData",
       "React$Element"
     ]
-  }
+  },
+  "snyk": true
 }
